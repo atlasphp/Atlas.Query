@@ -1,7 +1,7 @@
 {
     "name": "atlas/query",
     "type": "library",
-    "description": "Object-oriented query builders for MySQL, Postgres, SQLite, and SQLServer; can be used with any database connection library.",
+    "description": "Object-oriented query builders for MySQL, Postgres, SQLite, and SQLServer.",
     "keywords": [
         "mysql",
         "pdo",
@@ -45,8 +45,5 @@
         "psr-4": {
             "Atlas\\Query\\": "tests/"
         }
-    },
-    "suggest": {
-        "atlas/pdo": "Provides an extension to the native PDO along with a profiler and connection locator."
     }
 }
