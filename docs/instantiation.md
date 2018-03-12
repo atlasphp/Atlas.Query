@@ -18,4 +18,4 @@ $update = $queryFactory->newUpdate($connection);
 $delete = $queryFactory->newDelete($connection);
 ```
 
-[Atlas.Sql]: https://github.com/atlasphp/Atlas.Pdo
+[Atlas.Pdo]: https://github.com/atlasphp/Atlas.Pdo
