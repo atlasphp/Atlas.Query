@@ -31,4 +31,9 @@ class Insert extends Query
             . $this->columns->build()
             . $this->returning->build();
     }
+
+    public function getLastInsertId($name = null)
+    {
+        return $this->connection->getPdo()->lastInsertId($name);
+    }
 }

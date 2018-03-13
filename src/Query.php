@@ -40,6 +40,11 @@ abstract class Query
         return $this->$prop;
     }
 
+    public function bindInline($value, int $type = -1)
+    {
+        return $this->bind->inline($value, $type);
+    }
+
     public function bindValue(string $key, $value, int $type = -1)
     {
         $this->bind->value($key, $value, $type);
