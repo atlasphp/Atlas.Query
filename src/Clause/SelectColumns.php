@@ -25,4 +25,9 @@ trait SelectColumns
         $this->columns = new Component\SelectColumns();
         return $this;
     }
+
+    public function hasColumns()
+    {
+        return $this->columns->hasAny();
+    }
 }

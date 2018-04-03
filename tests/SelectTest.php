@@ -18,14 +18,6 @@ class SelectTest extends QueryTest
         $this->query->exec();
     }
 
-    public function testSetAndGetPerPage()
-    {
-        $expect = 88;
-        $this->query->perPage($expect);
-        $actual = $this->query->limit->getPerPage();
-        $this->assertSame($expect, $actual);
-    }
-
     public function testDistinct()
     {
         $this->query->distinct()
@@ -87,7 +79,7 @@ class SelectTest extends QueryTest
 
     public function testColumns()
     {
-        $this->assertFalse($this->query->columns->hasAny());
+        $this->assertFalse($this->query->hasColumns());
 
         $this->query->columns(
             't1.c1',
@@ -95,7 +87,7 @@ class SelectTest extends QueryTest
             'COUNT(t1.c3)'
         );
 
-        $this->assertTrue($this->query->columns->hasAny());
+        $this->assertTrue($this->query->hasColumns());
 
         $actual = $this->query->getStatement();
         $expect = '
@@ -491,16 +483,6 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual);
     }
 
-    public function testGetterOnLimitAndOffset()
-    {
-        $this->query->columns('*');
-        $this->query->limit(10);
-        $this->query->offset(50);
-
-        $this->assertSame(10, $this->query->limit->getLimit());
-        $this->assertSame(50, $this->query->limit->getOffset());
-    }
-
     public function testLimitOffset()
     {
         $this->query->columns('*');
@@ -627,35 +609,37 @@ class SelectTest extends QueryTest
 
     public function testIssue49()
     {
-        $this->assertSame(0, $this->query->limit->getPage());
-        $this->assertSame(10, $this->query->limit->getPerPage());
-        $this->assertSame(0, $this->query->limit->getLimit());
-        $this->assertSame(0, $this->query->limit->getOffset());
+        $limit = new \Atlas\Query\Clause\Component\Limit();
 
-        $this->query->page(3);
-        $this->assertSame(3, $this->query->limit->getPage());
-        $this->assertSame(10, $this->query->limit->getPerPage());
-        $this->assertSame(10, $this->query->limit->getLimit());
-        $this->assertSame(20, $this->query->limit->getOffset());
+        $this->assertSame(0, $limit->getPage());
+        $this->assertSame(10, $limit->getPerPage());
+        $this->assertSame(0, $limit->getLimit());
+        $this->assertSame(0, $limit->getOffset());
 
-        $this->query->limit(10);
-        $this->assertSame(0, $this->query->limit->getPage());
-        $this->assertSame(10, $this->query->limit->getPerPage());
-        $this->assertSame(10, $this->query->limit->getLimit());
-        $this->assertSame(0, $this->query->limit->getOffset());
+        $limit->setPage(3);
+        $this->assertSame(3, $limit->getPage());
+        $this->assertSame(10, $limit->getPerPage());
+        $this->assertSame(10, $limit->getLimit());
+        $this->assertSame(20, $limit->getOffset());
 
-        $this->query->page(3);
-        $this->query->perPage(50);
-        $this->assertSame(3, $this->query->limit->getPage());
-        $this->assertSame(50, $this->query->limit->getPerPage());
-        $this->assertSame(50, $this->query->limit->getLimit());
-        $this->assertSame(100, $this->query->limit->getOffset());
+        $limit->setLimit(10);
+        $this->assertSame(0, $limit->getPage());
+        $this->assertSame(10, $limit->getPerPage());
+        $this->assertSame(10, $limit->getLimit());
+        $this->assertSame(0, $limit->getOffset());
 
-        $this->query->offset(10);
-        $this->assertSame(0, $this->query->limit->getPage());
-        $this->assertSame(50, $this->query->limit->getPerPage());
-        $this->assertSame(0, $this->query->limit->getLimit());
-        $this->assertSame(10, $this->query->limit->getOffset());
+        $limit->setPage(3);
+        $limit->setPerPage(50);
+        $this->assertSame(3, $limit->getPage());
+        $this->assertSame(50, $limit->getPerPage());
+        $this->assertSame(50, $limit->getLimit());
+        $this->assertSame(100, $limit->getOffset());
+
+        $limit->setOffset(10);
+        $this->assertSame(0, $limit->getPage());
+        $this->assertSame(50, $limit->getPerPage());
+        $this->assertSame(0, $limit->getLimit());
+        $this->assertSame(10, $limit->getOffset());
     }
 
     public function testAs()
@@ -675,7 +659,7 @@ class SelectTest extends QueryTest
 
     public function test__clone()
     {
-        $query = $this->newQuery();
+        $query = new FakeSelect($this->connection, $this->queryFactory->newBind());
         $clone = clone $query;
 
         $this->assertSame($query->bind, $clone->bind);

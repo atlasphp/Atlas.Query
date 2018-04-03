@@ -35,11 +35,6 @@ abstract class Query
         );
     }
 
-    public function __get($prop)
-    {
-        return $this->$prop;
-    }
-
     public function bindInline($value, int $type = -1)
     {
         return $this->bind->inline($value, $type);
