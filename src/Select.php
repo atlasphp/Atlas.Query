@@ -14,7 +14,21 @@ use BadMethodCallException;
 use Generator;
 
 /**
- * @todo add proxied @method docblocks
+ * @method array fetchAll(string $statement, array $values = [])
+ * @method int fetchAffected(string $statement, array $values = [])
+ * @method array fetchColumn(string $statement, array $values = [], int $column = 0)
+ * @method array fetchGroup(string $statement, array $values = [], int $style = PDO::FETCH_COLUMN)
+ * @method array fetchKeyPair(string $statement, array $values = [])
+ * @method mixed fetchObject(string $statement, array $values = [], string $class = 'stdClass', array $args = [])
+ * @method array fetchObjects(string $statement, array $values = [], string $class = 'stdClass', array $args = [])
+ * @method array|null fetchOne(string $statement, array $values = [])
+ * @method array fetchUnique(string $statement, array $values = [])
+ * @method mixed fetchValue(string $statement, array $values = [], int $column = 0)
+ * @method Generator yieldAll(string $statement, array $values = [])
+ * @method Generator yieldColumn(string $statement, array $values = [], int $column = 0)
+ * @method Generator yieldKeyPair(string $statement, array $values = [])
+ * @method Generator yieldObjects(string $statement, array $values = [], string $class = 'stdClass', array $args = [])
+ * @method Generator yieldUnique(string $statement, array $values = [])
  */
 class Select extends Query
 {
