@@ -32,8 +32,8 @@ class Insert extends Query
             . $this->returning->build();
     }
 
-    public function getLastInsertId($name = null)
+    public function getLastInsertId(string $name = null)
     {
-        return $this->connection->getLastInsertId($name);
+        return $this->connection->lastInsertId($name);
     }
 }
