@@ -22,11 +22,6 @@ class ReturnColumns extends Component
         }
     }
 
-    public function hasAny() : bool
-    {
-        return ! empty($this->list);
-    }
-
     public function build() : string
     {
         if (empty($this->list)) {

@@ -516,6 +516,15 @@ class SelectTest extends QueryTest
         ';
         $actual = $this->query->getStatement();
         $this->assertSameSql($expect, $actual);
+
+        $this->query->perPage(25);
+        $expect = '
+            SELECT
+                *
+            LIMIT 25 OFFSET 100
+        ';
+        $actual = $this->query->getStatement();
+        $this->assertSameSql($expect, $actual);
     }
 
     public function testForUpdate()
