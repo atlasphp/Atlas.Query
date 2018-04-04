@@ -10,8 +10,23 @@ declare(strict_types=1);
 
 namespace Atlas\Query\Clause\Component;
 
-class ReturnColumns extends SelectColumns
+class ReturnColumns extends Component
 {
+    protected $list = [];
+
+    public function add(string $expr, ...$exprs) : void
+    {
+        $this->list[] = $expr;
+        foreach ($exprs as $expr) {
+            $this->list[] = $expr;
+        }
+    }
+
+    public function hasAny() : bool
+    {
+        return ! empty($this->list);
+    }
+
     public function build() : string
     {
         if (empty($this->list)) {
