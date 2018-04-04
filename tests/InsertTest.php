@@ -48,4 +48,10 @@ class InsertTest extends QueryTest
         ];
         $this->assertSame($expect, $actual);
     }
+
+    public function testGetLastInsertId()
+    {
+        $actual = $this->query->getLastInsertId('foo');
+        $this->assertSame('foo-1', $actual);
+    }
 }

@@ -339,7 +339,7 @@ class SelectTest extends QueryTest
             ->where('c1 = c2')
             ->andWhere('c3 = :c3')
             ->andWhere('c4 IN', [null, true, 1])
-            ->catWhere(' AND c5 = 2')
+            ->catWhere(' AND c5 = ' . $this->query->bindInline(2))
             ->bindValue('c3', 'foo');
 
         $expect = '
@@ -348,7 +348,7 @@ class SelectTest extends QueryTest
             WHERE
                 c1 = c2
                 AND c3 = :c3
-                AND c4 IN(:__1__, :__2__, :__3__) AND c5 = 2
+                AND c4 IN(:__1__, :__2__, :__3__) AND c5 = :__4__
         ';
 
         $actual = $this->query->getStatement();
@@ -359,6 +359,7 @@ class SelectTest extends QueryTest
             '__1__' => [null, PDO::PARAM_NULL],
             '__2__' => [true, PDO::PARAM_BOOL],
             '__3__' => [1, PDO::PARAM_INT],
+            '__4__' => [2, PDO::PARAM_INT],
             'c3' => ['foo', PDO::PARAM_STR],
         ];
         $this->assertSame($expect, $actual);

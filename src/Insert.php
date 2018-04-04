@@ -34,6 +34,6 @@ class Insert extends Query
 
     public function getLastInsertId($name = null)
     {
-        return $this->connection->getPdo()->lastInsertId($name);
+        return $this->connection->getLastInsertId($name);
     }
 }

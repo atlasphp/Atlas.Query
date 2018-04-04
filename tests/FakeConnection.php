@@ -31,4 +31,9 @@ class FakeConnection extends Connection
     {
         return new PDOStatement();
     }
+
+    public function getLastInsertId(string $name = null) : string
+    {
+        return "{$name}-1";
+    }
 }
