@@ -12,8 +12,10 @@ namespace Atlas\Query;
 
 class Update extends Query
 {
-    use Clause\Where;
     use Clause\ModifyColumns;
+    use Clause\Where;
+    use Clause\OrderBy;
+    use Clause\Limit;
     use Clause\Returning;
 
     protected $table;

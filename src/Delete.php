@@ -13,6 +13,8 @@ namespace Atlas\Query;
 class Delete extends Query
 {
     use Clause\Where;
+    use Clause\OrderBy;
+    use Clause\Limit;
     use Clause\Returning;
 
     protected $from = '';
