@@ -1,8 +1,5 @@
 # SELECT
 
-The _Select_ class attempts to provide an object-oriented interface to build and
-then perform an SQL SELECT. Each method can be called multiple times.
-
 ## Building The Query
 
 ### Columns
@@ -12,11 +9,9 @@ a variadic argument.
 
 ```php
 // SELECT id, name AS namecol, COUNT(foo) AS foo_count
-$select->columns(
-    'id',
-    'name AS namecol',
-    'COUNT(foo) AS foo_count'
-);
+$select
+    ->columns('id')
+    ->columns('name AS namecol', 'COUNT(foo) AS foo_count');
 ```
 
 ### FROM
@@ -50,13 +45,13 @@ method:
 
 ```php
 // LEFT JOIN doom AS d ON foo.id = d.foo_if AND d.bar = :__1__ AND d.baz = :__2__
-$select->join(
-    'LEFT',
-    'doom AS d',
-    'foo.id = d.foo_id AND d.bar = ',
-    $bar_value
-);
-$select->catJoin(' AND d.baz = ', $baz_value);
+$select
+    ->join(
+        'LEFT',
+        'doom AS d',
+        'foo.id = d.foo_id AND d.bar = ',
+        $bar_value
+    )->catJoin(' AND d.baz = ', $baz_value);
 ```
 
 
@@ -106,8 +101,9 @@ as a variadic argument.
 
 ```php
 // GROUP BY foo, bar, baz
-$select->groupBy('foo')
-$select->groupBy('bar', 'baz');
+$select
+    ->groupBy('foo')
+    ->groupBy('bar', 'baz');
 ```
 
 ### HAVING
@@ -128,8 +124,9 @@ as a variadic argument.
 
 ```php
 // ORDER BY foo, bar, baz
-$select->orderBy('foo')
-$select->orderBy('bar', 'baz');
+$select
+    ->orderBy('foo')
+    ->orderBy('bar', 'baz');
 ```
 
 ### LIMIT, OFFSET, and Paging
@@ -140,7 +137,7 @@ To set a `LIMIT` and `OFFSET`, use the `limit()` and `offset()` methods.
 // LIMIT 10 OFFSET 40
 $select
     ->limit(10)
-    ->offset(40)
+    ->offset(40);
 ```
 
 Alternatively, you can limit by "pages" using the `page()` and `perPage()`
@@ -150,7 +147,7 @@ methods:
 // LIMIT 10 OFFSET 40
 $select
     ->page(5)
-    ->perPage(10)
+    ->perPage(10);
 ```
 
 ### DISTINCT, FOR UPDATE, and Other Flags
@@ -158,8 +155,9 @@ $select
 You can set `DISTINCT` and `FOR UPDATE` flags on the query like so:
 
 ```php
-$select->distinct();
-$select->forUpdate();
+$select
+    ->distinct()
+    ->forUpdate();
 ```
 
 Each of those methods take an option boolean parameter to enable (`true`) or
@@ -282,8 +280,8 @@ $select->join(
 
 ## Performing The Query
 
-To execute the _Select_ and get back a _PDOStatement_ result object, call the
-`perform()` method.
+Once you have built the query, call the `perform()` method to execute it and
+get back a _PDOStatement_.
 
 ```php
 $result = $select->perform();
