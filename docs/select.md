@@ -1,183 +1,316 @@
 # SELECT
 
-## Building A Query
+The _Select_ class attempts to provide an object-oriented interface to build and
+then perform an SQL SELECT. Each method can be called multiple times.
 
-Build a _Select_ query using the following methods. They do not need to
-be called in any particular order, and may be called multiple times.
+## Building The Query
 
 ### Columns
 
-To add columns to the SELECT, use the `columns()` method and pass each
-column as a variadic argument.
+To add columns to the _Select_, use the `columns()` method and pass each column as
+a variadic argument.
 
 ```php
+// SELECT id, name AS namecol, COUNT(foo) AS foo_count
 $select->columns(
-    'id',                       // column name
-    'name AS namecol',          // aliased column name
-    'COUNT(foo) AS foo_count'   // embed calculations directly
+    'id',
+    'name AS namecol',
+    'COUNT(foo) AS foo_count'
 );
 ```
 
 ### FROM
 
-To add a FROM clause, call the `from()` method as needed:
+To add a `FROM` clause, use the `from()` method:
 
 ```php
-// FROM foo, "bar" as "b"
+// FROM foo, bar AS b
 $select
-    ->from('foo')           // table name
-    ->from('bar AS b');     // aliased table name
+    ->from('foo')
+    ->from('bar AS b');
 ```
-
 
 ### JOIN
 
-To add a JOIN clause, call the `join()` method as needed:
+(All `JOIN` methods support inline value binding via optional trailing arguments.)
+
+To add a `JOIN` clause, use the `join()` method:
 
 ```php
 // LEFT JOIN doom AS d ON foo.id = d.foo_id
 $select->join(
-    'LEFT',             // the join-type
-    'doom AS d',        // join to this table ...
-    'foo.id = d.foo_id' // ... ON these conditions
+    'LEFT',
+    'doom AS d',
+    'foo.id = d.foo_id'
 );
 ```
 
-Also `catJoin()`.
+You can concatenate onto the end of the most-recent `JOIN` using the `catJoin()`
+method:
+
+```php
+// LEFT JOIN doom AS d ON foo.id = d.foo_if AND d.bar = :__1__ AND d.baz = :__2__
+$select->join(
+    'LEFT',
+    'doom AS d',
+    'foo.id = d.foo_id AND d.bar = ',
+    $bar_value
+);
+$select->catJoin(' AND d.baz = ', $baz_value);
+```
 
 
 ### WHERE
 
-To add WHERE conditions, call the `where()` method as needed. Subsequent calls to
-`where()` will AND the condition, unless you call `orWhere()`, in which case it
-will OR the condition.
+(All `WHERE` methods support inline value binding via optional trailing arguments.)
+
+To add `WHERE` conditions, use the `where()` method. Additional calls to
+`where()` will implicitly AND the subsequent condition.
 
 ```php
-    ->where('bar > :bar')           // WHERE bar > :bar
-    ->andWhere('zim = :zim')           // AND zim = :ZIM
-    ->orWhere('baz < :baz')         // OR baz < :baz
-    ->catWhere('...')
+// WHERE bar > :__1__ AND zim >= :__2__ AND baz :__3__
+$select
+    ->where('bar > 1', $bar_value)
+    ->where('zim >= 2', $zim_value)
+    ->andWhere('baz < 3', $baz_value);
+```
+
+Use `orWhere()` to OR the subsequent condition.
+
+```php
+// WHERE bar > :__1__ OR zim >= :__2__
+$select
+    ->where('bar > ', $bar_value)
+    ->orWhere('zim >= ', $zim_value)
+```
+
+You can concatenate onto the end of the most-recent `WHERE` condition using the
+`catWhere()` method:
+
+```php
+// WHERE bar > :__1__ OR (foo = 88 AND bar < :__2__)
+$select
+    ->where('bar > ', $bar_value)
+    ->orWhere('(')
+    ->catWhere('foo = 88')
+    ->catWhere(' AND bar < ', $bar_value)
+    ->catWhere(')');
+
 ```
 
 
 ### GROUP BY
 
+To add `GROUP BY` expressions, use the `groupBy()` method and pass each grouping
+as a variadic argument.
+
 ```php
-    ->groupBy('dib')              // GROUP BY these columns
+// GROUP BY foo, bar, baz
+$select->groupBy('foo')
+$select->groupBy('bar', 'baz');
 ```
 
 ### HAVING
 
-```php
-    ->having('foo = :foo')          // AND HAVING these conditions
-    ->andHaving('bar > ', 'bar_val')  // bind 'bar_val' to a number-named placeholder
-    ->orHaving('baz < :baz')        // OR HAVING these conditions
-```
+(All `HAVING` methods support inline value binding via optional trailing arguments.)
+
+The `HAVING` methods work just like their equivalent WHERE methods:
+
+- `having()` and `andHaving()` AND a HAVING condition
+- `orHaving()` ORs a HAVING condition
+- `catHaving()` concatenates onto the end of the most-recent HAVING condition.
 
 
 ### ORDER BY
 
+To add `ORDER BY` expressions, use the `orderBy()` method and pass each grouping
+as a variadic argument.
+
 ```php
-    ->orderBy('baz')              // ORDER BY these columns
+// ORDER BY foo, bar, baz
+$select->orderBy('foo')
+$select->orderBy('bar', 'baz');
 ```
 
 ### LIMIT, OFFSET, and Paging
 
+To set a `LIMIT` and `OFFSET`, use the `limit()` and `offset()` methods.
+
 ```php
-    ->limit(10)                     // LIMIT 10
-    ->offset(40)                    // OFFSET 40
-    ->page($page)
-    ->getPage()
-    ->setPerPage($perPage)
-    ->getPerPage()
+// LIMIT 10 OFFSET 40
+$select
+    ->limit(10)
+    ->offset(40)
 ```
+
+Alternatively, you can limit by "pages" using the `page()` and `perPage()`
+methods:
+
+```php
+// LIMIT 10 OFFSET 40
+$select
+    ->page(5)
+    ->perPage(10)
+```
+
+### DISTINCT, FOR UPDATE, and Other Flags
+
+You can set `DISTINCT` and `FOR UPDATE` flags on the query like so:
+
+```php
+$select->distinct();
+$select->forUpdate();
+```
+
+Each of those methods take an option boolean parameter to enable (`true`) or
+disable (`false`) the flag.
+
+You can set flags recognized by your database server using the `setFlag()`
+method. For example, you can set a MySQL `HIGH_PRIORITY` flag for like so:
+
+```php
+// SELECT HIGH_PRIORITY * FROM foo
+$select
+    ->columns('*')
+    ->from('foo')
+    ->setFlag('HIGH_PRIORITY');
+```
+
 
 ### UNION
 
-```php
-    ->union()                       // UNION with a followup SELECT
-    ->unionAll()                    // UNION ALL with a followup SELECT
-```
-
-### Flags
+To `UNION` or `UNION ALL` the current _Select_ with a followup query, call one
+the `union*()` methods:
 
 ```php
-    ->forUpdate()                   // FOR UPDATE
-    ->distinct()                    // SELECT DISTINCT
+// SELECT id, name FROM foo
+// UNION
+// SELECT id, name FROM bar
+$select
+    ->columns('id', 'name')
+    ->from('foo')
+    ->union()
+    ->columns('id', 'name')
+    ->from('bar');
+
+// SELECT id, name FROM foo
+// UNION ALL
+// SELECT id, name FROM bar
+$select
+    ->columns('id', 'name')
+    ->from('foo')
+    ->union()
+    ->columns('id', 'name')
+    ->from('bar');
 ```
 
-### Binding Values
-
-```php
-    ->bindValue('foo', 'foo_val')   // bind one value to a placeholder
-    ->bindValues([                  // bind these values to named placeholders
-        'bar' => 'bar_val',
-        'baz' => 'baz_val',
-    ]);
-```
-
-All of the `*join*()` methods take optional trailing variadic argument
-spcifying a value to bind inline at the end of the JOIN clause, optionally
-followed by a PDO::PARAM type.
-
-
-### Resetting Query Elements
+## Resetting Query Elements
 
 The _Select_ class comes with the following methods to "reset" various clauses
 a blank state. This can be useful when reusing the same query in different
 variations (e.g., to re-issue a query to get a `COUNT(*)` without a `LIMIT`, to
 find the total number of rows to be paginated over).
 
-- `resetCols()` removes all columns
-- `resetTables()` removes all `FROM` and `JOIN` clauses
-- `resetWhere()`, `resetGroupBy()`, `resetHaving()`, and `resetOrderBy()`
-  remove the respective clauses
-- `resetUnions()` removes all `UNION` and `UNION ALL` clauses
-- `resetFlags()` removes all database-engine-specific flags
-- `resetBindValues()` removes all values bound to named placeholders
+- `reset()` removes all clauses from the query.
+- `resetColumns()` removes all the columns to be selected.
+- `resetFrom()` removes the FROM clause, including all JOIN sub-clauses.
+- `resetWhere()` removes all WHERE conditions.
+- `resetGroupBy()` removes all GROUP BY expressions.
+- `resetHaving()` removes all HAVING conditions.
+- `resetOrderBy()` removes all ORDER BY expressions.
+- `resetLimit()` removes all LIMIT, OFFSET, and paging values.
+- `resetFlags()` removes all flags.
 
-    public function reset()
-    public function resetWhere()
-    public function resetGroupBy()
-    public function resetHaving()
-    public function resetOrderBy()
+Resetting only works on the current SELECT being built; it has no effect on
+queries that are already part of UNION.
 
-### Sub-Selects
+### Subselect Objects
 
-If you want to SELECT FROM a subselect, do so by calling `fromSubSelect()`.
-Pass both the subselect query string, and an alias for the subselect:
+If you want create a subselect, call the `subSelect()` method:
 
 ```php
-// FROM (SELECT ...) AS "my_sub"
-$select->fromSubSelect('SELECT ...', 'my_sub');
+$subSelect = $select->subSelect();
 ```
 
-You can also pass a SELECT object as the subselect, instead of a query string.
-This allows you to create an entire SELECT query and use it as a subselect.
+The returned object will be a new _Select_ that shares bound values with the
+parent _Select_.
 
-As with FROM, you can join to a subselect using `joinSubSelect()`:
+When you are done building the subselect, give it an alias using the `as()`
+method, and call `getStatement()` to render it (wrapped in parentheses) into the
+desired condition or expression.
+
+The following is a contrived example:
 
 ```php
-// INNER JOIN (SELECT ...) AS subjoin ON subjoin.id = foo.id
-$select->joinSubSelect(
-    'INNER',                    // left/inner/natural/etc
-    'SELECT ...',               // the subselect to join on
-    'subjoin',                  // AS this name
-    'subjoin.id = foo.id'       // ON these conditions
+// SELECT * FROM (
+//     SELECT id, name
+//     FROM foo
+//     WHERE id > :__1__
+// ) AS subfoo
+// WHERE LENGTH(subfoo.name) > :__2__
+$select->columns('*')
+    ->from(
+        $select->subSelect()
+            ->columns('id', 'name')
+            ->from('foo')
+            ->where('id > ', $id)
+            ->as('sub_alias')
+            ->getStatement()
+        )
+    )
+    ->where('LENGTH(sub_alias.name) > ', $length);
+```
+
+The above shows how the bound values are shared between the parent and the sub
+_Select_ objects. If you create a new _Select_ and try to use it as a subselect,
+the bound values will not be shared, and you may get unexpected results.
+
+Other examples include:
+
+```php
+$select->where(
+    'foo IN ',
+    $select->subSelect()->...->as('sub_alias')->getStatement()
+);
+
+$select->join(
+    'LEFT',
+    $select->subSelect()->...->as('sub_alias')->getStatement(),
+    'foo.id = sub_alias.id',
 );
 ```
 
-Also as with FROM, you can pass a SELECT object instead of a query string as the
-subselect.
-
 ## Performing The Query
 
-To execute the _Select_ and get back a result, call the `perform()` method, or
-any of the `fetch*()` or `yield*()` methods. (These methods are proxied through
-the query object to the underlying Atlas.Pdo _Connection_.)
+To execute the _Select_ and get back a _PDOStatement_ result object, call the
+`perform()` method.
 
 ```php
-$result = $select->perform();  // : PDOStatement
-$result = $select->fetchAll(); // : array
-$result = $select->yieldAll(); // : Generator
+$result = $select->perform();
 ```
+
+The SELECT proxies all `fetch*()` and `yield()` method calls to the underlying
+_Connection_ object, which means they are also available to you as well.  The
+proxied _Connection_ `fetch*()` and `yield*()` methods are:
+
+- `fetchAll() : array`
+- `fetchAffected() : int`
+- `fetchColumn(int $column = 0) : array`
+- `fetchGroup(int $style = PDO::FETCH_COLUMN) : array`
+- `fetchKeyPair() : array`
+- `fetchObject(string $class = 'stdClass', array $args = []) : object`
+- `fetchObjects(string $class = 'stdClass', array $args = []) : array`
+- `fetchOne() : ?array`
+- `fetchUnique() : array`
+- `fetchValue() : mixed`
+- `yieldAll() : Generator`
+- `yieldColumn(int $column = 0) : Generator`
+- `yieldKeyPair() : Generator`
+- `yieldObjects(string $class = 'stdClass', array $args = []) : Generator`
+- `yieldUnique() : Generator`
+
+Note that the `$statement` and `$values` parameters are passed automatically by
+the the _Select_ proxy, though parameters after those may still be specified.
+
+For more information on the `fetch*()` and `yield*()` methods, please see the
+[Atlas.Pdo](https://github.com/atlasphp/Atlas.Pdo) documentation.

@@ -1,6 +1,7 @@
 # Atlas.Query
 
 1. [Instantiation](./instantiation.md)
+2. [Value Binding](./binding.md)
 2. [SELECT](./select.md)
 3. [INSERT](./insert.md)
 4. [UPDATE](./update.md)
