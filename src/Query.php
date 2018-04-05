@@ -57,6 +57,11 @@ abstract class Query
         return $this->bind->getCopy();
     }
 
+    public function setFlag(string $flag, bool $enable = true) : void
+    {
+        $this->flags->set($flag, $enable);
+    }
+
     public function reset()
     {
         foreach (get_class_methods($this) as $method) {
