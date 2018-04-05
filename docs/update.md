@@ -100,6 +100,20 @@ $update
     ->returning('bar', 'baz');
 ```
 
+### Flags
+
+You can set flags recognized by your database server using the `setFlag()`
+method. For example, you can set a MySQL `LOW_PRIORITY` flag like so:
+
+```php
+// UPDATE LOW_PRIORITY foo SET bar = :bar WHERE baz = :__1__
+$update
+    ->table('foo')
+    ->column('bar', $bar_value)
+    ->where('baz = ', $baz_value)
+    ->setFlag('LOW_PRIORITY');
+```
+
 ## Performing The Query
 
 Once you have built the query, call the `perform()` method to execute it and

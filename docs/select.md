@@ -164,7 +164,7 @@ Each of those methods take an option boolean parameter to enable (`true`) or
 disable (`false`) the flag.
 
 You can set flags recognized by your database server using the `setFlag()`
-method. For example, you can set a MySQL `HIGH_PRIORITY` flag for like so:
+method. For example, you can set a MySQL `HIGH_PRIORITY` flag like so:
 
 ```php
 // SELECT HIGH_PRIORITY * FROM foo
@@ -173,7 +173,6 @@ $select
     ->from('foo')
     ->setFlag('HIGH_PRIORITY');
 ```
-
 
 ### UNION
 

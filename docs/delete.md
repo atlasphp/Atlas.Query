@@ -59,6 +59,19 @@ $delete
     ->returning('bar', 'baz');
 ```
 
+### Flags
+
+You can set flags recognized by your database server using the `setFlag()`
+method. For example, you can set a MySQL `LOW_PRIORITY` flag like so:
+
+```php
+// DELETE LOW_PRIORITY foo WHERE baz = :__1__
+$delete
+    ->from('foo')
+    ->where('baz = ', $baz_value)
+    ->setFlag('LOW_PRIORITY');
+```
+
 ## Performing The Query
 
 Once you have built the query, call the `perform()` method to execute it and

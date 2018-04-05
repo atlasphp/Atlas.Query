@@ -52,20 +52,31 @@ and unescaped expression.
 $insert->raw('bar', 'NOW()');
 ```
 
-### Returning
+### RETURNING
 
-If your database server recognizes a `RETURNING` clause, you can add it to the
-_Insert_ using the `returning()` method, specifying columns as variadic
-arguments.
+Some databases (notably PostgreSQL) recognize a `RETURNING` clause. You can add
+one to the _Insert_ using the `returning()` method, specifying columns as
+variadic arguments.
 
 ```php
 // INSERT ... RETURNING foo, bar, baz
-$insert->...
+$insert
     ->returning('foo')
     ->returning('bar', 'baz');
 ```
 
-(Typically this applies only to Postgres.)
+### Flags
+
+You can set flags recognized by your database server using the `setFlag()`
+method. For example, you can set a MySQL `LOW_PRIORITY` flag like so:
+
+```php
+// INSERT LOW_PRIORITY INTO foo (bar) VALUES (:bar)
+$insert
+    ->into('foo')
+    ->column('bar', $bar_value)
+    ->setFlag('LOW_PRIORITY');
+```
 
 ## Performing The Query
 
