@@ -19,29 +19,32 @@ class QueryFactory
         return new Bind();
     }
 
-    public function newDelete(Connection $connection) : Delete
+    public function newDelete(Connection $connection, ...$args) : Delete
     {
-        return $this->newQuery('Delete', $connection);
+        return $this->newQuery(Delete::CLASS, $connection, $args);
     }
 
-    public function newInsert(Connection $connection) : Insert
+    public function newInsert(Connection $connection, ...$args) : Insert
     {
-        return $this->newQuery('Insert', $connection);
+        return $this->newQuery(Insert::CLASS, $connection, $args);
     }
 
-    public function newSelect(Connection $connection) : Select
+    public function newSelect(Connection $connection, ...$args) : Select
     {
-        return $this->newQuery('Select', $connection);
+        return $this->newQuery(Select::CLASS, $connection, $args);
     }
 
-    public function newUpdate(Connection $connection) : Update
+    public function newUpdate(Connection $connection, ...$args) : Update
     {
-        return $this->newQuery('Update', $connection);
+        return $this->newQuery(Update::CLASS, $connection, $args);
     }
 
-    protected function newQuery(string $query, Connection $connection) : Query
+    protected function newQuery(
+        string $class,
+        Connection $connection,
+        array $args
+    ) : Query
     {
-        $class = 'Atlas\Query\\' . $query;
-        return new $class($connection, $this->newBind());
+        return new $class($connection, $this->newBind(), ...$args);
     }
 }
