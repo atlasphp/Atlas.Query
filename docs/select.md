@@ -96,8 +96,8 @@ $select
 
 ### GROUP BY
 
-To add `GROUP BY` expressions, use the `groupBy()` method and pass each grouping
-as a variadic argument.
+To add `GROUP BY` expressions, use the `groupBy()` method and pass each
+expression as a variadic argument.
 
 ```php
 // GROUP BY foo, bar, baz
@@ -119,8 +119,8 @@ The `HAVING` methods work just like their equivalent WHERE methods:
 
 ### ORDER BY
 
-To add `ORDER BY` expressions, use the `orderBy()` method and pass each grouping
-as a variadic argument.
+To add `ORDER BY` expressions, use the `orderBy()` method and pass each
+expression as a variadic argument.
 
 ```php
 // ORDER BY foo, bar, baz

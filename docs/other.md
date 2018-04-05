@@ -1,6 +1,6 @@
 # Other Topics
 
-## Microsoft SQL Server Considerations
+## Microsoft SQL Server LIMIT and OFFSET
 
 If the Atlas.Pdo _Connection_ is to a Microsoft SQL Server ('sqlsrv') instance,
 the LIMIT-related methods on the query object will generate sqlsrv-specific
@@ -10,15 +10,8 @@ variations of `LIMIT ... OFFSET`:
 
 - If both `LIMIT` and `OFFSET` are present, it will be translated as an
   `OFFSET ... ROWS FETCH NEXT ... ROWS ONLY` clause. In this case there *must*
-  be an `ORDER BY` clause, as the limiting clause is a sub-clause of `ORDER
+  be an `ORDER BY` clause, as the offset clause is a sub-clause of `ORDER
   BY`.
-
-## PostgreSQL Considerations
-
-The _Insert_, _Update_, and _Delete_ methods expose a `returning()` method that
-sets a RETURNING clause on the query. This clause will be honored by Postgres
-but will cause errors on other database backends.
-
 
 ## Identifier Quoting
 

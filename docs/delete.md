@@ -2,20 +2,61 @@
 
 ## Building The Query
 
-Build a _Delete_ query using the following methods. They do not need to
-be called in any particular order, and may be called multiple times.
+### FROM
+
+Use the `from()` method to specify FROM expression.
 
 ```php
+$delete->from('foo');
+```
+
+### WHERE
+
+(All `WHERE` methods support inline value binding via optional trailing arguments.)
+
+The _Delete_ `WHERE` methods work just like their equivalent _Select_ methods:
+
+- `where()` and `andWhere()` AND a WHERE condition
+- `orWhere()` ORs a WHERE condition
+- `catWhere()` concatenates onto the end of the most-recent WHERE condition.
+
+### ORDER BY
+
+Some databases (notably MySQL) recognize an `ORDER BY` clause. You can add one
+to the _Delete_ with the `orderBy()` method; pass each expression as a variadic
+argument.
+
+```php
+// DELETE ... ORDER BY foo, bar, baz
 $delete
-    ->from('foo')                   // FROM this table
-    ->where('zim = :zim')           // AND WHERE these conditions
-    ->orWhere('gir = :gir')         // OR WHERE these conditions
-    ->bindValue('bar', 'bar_val')   // bind one value to a placeholder
-    ->bindValues([                  // bind these values to the query
-        'baz' => 99,
-        'zim' => 'dib',
-        'gir' => 'doom',
-    ]);
+    ->orderBy('foo')
+    ->orderBy('bar', 'baz');
+```
+
+### LIMIT and OFFSET
+
+Some databases (notably MySQL and SQLite) recognize a `LIMIT` clause; others
+(notably SQLite) recognize an additional `OFFSET`. You can add these to the
+_Delete_ with the `limit()` and `offset()` methods:
+
+```php
+// LIMIT 10 OFFSET 40
+$delete
+    ->limit(10)
+    ->offset(40);
+```
+
+### RETURNING
+
+Some databases (notably PostgreSQL) recognize a `RETURNING` clause. You can add
+one to the _Delete_ using the `returning()` method, specifying columns as
+variadic arguments.
+
+```php
+// DELETE ... RETURNING foo, bar, baz
+$delete
+    ->returning('foo')
+    ->returning('bar', 'baz');
 ```
 
 ## Performing The Query

@@ -2,38 +2,102 @@
 
 ## Building The Query
 
-Build an _Update_ query using the following methods. They do not need to
-be called in any particular order, and may be called multiple times.
+### Table
+
+Use the `table()` method to specify the table to update.
 
 ```php
-$update
-    ->table('foo')                  // update this table
-    ->columnss([                    // bind values as "SET bar = :bar"
-        'bar',
-        'baz',
-    ])
-    ->set('ts', 'NOW()')            // raw value as "(ts) VALUES (NOW())"
-    ->where('zim = :zim')           // AND WHERE these conditions
-    ->where('gir = :gir', ['gir' => 'gir_val'])      // bind this value to the condition
-    ->orWhere('gir = :gir')         // OR WHERE these conditions
-    ->bindValue('bar', 'bar_val')   // bind one value to a placeholder
-    ->bindValues([                  // bind these values to the query
-        'baz' => 99,
-        'zim' => 'dib',
-        'gir' => 'doom',
-    ]);
+$update->table('foo');
 ```
 
-The `cols()` method allows you to pass an array of key-value pairs where the
-key is the column name and the value is a bind value (not a raw value):
+### Columns
+
+You can set a named placeholder and its corresponding bound value using the
+`column()` method.
 
 ```php
-$update->table('foo')           // update this table
-    ->cols([                    // update these columns and bind these values
-        'foo' => 'foo_value',
-        'bar' => 'bar_value',
-        'baz' => 'baz_value',
-    ]);
+// UPDATE foo SET bar = :bar
+$update->column('bar', $bar_value);
+```
+
+Note that the PDO parameter type will automatically be set for strings,
+integers, floats, and nulls. If you want to set an PDO parameter type yourself,
+pass it as an optional third parameter.
+
+```php
+// UPDATE foo SET bar = :bar
+$update->column('bar', $bar_value, \PDO::PARAM_LOB);
+```
+
+You can set several placeholders and their corresponding values all at once by
+using the `columns()` method:
+
+```php
+// UPDATE foo SET bar = :bar, baz = :baz
+$update->columns([
+    'bar' => $bar_value,
+    'baz' => $baz_value
+]);
+```
+
+However, you will not be able to specify a particular PDO parameter type when
+doing do.
+
+Bound values are automatically quoted and escaped; in some cases, this will be
+inappropriate, so you can use the `raw()` method to set column to an unquoted
+and unescaped expression.
+
+```
+// UPDATE foo SET bar = NOW()
+$update->raw('bar', 'NOW()');
+```
+### WHERE
+
+(All `WHERE` methods support inline value binding via optional trailing arguments.)
+
+The _Update_ `WHERE` methods work just like their equivalent _Select_ methods:
+
+- `where()` and `andWhere()` AND a WHERE condition
+- `orWhere()` ORs a WHERE condition
+- `catWhere()` concatenates onto the end of the most-recent WHERE condition.
+
+### ORDER BY
+
+Some databases (notably MySQL) recognize an `ORDER BY` clause. You can add one
+to the _Update_ with the `orderBy()` method; pass each expression as a variadic
+argument.
+
+```php
+// UPDATE ... ORDER BY foo, bar, baz
+$update
+    ->orderBy('foo')
+    ->orderBy('bar', 'baz');
+```
+
+### LIMIT and OFFSET
+
+Some databases (notably MySQL and SQLite) recognize a `LIMIT` clause; others
+(notably SQLite) recognize an additional `OFFSET`. You can add these to the
+_Update_ with the `limit()` and `offset()` methods:
+
+```php
+// LIMIT 10 OFFSET 40
+$update
+    ->limit(10)
+    ->offset(40);
+```
+
+### RETURNING
+
+Some databases (notably PostgreSQL) recognize a `RETURNING` clause. You can add
+one to the _Update_ using the `returning()` method, specifying columns as
+variadic arguments.
+
+```php
+// UPDATE ... RETURNING foo, bar, baz
+$update
+    ->returning('foo')
+    ->returning('bar', 'baz');
 ```
 
 ## Performing The Query

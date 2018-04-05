@@ -16,7 +16,7 @@ You can set a named placeholder and its corresponding bound value using the
 `column()` method.
 
 ```php
-// INSERT INTO foo (bar) VALUES (:bar);
+// INSERT INTO foo (bar) VALUES (:bar)
 $insert->column('bar', $bar_value);
 ```
 
@@ -33,7 +33,7 @@ You can set several placeholders and their corresponding values all at once by
 using the `columns()` method:
 
 ```php
-// INSERT INTO foo (bar) VALUES (:bar);
+// INSERT INTO foo (bar) VALUES (:bar)
 $insert->columns([
     'bar' => $bar_value,
     'baz' => $baz_value
@@ -43,14 +43,29 @@ $insert->columns([
 However, you will not be able to specify a particular PDO parameter type when
 doing do.
 
-Bound values are automatically quoted and escaped; in some cases, this will
-be inappropriate, so you can use the `raw()` method to set column to an unquoted and
-unescaped expression.
+Bound values are automatically quoted and escaped; in some cases, this will be
+inappropriate, so you can use the `raw()` method to set column to an unquoted
+and unescaped expression.
 
 ```
-// INSERT INTO foo (bar) VALUES (NOW());
+// INSERT INTO foo (bar) VALUES (NOW())
 $insert->raw('bar', 'NOW()');
 ```
+
+### Returning
+
+If your database server recognizes a `RETURNING` clause, you can add it to the
+_Insert_ using the `returning()` method, specifying columns as variadic
+arguments.
+
+```php
+// INSERT ... RETURNING foo, bar, baz
+$insert->...
+    ->returning('foo')
+    ->returning('bar', 'baz');
+```
+
+(Typically this applies only to Postgres.)
 
 ## Performing The Query
 
