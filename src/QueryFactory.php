@@ -19,32 +19,23 @@ class QueryFactory
         return new Bind();
     }
 
-    public function newDelete(Connection $connection, ...$args) : Delete
+    public function newDelete(Connection $connection) : Delete
     {
-        return $this->newQuery(Delete::CLASS, $connection, $args);
+        return new Delete($connection, $this->newBind());
     }
 
-    public function newInsert(Connection $connection, ...$args) : Insert
+    public function newInsert(Connection $connection) : Insert
     {
-        return $this->newQuery(Insert::CLASS, $connection, $args);
+        return new Insert($connection, $this->newBind());
     }
 
-    public function newSelect(Connection $connection, ...$args) : Select
+    public function newSelect(Connection $connection) : Select
     {
-        return $this->newQuery(Select::CLASS, $connection, $args);
+        return new Select($connection, $this->newBind());
     }
 
-    public function newUpdate(Connection $connection, ...$args) : Update
+    public function newUpdate(Connection $connection) : Update
     {
-        return $this->newQuery(Update::CLASS, $connection, $args);
-    }
-
-    protected function newQuery(
-        string $class,
-        Connection $connection,
-        array $args
-    ) : Query
-    {
-        return new $class($connection, $this->newBind(), ...$args);
+        return new Update($connection, $this->newBind());
     }
 }
