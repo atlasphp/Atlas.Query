@@ -20,6 +20,17 @@ abstract class Query
 
     protected $flags;
 
+    static public function new($arg, ...$args)
+    {
+        if ($arg instanceof Connection) {
+            $connection = $arg;
+        } else {
+            $connection = Connection::new($arg, ...$args);
+        }
+
+        return new static($connection, new Bind());
+    }
+
     public function __construct(Connection $connection, Bind $bind)
     {
         $this->connection = $connection;

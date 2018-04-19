@@ -17,6 +17,17 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
         $this->query = $this->newQuery();
     }
 
+    public function testStaticNew()
+    {
+        $class = substr(static::CLASS, 0, -4);
+
+        $actual = $class::new('sqlite::memory:');
+        $this->assertInstanceOf($class, $actual);
+
+        $actual = $class::new(new FakeConnection('fake'));
+        $this->assertInstanceOf($class, $actual);
+    }
+
     protected function newQuery()
     {
         $method = 'new' . substr(

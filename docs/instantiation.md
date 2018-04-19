@@ -1,12 +1,32 @@
 # Instantiation
 
-First, instantiate a _QueryFactory_:
+Given an existing PDO instance, you can create a query using its static `new()`
+method:
+
+```php
+<?php
+use Atlas\Query\Select;
+use Atlas\Query\Insert;
+use Atlas\Query\Update;
+use Atlas\Query\Delete;
+
+$pdo = new PDO('sqlite::memory:');
+
+$select = Select::new($pdo);
+$insert = Insert::new($pdo);
+$udpate = Update::new($pdo);
+$delete = Update::new($pdo);
+```
+
+(This also works with an existing [Atlas.Pdo][] _Connection_ instance.)
+
+Alternatively, instantiate a _QueryFactory_ ...
 
 ```php
 $queryFactory = new \Atlas\Query\QueryFactory();
 ```
 
-You can then use the factory to create query objects for an [Atlas.Pdo][]
+...and then use the factory to create query objects for an [Atlas.Pdo][]
 _Connection_.
 
 ```php
