@@ -221,7 +221,7 @@ find the total number of rows to be paginated over).
 Resetting only works on the current SELECT being built; it has no effect on
 queries that are already part of UNION.
 
-### Subselect Objects
+## Subselect Objects
 
 If you want create a subselect, call the `subSelect()` method:
 
