@@ -15,7 +15,7 @@ $pdo = new PDO('sqlite::memory:');
 $select = Select::new($pdo);
 $insert = Insert::new($pdo);
 $udpate = Update::new($pdo);
-$delete = Update::new($pdo);
+$delete = Delete::new($pdo);
 ```
 
 (This also works with an existing [Atlas.Pdo][] _Connection_ instance.)
