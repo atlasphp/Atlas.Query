@@ -23,7 +23,7 @@ yourself.
 
 One frequently-requested feature for this package is support for "automatic
 table prefixes" on all queries.  This feature sounds great in theory, but in
-practice is it (1) difficult to implement well, and (2) even when implemented it
+practice it is (1) difficult to implement well, and (2) even when implemented it
 turns out to be not as great as it seems in theory. This assessment is the
 result of the hard trials of experience. For those of you who want modifiable
 table prefixes, we suggest using constants with your table names prefixed as
