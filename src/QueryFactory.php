@@ -14,6 +14,13 @@ use Atlas\Pdo\Connection;
 
 class QueryFactory
 {
+    protected $selectClass;
+
+    public function __construct($selectClass = Select::CLASS)
+    {
+        $this->selectClass = $selectClass;
+    }
+
     public function newBind() : Bind
     {
         return new Bind();
@@ -31,7 +38,8 @@ class QueryFactory
 
     public function newSelect(Connection $connection) : Select
     {
-        return new Select($connection, $this->newBind());
+        $selectClass = $this->selectClass;
+        return new $selectClass($connection, $this->newBind());
     }
 
     public function newUpdate(Connection $connection) : Update
