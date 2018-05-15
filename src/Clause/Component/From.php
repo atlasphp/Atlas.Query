@@ -28,7 +28,7 @@ class From extends Component
         $this->list[] = [$ref];
     }
 
-    public function join(string $join, string $ref, string $condition = '', ...$inline) : void
+    public function join(string $join, string $ref, string $condition = '', ...$bindInline) : void
     {
         $condition = ltrim($condition);
 
@@ -40,8 +40,8 @@ class From extends Component
             $condition = 'ON ' . $condition;
         }
 
-        if (! empty($inline)) {
-            $condition .= $this->bind->inline(...$inline);
+        if (! empty($bindInline)) {
+            $condition .= $this->bind->inline(...$bindInline);
         }
 
         end($this->list);
@@ -49,10 +49,10 @@ class From extends Component
         $this->list[$end][] = "    {$join} {$ref} {$condition}";
     }
 
-    public function catJoin(string $expr, ...$inline)
+    public function catJoin(string $expr, ...$bindInline)
     {
-        if (! empty($inline)) {
-            $expr .= $this->bind->inline(...$inline);
+        if (! empty($bindInline)) {
+            $expr .= $this->bind->inline(...$bindInline);
         }
 
         end($this->list);

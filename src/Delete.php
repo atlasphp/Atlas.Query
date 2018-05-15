@@ -17,11 +17,11 @@ class Delete extends Query
     use Clause\Limit;
     use Clause\Returning;
 
-    protected $from = '';
+    protected $table = '';
 
-    public function from($from)
+    public function from(string $table)
     {
-        $this->from = $from;
+        $this->table = $table;
         return $this;
     }
 
@@ -29,7 +29,7 @@ class Delete extends Query
     {
         return 'DELETE'
             . $this->flags->build()
-            . ' FROM ' . $this->from
+            . ' FROM ' . $this->table
             . $this->where->build()
             . $this->returning->build();
     }

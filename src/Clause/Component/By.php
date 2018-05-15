@@ -21,7 +21,7 @@ class By extends Component
         $this->type = $type;
     }
 
-    public function expr(string $expr, ...$exprs) : void
+    public function expr(string $expr, string ...$exprs) : void
     {
         $this->list[] = $expr;
         foreach ($exprs as $expr) {

@@ -14,27 +14,27 @@ trait Where
 {
     protected $where;
 
-    public function where(string $condition, ...$inline)
+    public function where(string $condition, ...$bindInline)
     {
-        $this->where->and($condition, ...$inline);
+        $this->where->and($condition, ...$bindInline);
         return $this;
     }
 
-    public function andWhere(string $condition, ...$inline)
+    public function andWhere(string $condition, ...$bindInline)
     {
-        $this->where->and($condition, ...$inline);
+        $this->where->and($condition, ...$bindInline);
         return $this;
     }
 
-    public function orWhere(string $condition, ...$inline)
+    public function orWhere(string $condition, ...$bindInline)
     {
-        $this->where->or($condition, ...$inline);
+        $this->where->or($condition, ...$bindInline);
         return $this;
     }
 
-    public function catWhere(string $condition, ...$inline)
+    public function catWhere(string $condition, ...$bindInline)
     {
-        $this->where->cat($condition, ...$inline);
+        $this->where->cat($condition, ...$bindInline);
         return $this;
     }
 

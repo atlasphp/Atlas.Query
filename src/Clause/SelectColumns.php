@@ -14,7 +14,7 @@ trait SelectColumns
 {
     protected $columns;
 
-    public function columns(string $expr, ...$exprs)
+    public function columns(string $expr, string ...$exprs)
     {
         $this->columns->add($expr, ...$exprs);
         return $this;

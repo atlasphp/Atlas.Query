@@ -14,7 +14,7 @@ trait Returning
 {
     protected $returning;
 
-    public function returning(string $expr, ...$exprs)
+    public function returning(string $expr, string ...$exprs)
     {
         $this->returning->add($expr, ...$exprs);
         return $this;

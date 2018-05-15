@@ -14,7 +14,7 @@ class SelectColumns extends Component
 {
     protected $list = [];
 
-    public function add(string $expr, ...$exprs) : void
+    public function add(string $expr, string ...$exprs) : void
     {
         $this->list[] = $expr;
         foreach ($exprs as $expr) {

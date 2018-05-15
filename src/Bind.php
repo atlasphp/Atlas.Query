@@ -50,12 +50,12 @@ class Bind
         }
     }
 
-    public function getCopy() : array
+    public function getArrayCopy() : array
     {
         return $this->values;
     }
 
-    public function remove($key)
+    public function remove(string $key)
     {
         unset($this->values[$key]);
     }

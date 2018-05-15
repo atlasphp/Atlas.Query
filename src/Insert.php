@@ -15,11 +15,11 @@ class Insert extends Query
     use Clause\ModifyColumns;
     use Clause\Returning;
 
-    protected $into = '';
+    protected $table = '';
 
-    public function into(string $into)
+    public function into(string $table)
     {
-        $this->into = $into;
+        $this->table = $table;
         return $this;
     }
 
@@ -27,7 +27,7 @@ class Insert extends Query
     {
         return 'INSERT'
             . $this->flags->build()
-            . " INTO {$this->into} "
+            . " INTO {$this->table} "
             . $this->columns->build()
             . $this->returning->build();
     }

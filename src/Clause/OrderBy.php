@@ -14,7 +14,7 @@ trait OrderBy
 {
     protected $orderBy;
 
-    public function orderBy(string $expr, ...$exprs)
+    public function orderBy(string $expr, string ...$exprs)
     {
         $this->orderBy->expr($expr, ...$exprs);
         return $this;

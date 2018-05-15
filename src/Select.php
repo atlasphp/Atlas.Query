@@ -87,19 +87,19 @@ class Select extends Query
         return $this;
     }
 
-    public function join(string $join, string $ref, string $condition = '', ...$inline)
+    public function join(string $join, string $ref, string $condition = '', ...$bindInline)
     {
         $join = strtoupper(trim($join));
         if (substr($join, -4) != 'JOIN') {
             $join .= ' JOIN';
         }
-        $this->from->join($join, $ref, $condition, ...$inline);
+        $this->from->join($join, $ref, $condition, ...$bindInline);
         return $this;
     }
 
-    public function catJoin(string $expr, ...$inline)
+    public function catJoin(string $expr, ...$bindInline)
     {
-        $this->from->catJoin($expr, ...$inline);
+        $this->from->catJoin($expr, ...$bindInline);
         return $this;
     }
 

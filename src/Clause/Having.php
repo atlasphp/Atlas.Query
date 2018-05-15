@@ -14,27 +14,27 @@ trait Having
 {
     protected $having;
 
-    public function having(string $condition, ...$inline)
+    public function having(string $condition, ...$bindInline)
     {
-        $this->having->and($condition, ...$inline);
+        $this->having->and($condition, ...$bindInline);
         return $this;
     }
 
-    public function andHaving(string $condition, ...$inline)
+    public function andHaving(string $condition, ...$bindInline)
     {
-        $this->having->and($condition, ...$inline);
+        $this->having->and($condition, ...$bindInline);
         return $this;
     }
 
-    public function orHaving(string $condition, ...$inline)
+    public function orHaving(string $condition, ...$bindInline)
     {
-        $this->having->or($condition, ...$inline);
+        $this->having->or($condition, ...$bindInline);
         return $this;
     }
 
-    public function catHaving(string $condition, ...$inline)
+    public function catHaving(string $condition, ...$bindInline)
     {
-        $this->having->cat($condition, ...$inline);
+        $this->having->cat($condition, ...$bindInline);
         return $this;
     }
 

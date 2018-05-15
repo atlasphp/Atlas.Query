@@ -20,7 +20,7 @@ trait GroupBy
         return $this;
     }
 
-    public function groupBy(string $expr, ...$exprs)
+    public function groupBy(string $expr, string ...$exprs)
     {
         $this->groupBy->expr($expr, ...$exprs);
         return $this;

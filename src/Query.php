@@ -63,9 +63,9 @@ abstract class Query
         return $this;
     }
 
-    public function getBindValues()
+    public function getBindValues() : array
     {
-        return $this->bind->getCopy();
+        return $this->bind->getArrayCopy();
     }
 
     public function setFlag(string $flag, bool $enable = true) : void
