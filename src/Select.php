@@ -55,7 +55,7 @@ class Select extends Query
         }
     }
 
-    public function __call($method, $params)
+    public function __call(string $method, array $params)
     {
         $prefix = substr($method, 0, 5);
         if ($prefix == 'fetch' || $prefix == 'yield') {
