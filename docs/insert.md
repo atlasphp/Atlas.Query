@@ -86,3 +86,17 @@ get back a _PDOStatement_.
 ```php
 $result = $insert->perform(); // : PDOStatement
 ```
+
+### Last Insert ID
+
+If the database autoincrements a column while performing the query, you can get
+back that value using the `getLastInsertId()` method:
+
+```php
+$id = $insert->getLastInsertId();
+```
+
+> **Note:**
+>
+> You can pass a sequence name as an optional parameter to `getLastInsertId()`;
+> this may be required with PostgreSQL.
