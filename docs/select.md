@@ -54,7 +54,6 @@ $select
     )->catJoin(' AND d.baz = ', $baz_value);
 ```
 
-
 ### WHERE
 
 (All `WHERE` methods support inline value binding via optional trailing arguments.)
@@ -93,7 +92,6 @@ $select
 
 ```
 
-
 ### GROUP BY
 
 To add `GROUP BY` expressions, use the `groupBy()` method and pass each
@@ -115,7 +113,6 @@ The `HAVING` methods work just like their equivalent WHERE methods:
 - `having()` and `andHaving()` AND a HAVING condition
 - `orHaving()` ORs a HAVING condition
 - `catHaving()` concatenates onto the end of the most-recent HAVING condition.
-
 
 ### ORDER BY
 
@@ -286,9 +283,12 @@ get back a _PDOStatement_.
 $result = $select->perform();
 ```
 
-The SELECT proxies all `fetch*()` and `yield()` method calls to the underlying
-_Connection_ object, which means they are also available to you as well.  The
-proxied _Connection_ `fetch*()` and `yield*()` methods are:
+The _Select_ proxies all `fetch*()` and `yield()` method calls to the underlying
+_Connection_ object via the magic `__call()` method, which means you can both
+build the query and perform it using the same _Select_ object.
+
+The _Connection_ `fetch*()` and `yield*()` methods proxied through the _Select_
+are as follows:
 
 - `fetchAll() : array`
 - `fetchAffected() : int`
@@ -306,8 +306,21 @@ proxied _Connection_ `fetch*()` and `yield*()` methods are:
 - `yieldObjects(string $class = 'stdClass', array $args = []) : Generator`
 - `yieldUnique() : Generator`
 
-Note that the `$statement` and `$values` parameters are passed automatically by
-the the _Select_ proxy, though parameters after those may still be specified.
+For example, to build a query and get back an array of all results:
+
+```php
+// SELECT * FROM foo WHERE bar > :__1__
+$result = $select
+    ->columns('*')
+    ->from('foo')
+    ->where('bar > ', $value)
+    ->fetchAll();
+
+foreach ($result as $key => $val) {
+    echo $val['bar'] . PHP_EOL;
+}
+```
 
 For more information on the `fetch*()` and `yield*()` methods, please see the
-[Atlas.Pdo](https://github.com/atlasphp/Atlas.Pdo) documentation.
+[Atlas.Pdo Connection](http://atlasphp.io/cassini/pdo/connection.html)
+documentation.
