@@ -21,7 +21,7 @@ $insert->column('bar', $bar_value);
 ```
 
 Note that the PDO parameter type will automatically be set for strings,
-integers, floats, and nulls. If you want to set an PDO parameter type yourself,
+integers, floats, and nulls. If you want to set a PDO parameter type yourself,
 pass it as an optional third parameter.
 
 ```php
