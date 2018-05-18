@@ -64,6 +64,22 @@ $select
     ->where('bar IN ', $bar_value);
 ```
 
+## Explicit Inline Binding
+
+If you need to bind more than one value into a condition, use `sprintf()`
+combined with the `bindInline()` method:
+
+```php
+// SELECT * FROM foo WHERE bar BETWEEN :__1__ AND :__2__
+$select
+    ->columns('*')
+    ->from('foo')
+    ->where(sprintf(
+        'bar BETWEEN %s AND %s',
+        $select->bindInline($low_value),
+        $select->bindInline($high_value)
+    ));
+```
 
 ## Explicit Parameter Binding
 
