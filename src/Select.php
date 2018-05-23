@@ -135,10 +135,9 @@ class Select extends Query
         return $this;
     }
 
-    public function subSelect()
+    public function subSelect() : Select
     {
-        $select = static::class;
-        return new $select($this->connection, $this->bind);
+        return new Select($this->connection, $this->bind);
     }
 
     public function getStatement() : string
