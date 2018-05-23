@@ -1,5 +1,15 @@
 # Change Log
 
+## 1.1.0
+
+- Updated docs.
+
+- ModifyColumns::column() now correctly returns $this (refs #1).
+
+- Added Where::whereEquals() functionality (refs #1).
+
+- Binding a Select inline now correctly calls getStatement() on it.
+
 ## 1.0.0
 
 Changes to method parameter names, to make IDE completion more intelligible.
