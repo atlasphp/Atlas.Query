@@ -299,16 +299,18 @@ the bound values will not be shared, and you may get unexpected results.
 Other examples include:
 
 ```php
-$select->where(
-    'foo IN ('
-    . $select->subSelect()->...->getStatement()
-    . ')'
-);
-
+// joining on a subselect
 $select->join(
     'LEFT',
     $select->subSelect()->...->as('sub_alias')->getStatement(),
     'foo.id = sub_alias.id',
+);
+
+// binding a subselect inline; note that it does not need to be
+// converted to a string via getStatement()
+$select->where(
+    'foo IN ',
+    $select->subSelect()->...
 );
 ```
 

@@ -62,6 +62,10 @@ class Bind
 
     public function inline($value, int $type = -1) : string
     {
+        if ($value instanceof Select) {
+            return '(' . $value->getStatement() . ')';
+        }
+
         if (is_array($value)) {
             return $this->inlineArray($value, $type);
         }

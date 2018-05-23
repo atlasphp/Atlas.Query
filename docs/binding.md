@@ -50,9 +50,9 @@ $select
     ->where('bar = ', $bar_value, \PDO::PARAM_LOB);
 ```
 
-Finally, if you bind an array inline, Atlas.Query will set a bind each element
-separately with its own placeholder, comma-separate the placeholders, and wrap
-them in parentheses. This makes using an IN() condition very cnvenienent.
+If you bind an array inline, Atlas.Query will set a bind each element separately
+with its own placeholder, comma-separate the placeholders, and wrap them in
+parentheses. This makes using an IN() condition very cnvenienent.
 
 ```php
 $bar_value = ['foo', 'bar', 'baz'];
@@ -62,6 +62,20 @@ $select
     ->columns('*')
     ->from('foo')
     ->where('bar IN ', $bar_value);
+```
+
+Finally, if the inline value is itself a Select object, it will be converted to
+a string via `getStatement()` and returned surrounded in parentheses:
+
+```php
+// SELECT * FROM foo WHERE bar IN (SELECT baz FROM dib)
+$select
+    ->columns('*')
+    ->from('foo')
+    ->where('bar IN ', $select->subSelect()
+        ->columns('baz')
+        ->from('dib')
+    );
 ```
 
 ## Explicit Inline Binding

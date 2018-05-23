@@ -617,13 +617,9 @@ class SelectTest extends QueryTest
         $select = $this->newQuery();
         $select->columns('*')
             ->from('table2 AS t2')
-            ->where('field IN ('
-                . $select
-                    ->subSelect()
-                    ->columns('*')
-                    ->from('table1 AS t1')
-                    ->getStatement()
-                . ')'
+            ->where('field IN ', $select->subSelect()
+                ->columns('col1')
+                ->from('table1 AS t1')
             );
 
         $expect = '
@@ -633,7 +629,7 @@ class SelectTest extends QueryTest
                 table2 AS t2
             WHERE
                 field IN (SELECT
-                *
+                col1
             FROM
                 table1 AS t1)
         ';
