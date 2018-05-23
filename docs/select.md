@@ -56,7 +56,7 @@ $select
 
 ### WHERE
 
-(All `WHERE` methods support inline value binding via optional trailing arguments.)
+(These `WHERE` methods support inline value binding via optional trailing arguments.)
 
 To add `WHERE` conditions, use the `where()` method. Additional calls to
 `where()` will implicitly AND the subsequent condition.
@@ -90,6 +90,42 @@ $select
     ->catWhere(' AND bar < ', $bar_value)
     ->catWhere(')');
 
+```
+
+#### Explicit Inline Binding
+
+For some conditions, using `sprintf()` combined with explicit inline binding
+may be advisable:
+
+```php
+// WHERE foo BETWEEN :__1__ AND :__2__
+$select->where(sprintf(
+    'foo BETWEEN %s AND %s',
+    $select->bindInline($low_value),
+    $select->bindInline($high_value)
+));
+```
+
+#### Convenience Equality
+
+There is an additional `whereEquals()` convenience method that adds a series of
+`AND`ed equality conditions for you based on an array of key-value pairs.
+
+Given an array value, the condition will be `IN ()`. Given a null value, the
+condition will be `IS NULL`. For all other values, the condition will be `=`. If
+you pass a key without a value, that key will be used as a raw unescaped
+condition.
+
+For example:
+
+```php
+// WHERE foo IN (:__1__, :__2__, :__3__) AND bar IS NULL AND baz = :__4__ AND zim = NOW()
+$select->whereEquals([
+    'foo' => ['a', 'b', 'c'],
+    'bar' => null,
+    'baz' => 'dib',
+    'zim = NOW()'
+]);
 ```
 
 ### GROUP BY
@@ -230,8 +266,8 @@ The returned object will be a new _Select_ that shares bound values with the
 parent _Select_.
 
 When you are done building the subselect, give it an alias using the `as()`
-method, and call `getStatement()` to render it (wrapped in parentheses) into the
-desired condition or expression.
+method, and call `getStatement()` to render it into the desired condition or
+expression.
 
 The following is a contrived example:
 
@@ -242,7 +278,8 @@ The following is a contrived example:
 //     WHERE id > :__1__
 // ) AS subfoo
 // WHERE LENGTH(subfoo.name) > :__2__
-$select->columns('*')
+$select
+    ->columns('*')
     ->from(
         $select->subSelect()
             ->columns('id', 'name')
@@ -263,8 +300,9 @@ Other examples include:
 
 ```php
 $select->where(
-    'foo IN ',
-    $select->subSelect()->...->as('sub_alias')->getStatement()
+    'foo IN ('
+    . $select->subSelect()->...->getStatement()
+    . ')'
 );
 
 $select->join(
