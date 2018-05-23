@@ -10,8 +10,8 @@ Read the documentation [here](./docs/index.md).
 This package is a descendant of [Aura.SqlQuery][] but differs from that package
 in significant ways. Some of those differences include:
 
-- The query objects depend on an Atlas.Pdo _Connection_, and are not useful
-  with a generic _PDO_ instance.
+- The query objects depend on an Atlas.Pdo _Connection_ (which can wrap a regular
+  _PDO_ instance).
 
 - There are no database-specific query classes as with the Aura package, though
   some database-specific behaviors are provided. This means the query object can
