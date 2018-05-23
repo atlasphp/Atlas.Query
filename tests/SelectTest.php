@@ -392,6 +392,30 @@ class SelectTest extends QueryTest
         $this->assertSame($expect, $actual);
     }
 
+    public function testWhereEquals()
+    {
+        $actual = $this->query
+            ->columns('*')
+            ->whereEquals([
+                'foo' => [1, 2, 3],
+                'bar' => null,
+                'baz' => 'baz_value',
+                'dib = NOW()',
+            ]);
+
+        $expect = '
+            SELECT
+                *
+            WHERE
+                foo IN (:__1__, :__2__, :__3__)
+                AND bar IS NULL
+                AND baz = :__4__
+                AND dib = NOW()
+        ';
+
+        $this->assertSameSql($expect, $actual->getStatement());
+    }
+
     public function testGroupBy()
     {
         $this->query

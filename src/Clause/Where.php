@@ -38,6 +38,23 @@ trait Where
         return $this;
     }
 
+    public function whereEquals(array $columnsValues)
+    {
+        foreach ($columnsValues as $key => $val) {
+            if (is_numeric($key)) {
+                $this->where($val);
+            } elseif ($val === null) {
+                $this->where("{$key} IS NULL");
+            } elseif (is_array($val)) {
+                $this->where("{$key} IN ", $val);
+            } else {
+                $this->where("{$key} = ", $val);
+            }
+        }
+
+        return $this;
+    }
+
     public function resetWhere()
     {
         $this->where = new Component\Conditions($this->bind, 'WHERE');
