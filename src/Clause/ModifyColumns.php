@@ -17,6 +17,7 @@ trait ModifyColumns
     public function column(string $column, ...$value)
     {
         $this->columns->hold($column, ...$value);
+        return $this;
     }
 
     public function columns(array $columns)
