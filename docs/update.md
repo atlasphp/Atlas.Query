@@ -53,7 +53,7 @@ $update->raw('bar', 'NOW()');
 ```
 ### WHERE
 
-(All `WHERE` methods support inline value binding via optional trailing arguments.)
+(All `WHERE` methods support [inline value binding](binding.md) via optional trailing arguments.)
 
 The _Update_ `WHERE` methods work just like their equivalent _Select_ methods:
 

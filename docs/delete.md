@@ -12,7 +12,7 @@ $delete->from('foo');
 
 ### WHERE
 
-(All `WHERE` methods support inline value binding via optional trailing arguments.)
+(All `WHERE` methods support [inline value binding](binding.md) via optional trailing arguments.)
 
 The _Delete_ `WHERE` methods work just like their equivalent _Select_ methods:
 

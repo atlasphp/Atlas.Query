@@ -27,7 +27,7 @@ $select
 
 ### JOIN
 
-(All `JOIN` methods support inline value binding via optional trailing arguments.)
+(All `JOIN` methods support [inline value binding](binding.md) via optional trailing arguments.)
 
 To add a `JOIN` clause, use the `join()` method:
 
@@ -56,7 +56,7 @@ $select
 
 ### WHERE
 
-(These `WHERE` methods support inline value binding via optional trailing arguments.)
+(These `WHERE` methods support [inline value binding](binding.md) via optional trailing arguments.)
 
 To add `WHERE` conditions, use the `where()` method. Additional calls to
 `where()` will implicitly AND the subsequent condition.
@@ -142,7 +142,7 @@ $select
 
 ### HAVING
 
-(All `HAVING` methods support inline value binding via optional trailing arguments.)
+(All `HAVING` methods support [inline value binding](binding.md) via optional trailing arguments.)
 
 The `HAVING` methods work just like their equivalent WHERE methods:
 
