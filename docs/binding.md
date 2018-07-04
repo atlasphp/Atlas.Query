@@ -52,7 +52,7 @@ $select
 
 If you bind an array inline, Atlas.Query will set a bind each element separately
 with its own placeholder, comma-separate the placeholders, and wrap them in
-parentheses. This makes using an IN() condition very cnvenienent.
+parentheses. This makes using an IN() condition very convenient.
 
 ```php
 $bar_value = ['foo', 'bar', 'baz'];
