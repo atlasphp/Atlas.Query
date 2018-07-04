@@ -1,4 +1,20 @@
-# Instantiation
+# Getting Started
+
+## Installation
+
+This package is installable and autoloadable via [Composer](https://getcomposer.org/)
+as [atlas/query](https://packagist.org/packages/atlas/query). Add the following lines
+to your `composer.json` file, then call `composer update`.
+
+```json
+{
+    "require": {
+        "atlas/query": "~1.0"
+    }
+}
+```
+
+## Instantiation
 
 Given an existing PDO instance, you can create a query using its static `new()`
 method:
