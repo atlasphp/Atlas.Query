@@ -3,7 +3,7 @@
 Provides query builders for MySQL, Postgres, SQLite, and Microsoft SQL Server
 backends connected via [Atlas.Pdo][].
 
-Read the documentation [here](./docs/index.md).
+Read the documentation [here](http://atlasphp.io/cassini/query).
 
 ## Lineage
 
