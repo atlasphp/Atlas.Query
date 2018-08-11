@@ -730,6 +730,25 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expected, $actual);
     }
 
+    public function testQuoteIdentifier()
+    {
+        $actual = $this->query->quoteIdentifier('foo');
+        $this->assertSame('<<foo>>', $actual);
+    }
+
+    public function testSetFlag()
+    {
+        $this->query->columns('*')->from('t1')->setFlag('LOW_PRIORITY');
+        $expect = '
+            SELECT LOW_PRIORITY
+                *
+            FROM
+                t1
+        ';
+        $actual = $this->query->getStatement();
+        $this->assertSameSql($expect, $actual);
+    }
+
     public function testSqlsrvLimitOffset()
     {
         $this->connection = new FakeConnection('sqlsrv');
