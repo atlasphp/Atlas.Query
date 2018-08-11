@@ -24,11 +24,11 @@ class UpdateTest extends QueryTest
         $expect = "
             UPDATE t1
             SET
-                c1 = :c1,
-                c2 = :c2,
-                c3 = :c3,
-                c4 = NULL,
-                c5 = NOW()
+                <<c1>> = :c1,
+                <<c2>> = :c2,
+                <<c3>> = :c3,
+                <<c4>> = NULL,
+                <<c5>> = NOW()
             WHERE
                 foo = :foo
                 AND baz = :baz
@@ -52,11 +52,11 @@ class UpdateTest extends QueryTest
         $expect = "
             UPDATE t1
             SET
-                c1 = :c1,
-                c2 = :c2,
-                c3 = :c3,
-                c4 = NULL,
-                c5 = NOW()
+                <<c1>> = :c1,
+                <<c2>> = :c2,
+                <<c3>> = :c3,
+                <<c4>> = NULL,
+                <<c5>> = NOW()
             WHERE
                 foo = :foo
                 AND baz = :baz

@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Atlas\Query\Clause\Component;
 
 use Atlas\Query\Bind;
+use Atlas\Query\Quoter\Quoter;
 
 abstract class ModifyColumns extends Component
 {
@@ -18,9 +19,12 @@ abstract class ModifyColumns extends Component
 
     protected $list = [];
 
-    public function __construct(Bind $bind)
+    protected $quoter;
+
+    public function __construct(Bind $bind, Quoter $quoter)
     {
         $this->bind = $bind;
+        $this->quoter = $quoter;
     }
 
     public function hasAny() : bool

@@ -16,7 +16,8 @@ class UpdateColumns extends ModifyColumns
     {
         $values = array();
         foreach ($this->list as $column => $value) {
-            $values[] = "{$column} = {$value}";
+            $quotedColumn = $this->quoter->quoteIdentifier($column);
+            $values[] = "{$quotedColumn} = {$value}";
         }
         return PHP_EOL . 'SET' . $this->indentCsv($values);
     }

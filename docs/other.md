@@ -15,9 +15,9 @@ variations of `LIMIT ... OFFSET`:
 
 ## Identifier Quoting
 
-Table and column identifiers will *not* be quoted automatically. If you need
-quotes around unusual or reserved identifiers, you will need to add them
-yourself.
+INSERT and UPDATE queries will automatically quote the column identifier being
+set. No other automatic quoting of identifiers is applied. You can apply
+identifier quoting as needed by using the `quoteIdentifier()` method.
 
 ## Table Prefixes
 

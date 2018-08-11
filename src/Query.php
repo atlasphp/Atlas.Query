@@ -20,6 +20,8 @@ abstract class Query
 
     protected $flags;
 
+    protected $quoter;
+
     static public function new($arg, ...$args)
     {
         if ($arg instanceof Connection) {
@@ -35,6 +37,12 @@ abstract class Query
     {
         $this->connection = $connection;
         $this->bind = $bind;
+
+        $quoter = 'Atlas\\Query\\Quoter\\'
+            . ucfirst($this->connection->getDriverName())
+            . 'Quoter';
+        $this->quoter = new $quoter();
+
         $this->reset();
     }
 
@@ -87,6 +95,11 @@ abstract class Query
     {
         $this->flags = new Clause\Component\Flags();
         return $this;
+    }
+
+    public function quoteIdentifier(string $name) : string
+    {
+        return $this->quoter->quoteIdentifier($name);
     }
 
     abstract public function getStatement() : string;

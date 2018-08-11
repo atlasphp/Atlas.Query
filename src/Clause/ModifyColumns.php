@@ -47,7 +47,7 @@ trait ModifyColumns
     {
         $type = strrchr(static::CLASS, '\\') . 'Columns';
         $class = __NAMESPACE__ . '\\Component' . $type;
-        $this->columns = new $class($this->bind);
+        $this->columns = new $class($this->bind, $this->quoter);
         return $this;
     }
 }

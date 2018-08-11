@@ -19,12 +19,12 @@ class InsertTest extends QueryTest
         $actual = $this->query->getStatement();
         $expect = '
             INSERT INTO t1 (
-                c1,
-                c2,
-                c3,
-                c4,
-                c5,
-                cx
+                <<c1>>,
+                <<c2>>,
+                <<c3>>,
+                <<c4>>,
+                <<c5>>,
+                <<cx>>
             ) VALUES (
                 :c1,
                 :c2,
