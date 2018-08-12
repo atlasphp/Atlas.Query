@@ -1,5 +1,15 @@
 # Change Log
 
+## 1.2.0
+
+- Method `quoteIdentifier()` added to all query objects, so that you can quote
+  table names, column names, etc. for the specific connection type.
+
+- INSERT and UPDATE queries now automatically quote the column name that is
+  being inserted or updated. No other automatic quoting is applied.
+
+- Updated docs.
+
 ## 1.1.0
 
 - Updated docs.
