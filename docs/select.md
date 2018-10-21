@@ -64,9 +64,9 @@ To add `WHERE` conditions, use the `where()` method. Additional calls to
 ```php
 // WHERE bar > :__1__ AND zim >= :__2__ AND baz :__3__
 $select
-    ->where('bar > 1', $bar_value)
-    ->where('zim >= 2', $zim_value)
-    ->andWhere('baz < 3', $baz_value);
+    ->where('bar > ', $bar_value)
+    ->where('zim >= ', $zim_value)
+    ->andWhere('baz < ', $baz_value);
 ```
 
 Use `orWhere()` to OR the subsequent condition.
