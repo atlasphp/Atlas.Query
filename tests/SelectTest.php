@@ -589,6 +589,46 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual);
     }
 
+    public function testMultipleUnion()
+    {
+        $this->query->columns('c1')
+                     ->from('t1')
+                     ->union()
+                     ->columns('c2')
+                     ->from('t2')
+                     ->union()
+                     ->columns('c3')
+                     ->from('t3')
+                     ->union()
+                     ->columns('c4')
+                     ->from('t4');
+
+        $expect = '
+            SELECT
+                c1
+            FROM
+                t1
+            UNION
+            SELECT
+                c2
+            FROM
+                t2
+            UNION
+            SELECT
+                c3
+            FROM
+                t3
+            UNION
+            SELECT
+                c4
+            FROM
+                t4
+        ';
+
+        $actual = $this->query->getStatement();
+        $this->assertSameSql($expect, $actual);
+    }
+
     public function testUnionAll()
     {
         $this->query->columns('c1')
