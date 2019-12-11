@@ -71,6 +71,17 @@ abstract class Query
         return $this;
     }
 
+    public function bindFormat(string $format, ...$values) : string
+    {
+        $tokens = [];
+
+        foreach ($values as $value) {
+            $tokens[] = $this->bind->inline($value);
+        }
+
+        return sprintf($format, ...$tokens);
+    }
+
     public function getBindValues() : array
     {
         return $this->bind->getArrayCopy();
