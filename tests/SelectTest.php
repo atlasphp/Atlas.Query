@@ -571,30 +571,6 @@ class SelectTest extends QueryTest
                      ->from('t1')
                      ->union()
                      ->columns('c2')
-                     ->from('t2');
-
-        $expect = '
-            SELECT
-                c1
-            FROM
-                t1
-            UNION
-            SELECT
-                c2
-            FROM
-                t2
-        ';
-
-        $actual = $this->query->getStatement();
-        $this->assertSameSql($expect, $actual);
-    }
-
-    public function testMultipleUnion()
-    {
-        $this->query->columns('c1')
-                     ->from('t1')
-                     ->union()
-                     ->columns('c2')
                      ->from('t2')
                      ->union()
                      ->columns('c3')
@@ -635,7 +611,14 @@ class SelectTest extends QueryTest
                      ->from('t1')
                      ->unionAll()
                      ->columns('c2')
-                     ->from('t2');
+                     ->from('t2')
+                     ->unionAll()
+                     ->columns('c3')
+                     ->from('t3')
+                     ->unionAll()
+                     ->columns('c4')
+                     ->from('t4');
+
         $expect = '
             SELECT
                 c1
@@ -646,6 +629,16 @@ class SelectTest extends QueryTest
                 c2
             FROM
                 t2
+            UNION ALL
+            SELECT
+                c3
+            FROM
+                t3
+            UNION ALL
+            SELECT
+                c4
+            FROM
+                t4
         ';
 
         $actual = $this->query->getStatement();

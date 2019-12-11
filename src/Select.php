@@ -105,14 +105,18 @@ class Select extends Query
 
     public function union()
     {
-        $this->unions[] = $this->getStatement() . PHP_EOL . 'UNION' . PHP_EOL;
+        $this->unions[] = $this->getCurrentStatement(
+            PHP_EOL . 'UNION' . PHP_EOL
+        );
         $this->reset();
         return $this;
     }
 
     public function unionAll()
     {
-        $this->unions[] = $this->getStatement() . PHP_EOL . 'UNION ALL' . PHP_EOL;
+        $this->unions[] = $this->getCurrentStatement(
+            PHP_EOL . 'UNION ALL' . PHP_EOL
+        );
         $this->reset();
         return $this;
     }
@@ -142,8 +146,12 @@ class Select extends Query
 
     public function getStatement() : string
     {
-        $stm = implode('', $this->unions)
-            . 'SELECT'
+        return implode('', $this->unions) . $this->getCurrentStatement();
+    }
+
+    protected function getCurrentStatement(string $suffix = '') : string
+    {
+        $stm = 'SELECT'
             . $this->flags->build()
             . $this->limit->buildEarly()
             . $this->columns->build()
@@ -155,10 +163,10 @@ class Select extends Query
             . $this->limit->build()
             . ($this->forUpdate ? PHP_EOL . 'FOR UPDATE' : '');
 
-        if ($this->as === null) {
-            return $stm;
+        if ($this->as !== null) {
+            $stm = "(" . PHP_EOL . $stm . PHP_EOL . ") AS {$this->as}";
         }
 
-        return "(" . PHP_EOL . $stm . PHP_EOL . ") AS {$this->as}";
+        return $stm . $suffix;
     }
 }
