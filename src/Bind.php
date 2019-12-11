@@ -89,4 +89,15 @@ class Bind
 
         return '(' . implode(', ', $keys) . ')';
     }
+
+    public function format(string $format, ...$values) : string
+    {
+        $tokens = [];
+
+        foreach ($values as $value) {
+            $tokens[] = $this->inline($value);
+        }
+
+        return sprintf($format, ...$tokens);
+    }
 }

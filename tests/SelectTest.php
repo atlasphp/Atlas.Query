@@ -821,4 +821,33 @@ class SelectTest extends QueryTest
         $actual = $this->query->getStatement();
         $this->assertSameSql($expect, $actual);
     }
+
+    public function testBindFormat()
+    {
+        $this->query->columns('*')
+                    ->from('t1')
+                    ->where($this->query->bindFormat(
+                        'c2 BETWEEN %s AND %s',
+                        66,
+                        99
+                    ));
+
+        $expect = '
+            SELECT
+                *
+            FROM
+                t1
+            WHERE
+                c2 BETWEEN :__1__ AND :__2__
+        ';
+        $actual = $this->query->getStatement();
+        $this->assertSameSql($expect, $actual);
+
+        $expect = [
+            '__1__' => [66, PDO::PARAM_INT],
+            '__2__' => [99, PDO::PARAM_INT],
+        ];
+        $actual = $this->query->getBindValues();
+        $this->assertSame($expect, $actual);
+    }
 }

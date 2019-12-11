@@ -59,6 +59,11 @@ abstract class Query
         return $this->bind->inline($value, $type);
     }
 
+    public function bindFormat(string $format, ...$values) : string
+    {
+        return $this->bind->format($format, ...$values);
+    }
+
     public function bindValue(string $key, $value, int $type = -1)
     {
         $this->bind->value($key, $value, $type);
