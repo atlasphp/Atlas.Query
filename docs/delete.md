@@ -78,5 +78,5 @@ Once you have built the query, call the `perform()` method to execute it and
 get back a _PDOStatement_.
 
 ```php
-$result = $select->perform(); // : PDOStatement
+$result = $delete->perform(); // : PDOStatement
 ```
