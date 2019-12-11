@@ -20,9 +20,21 @@ trait Having
         return $this;
     }
 
+    public function havingf(string $format, ...$bindInline)
+    {
+        $this->having->andf($format, ...$bindInline);
+        return $this;
+    }
+
     public function andHaving(string $condition, ...$bindInline)
     {
         $this->having->and($condition, ...$bindInline);
+        return $this;
+    }
+
+    public function andHavingf(string $format, ...$bindInline)
+    {
+        $this->having->andf($format, ...$bindInline);
         return $this;
     }
 
@@ -32,9 +44,21 @@ trait Having
         return $this;
     }
 
+    public function orHavingf(string $format, ...$bindInline)
+    {
+        $this->having->orf($format, ...$bindInline);
+        return $this;
+    }
+
     public function catHaving(string $condition, ...$bindInline)
     {
         $this->having->cat($condition, ...$bindInline);
+        return $this;
+    }
+
+    public function catHavingf(string $format, ...$bindInline)
+    {
+        $this->having->andf($format, ...$bindInline);
         return $this;
     }
 

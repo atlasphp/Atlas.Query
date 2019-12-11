@@ -31,9 +31,19 @@ class Conditions extends Component
         $this->append('AND ', $expr, $bindInline);
     }
 
+    public function andf(string $format, ...$bindInline) : void
+    {
+        $this->and($this->bind->format($format, ...$bindInline));
+    }
+
     public function or(string $expr, ...$bindInline) : void
     {
         $this->append('OR ', $expr, $bindInline);
+    }
+
+    public function orf(string $format, ...$bindInline) : void
+    {
+        $this->or($this->bind->format($format, ...$bindInline));
     }
 
     public function cat(string $expr, ...$bindInline) : void
@@ -50,6 +60,11 @@ class Conditions extends Component
         $key = key($this->list);
 
         $this->list[$key] .= $expr;
+    }
+
+    public function catf(string $format, ...$bindInline) : void
+    {
+        $this->cat($this->bind->format($format, ...$bindInline));
     }
 
     protected function append(string $andor, string $expr, array $bindInline) : void

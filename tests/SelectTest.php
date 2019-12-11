@@ -826,11 +826,11 @@ class SelectTest extends QueryTest
     {
         $this->query->columns('*')
                     ->from('t1')
-                    ->where($this->query->bindFormat(
+                    ->wheref(
                         'c2 BETWEEN %s AND %s',
                         66,
                         99
-                    ));
+                    );
 
         $expect = '
             SELECT

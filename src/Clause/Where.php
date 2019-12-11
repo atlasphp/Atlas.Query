@@ -20,9 +20,21 @@ trait Where
         return $this;
     }
 
+    public function wheref(string $format, ...$bindInline)
+    {
+        $this->where->andf($format, ...$bindInline);
+        return $this;
+    }
+
     public function andWhere(string $condition, ...$bindInline)
     {
         $this->where->and($condition, ...$bindInline);
+        return $this;
+    }
+
+    public function andWheref(string $format, ...$bindInline)
+    {
+        $this->where->andf($format, ...$bindInline);
         return $this;
     }
 
@@ -32,9 +44,21 @@ trait Where
         return $this;
     }
 
+    public function orWheref(string $format, ...$bindInline)
+    {
+        $this->where->orf($format, ...$bindInline);
+        return $this;
+    }
+
     public function catWhere(string $condition, ...$bindInline)
     {
         $this->where->cat($condition, ...$bindInline);
+        return $this;
+    }
+
+    public function catWheref(string $format, ...$bindInline)
+    {
+        $this->where->catf($format, ...$bindInline);
         return $this;
     }
 
