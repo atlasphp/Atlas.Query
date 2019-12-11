@@ -84,7 +84,7 @@ Once you have built the query, call the `perform()` method to execute it and
 get back a _PDOStatement_.
 
 ```php
-$result = $insert->perform(); // : PDOStatement
+$pdoStatement = $insert->perform();
 ```
 
 ### Last Insert ID
@@ -100,3 +100,13 @@ $id = $insert->getLastInsertId();
 >
 > You can pass a sequence name as an optional parameter to `getLastInsertId()`;
 > this may be required with PostgreSQL.
+
+### RETURNING
+
+If you added a `RETURNING` clause with the `returning()` method, you can
+retrieve those column values with the returned _PDOStatement_:
+
+```php
+$pdoStatement = $insert->perform();
+$values = $pdoStatement->fetch(); // : array
+```
