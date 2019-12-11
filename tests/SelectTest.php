@@ -826,7 +826,7 @@ class SelectTest extends QueryTest
     {
         $this->query->columns('*')
                     ->from('t1')
-                    ->wheref(
+                    ->whereFormat(
                         'c2 BETWEEN %s AND %s',
                         66,
                         99
