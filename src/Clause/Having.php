@@ -58,7 +58,7 @@ trait Having
 
     public function catHavingFormat(string $format, ...$bindInline)
     {
-        $this->having->andFormat($format, ...$bindInline);
+        $this->having->catFormat($format, ...$bindInline);
         return $this;
     }
 

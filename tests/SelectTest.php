@@ -416,6 +416,27 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual->getStatement());
     }
 
+    public function testWhereFormat()
+    {
+        $actual = $this->query
+            ->columns('*')
+            ->whereFormat('c1 BETWEEN %s AND %s', 11, 22)
+            ->andWhereFormat('c2 BETWEEN %s AND %s', 33, 44)
+            ->orWhereFormat('c3 BETWEEN %s AND %s', 55, 66)
+            ->catWhereFormat(' UNLESS c4 BETWEEN %s AND %s', 77, 88);
+
+        $expect = '
+            SELECT
+                *
+            WHERE
+                c1 BETWEEN :__1__ AND :__2__
+                AND c2 BETWEEN :__3__ AND :__4__
+                OR c3 BETWEEN :__5__ AND :__6__ UNLESS c4 BETWEEN :__7__ AND :__8__
+        ';
+
+        $this->assertSameSql($expect, $actual->getStatement());
+    }
+
     public function testGroupBy()
     {
         $this->query
@@ -488,6 +509,27 @@ class SelectTest extends QueryTest
             'c3' => ['foo', PDO::PARAM_STR],
         ];
         $this->assertSame($expect, $actual);
+    }
+
+    public function testHavingFormat()
+    {
+        $actual = $this->query
+            ->columns('*')
+            ->HavingFormat('c1 BETWEEN %s AND %s', 11, 22)
+            ->andHavingFormat('c2 BETWEEN %s AND %s', 33, 44)
+            ->orHavingFormat('c3 BETWEEN %s AND %s', 55, 66)
+            ->catHavingFormat(' UNLESS c4 BETWEEN %s AND %s', 77, 88);
+
+        $expect = '
+            SELECT
+                *
+            HAVING
+                c1 BETWEEN :__1__ AND :__2__
+                AND c2 BETWEEN :__3__ AND :__4__
+                OR c3 BETWEEN :__5__ AND :__6__ UNLESS c4 BETWEEN :__7__ AND :__8__
+        ';
+
+        $this->assertSameSql($expect, $actual->getStatement());
     }
 
     public function testOrderBy()
@@ -826,11 +868,11 @@ class SelectTest extends QueryTest
     {
         $this->query->columns('*')
                     ->from('t1')
-                    ->whereFormat(
+                    ->where($this->query->bindFormat(
                         'c2 BETWEEN %s AND %s',
-                        66,
-                        99
-                    );
+                        6,
+                        9
+                    ));
 
         $expect = '
             SELECT
@@ -844,8 +886,8 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual);
 
         $expect = [
-            '__1__' => [66, PDO::PARAM_INT],
-            '__2__' => [99, PDO::PARAM_INT],
+            '__1__' => [6, PDO::PARAM_INT],
+            '__2__' => [9, PDO::PARAM_INT],
         ];
         $actual = $this->query->getBindValues();
         $this->assertSame($expect, $actual);
