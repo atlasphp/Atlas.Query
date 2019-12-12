@@ -58,22 +58,26 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expect, $actual);
     }
 
-    // public function testBindValues()
-    // {
-    //     $actual = $this->query->getBindValues();
-    //     $this->assertSame(array(), $actual);
+    public function testBindValues()
+    {
+        $actual = $this->query->getBindValues();
+        $this->assertSame([], $actual);
 
-    //     $expect = array('foo' => 'bar', 'baz' => 'dib');
-    //     $this->query->bindValues($expect);
-    //     $actual = $this->query->getBindValues();
-    //     $this->assertSame($expect, $actual);
+        $this->query->bindValues(['foo' => 'bar', 'baz' => 'dib']);
+        $expect = [
+            'foo' => ['bar', PDO::PARAM_STR],
+            'baz' => ['dib', PDO::PARAM_STR],
+        ];
+        $actual = $this->query->getBindValues();
+        $this->assertSame($expect, $actual);
 
-    //     $this->query->bindValues(array('zim' => 'gir'));
-    //     $expect = array('foo' => 'bar', 'baz' => 'dib', 'zim' => 'gir');
-    //     $actual = $this->query->getBindValues();
-    //     $this->assertSame($expect, $actual);
-
-    //     $this->query->resetBindValues();
-    //     $this->assertEmpty($this->query->getBindValues());
-    // }
+        $this->query->bindValues(['zim' => 'gir']);
+        $expect = [
+            'foo' => ['bar', PDO::PARAM_STR],
+            'baz' => ['dib', PDO::PARAM_STR],
+            'zim' => ['gir', PDO::PARAM_STR],
+        ];
+        $actual = $this->query->getBindValues();
+        $this->assertSame($expect, $actual);
+    }
 }
