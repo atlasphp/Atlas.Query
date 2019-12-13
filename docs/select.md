@@ -91,8 +91,7 @@ $select
     ->catWhere(')');
 ```
 
-Each of the WHERE-related methods has a `bindSprintf()`-related method suffixed
-with `format`:
+Each of the WHERE-related methods has an `sprintf` variation as well:
 
 ```php
 // WHERE bar BETWEEN :__1__ AND :__2__
@@ -103,7 +102,7 @@ $select
     ->whereSprintf('bar BETWEEN %s AND %s', $bar_low, $bar_high)
     ->andWhereSprintf('baz BETWEEN %s AND %s', $baz_low, $baz_high)
     ->orWhereSprintf('dib BETWEEN %s AND %s', $dib_low, $dib_high)
-    ->catWhereFomat(...);
+    ->catWhereSprintf(...);
 ```
 
 #### Convenience Equality
