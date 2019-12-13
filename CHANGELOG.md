@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.3.0
+
+- Fixed `SELECT ... UNION` bug revealed in testing (refs #6).
+
+- Added sprintf-based inline value binding.
+
+- Updated docs.
+
 ## 1.2.0
 
 - Method `quoteIdentifier()` added to all query objects, so that you can quote
