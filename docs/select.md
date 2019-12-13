@@ -56,7 +56,7 @@ $select
 
 ### WHERE
 
-(These `WHERE` methods support [inline value binding](binding.md) via optional trailing arguments.)
+(All `WHERE` methods support [implicit and explicit inline value binding](binding.md).)
 
 To add `WHERE` conditions, use the `where()` method. Additional calls to
 `where()` will implicitly AND the subsequent condition.
@@ -89,21 +89,21 @@ $select
     ->catWhere('foo = 88')
     ->catWhere(' AND bar < ', $bar_value)
     ->catWhere(')');
-
 ```
 
-#### Explicit Inline Binding
-
-For some conditions, using `sprintf()` combined with explicit inline binding
-may be advisable:
+Each of the WHERE-related methods has a `bindFormat()`-related method suffixed
+with `format`:
 
 ```php
-// WHERE foo BETWEEN :__1__ AND :__2__
-$select->where(sprintf(
-    'foo BETWEEN %s AND %s',
-    $select->bindInline($low_value),
-    $select->bindInline($high_value)
-));
+// WHERE bar BETWEEN :__1__ AND :__2__
+// AND baz BETWEEN :__3__ AND :__4__
+// OR dib BETWEEN :__5__ AND :__6___
+// ...
+$select
+    ->whereFormat('bar BETWEEN %s AND %s', $bar_low, $bar_high)
+    ->andWhereFormat('baz BETWEEN %s AND %s', $baz_low, $baz_high)
+    ->orWhereFormat('dib BETWEEN %s AND %s', $dib_low, $dib_high)
+    ->catWhereFomat(...);
 ```
 
 #### Convenience Equality
@@ -142,13 +142,16 @@ $select
 
 ### HAVING
 
-(All `HAVING` methods support [inline value binding](binding.md) via optional trailing arguments.)
+(All `HAVING` methods support [implicit and explicit inline value binding](binding.md).)
 
 The `HAVING` methods work just like their equivalent WHERE methods:
 
 - `having()` and `andHaving()` AND a HAVING condition
 - `orHaving()` ORs a HAVING condition
-- `catHaving()` concatenates onto the end of the most-recent HAVING condition.
+- `catHaving()` concatenates onto the end of the most-recent HAVING condition
+- `havingFormat()` and `andHavingFormat()` AND a HAVING condition with sprintf()
+- `orHavingFormat()` ORs a HAVING condition with sprintf()
+- `catHavingFormat()` concatenates onto the end of the most-recent HAVING condition with sprintf()
 
 ### ORDER BY
 

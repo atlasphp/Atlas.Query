@@ -80,18 +80,19 @@ $select
 
 ## Explicit Inline Binding
 
-If you need to bind more than one value into a condition, use `sprintf()`
-combined with the `bindInline()` method:
+If you need to bind more than one value into a condition, use `bindFormat()`
+instead of `bindInline()`. Pass an expression string formatted for
+[`sprintf`](https://www.php.net/sprintf) along with the values to bind:
 
 ```php
 // SELECT * FROM foo WHERE bar BETWEEN :__1__ AND :__2__
 $select
     ->columns('*')
     ->from('foo')
-    ->where(sprintf(
+    ->where($select->bindFormat(
         'bar BETWEEN %s AND %s',
-        $select->bindInline($low_value),
-        $select->bindInline($high_value)
+        $low_value,
+        $high_value
     ));
 ```
 

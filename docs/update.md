@@ -53,13 +53,16 @@ $update->raw('bar', 'NOW()');
 ```
 ### WHERE
 
-(All `WHERE` methods support [inline value binding](binding.md) via optional trailing arguments.)
+(All `WHERE` methods support [implicit and explicit inline value binding](binding.md).)
 
 The _Update_ `WHERE` methods work just like their equivalent _Select_ methods:
 
 - `where()` and `andWhere()` AND a WHERE condition
 - `orWhere()` ORs a WHERE condition
-- `catWhere()` concatenates onto the end of the most-recent WHERE condition.
+- `catWhere()` concatenates onto the end of the most-recent WHERE condition
+- `whereFormat()` and `andWhereFormat()` AND a WHERE condition with sprintf()
+- `orWhereFormat()` ORs a WHERE condition with sprintf()
+- `catWhereFormat()` concatenates onto the end of the most-recent WHERE condition with sprintf()
 
 ### ORDER BY
 
