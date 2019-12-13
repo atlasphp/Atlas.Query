@@ -6,7 +6,9 @@
 
 - Added sprintf-based inline value binding.
 
-- Updated docs.
+- Updated docs and tests.
+
+- Added Travis CI.
 
 ## 1.2.0
 
