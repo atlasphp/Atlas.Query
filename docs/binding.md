@@ -78,9 +78,9 @@ $select
     );
 ```
 
-## Explicit Inline Binding
+## `sprintf()` Inline Binding
 
-If you need to bind more than one value into a condition, use `bindFormat()`
+If you need to bind more than one value into a condition, use `bindSprintf()`
 instead of `bindInline()`. Pass an expression string formatted for
 [`sprintf`](https://www.php.net/sprintf) along with the values to bind:
 
@@ -89,12 +89,16 @@ instead of `bindInline()`. Pass an expression string formatted for
 $select
     ->columns('*')
     ->from('foo')
-    ->where($select->bindFormat(
+    ->where($select->bindSprintf(
         'bar BETWEEN %s AND %s',
         $low_value,
         $high_value
     ));
 ```
+
+Note that you should use only `%s` in the format string, since it is the
+*placeholder token* that will be interpolated into the expression, not the
+*actual value*.
 
 ## Explicit Parameter Binding
 

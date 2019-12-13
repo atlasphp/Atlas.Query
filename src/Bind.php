@@ -90,7 +90,7 @@ class Bind
         return '(' . implode(', ', $keys) . ')';
     }
 
-    public function format(string $format, ...$values) : string
+    public function sprintf(string $format, ...$values) : string
     {
         $tokens = [];
 

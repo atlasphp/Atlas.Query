@@ -56,7 +56,7 @@ $select
 
 ### WHERE
 
-(All `WHERE` methods support [implicit and explicit inline value binding](binding.md).)
+(All `WHERE` methods support [implicit and sprintf() inline value binding](binding.md).)
 
 To add `WHERE` conditions, use the `where()` method. Additional calls to
 `where()` will implicitly AND the subsequent condition.
@@ -91,7 +91,7 @@ $select
     ->catWhere(')');
 ```
 
-Each of the WHERE-related methods has a `bindFormat()`-related method suffixed
+Each of the WHERE-related methods has a `bindSprintf()`-related method suffixed
 with `format`:
 
 ```php
@@ -100,9 +100,9 @@ with `format`:
 // OR dib BETWEEN :__5__ AND :__6___
 // ...
 $select
-    ->whereFormat('bar BETWEEN %s AND %s', $bar_low, $bar_high)
-    ->andWhereFormat('baz BETWEEN %s AND %s', $baz_low, $baz_high)
-    ->orWhereFormat('dib BETWEEN %s AND %s', $dib_low, $dib_high)
+    ->whereSprintf('bar BETWEEN %s AND %s', $bar_low, $bar_high)
+    ->andWhereSprintf('baz BETWEEN %s AND %s', $baz_low, $baz_high)
+    ->orWhereSprintf('dib BETWEEN %s AND %s', $dib_low, $dib_high)
     ->catWhereFomat(...);
 ```
 
@@ -142,16 +142,16 @@ $select
 
 ### HAVING
 
-(All `HAVING` methods support [implicit and explicit inline value binding](binding.md).)
+(All `HAVING` methods support [implicit and sprintf() inline value binding](binding.md).)
 
 The `HAVING` methods work just like their equivalent WHERE methods:
 
 - `having()` and `andHaving()` AND a HAVING condition
 - `orHaving()` ORs a HAVING condition
 - `catHaving()` concatenates onto the end of the most-recent HAVING condition
-- `havingFormat()` and `andHavingFormat()` AND a HAVING condition with sprintf()
-- `orHavingFormat()` ORs a HAVING condition with sprintf()
-- `catHavingFormat()` concatenates onto the end of the most-recent HAVING condition with sprintf()
+- `havingSprintf()` and `andHavingSprintf()` AND a HAVING condition with sprintf()
+- `orHavingSprintf()` ORs a HAVING condition with sprintf()
+- `catHavingSprintf()` concatenates onto the end of the most-recent HAVING condition with sprintf()
 
 ### ORDER BY
 

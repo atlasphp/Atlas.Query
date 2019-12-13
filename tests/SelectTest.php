@@ -416,14 +416,14 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual->getStatement());
     }
 
-    public function testWhereFormat()
+    public function testWhereSprintf()
     {
         $actual = $this->query
             ->columns('*')
-            ->whereFormat('c1 BETWEEN %s AND %s', 11, 22)
-            ->andWhereFormat('c2 BETWEEN %s AND %s', 33, 44)
-            ->orWhereFormat('c3 BETWEEN %s AND %s', 55, 66)
-            ->catWhereFormat(' UNLESS c4 BETWEEN %s AND %s', 77, 88);
+            ->whereSprintf('c1 BETWEEN %s AND %s', 11, 22)
+            ->andWhereSprintf('c2 BETWEEN %s AND %s', 33, 44)
+            ->orWhereSprintf('c3 BETWEEN %s AND %s', 55, 66)
+            ->catWhereSprintf(' UNLESS c4 BETWEEN %s AND %s', 77, 88);
 
         $expect = '
             SELECT
@@ -511,14 +511,14 @@ class SelectTest extends QueryTest
         $this->assertSame($expect, $actual);
     }
 
-    public function testHavingFormat()
+    public function testHavingSprintf()
     {
         $actual = $this->query
             ->columns('*')
-            ->HavingFormat('c1 BETWEEN %s AND %s', 11, 22)
-            ->andHavingFormat('c2 BETWEEN %s AND %s', 33, 44)
-            ->orHavingFormat('c3 BETWEEN %s AND %s', 55, 66)
-            ->catHavingFormat(' UNLESS c4 BETWEEN %s AND %s', 77, 88);
+            ->HavingSprintf('c1 BETWEEN %s AND %s', 11, 22)
+            ->andHavingSprintf('c2 BETWEEN %s AND %s', 33, 44)
+            ->orHavingSprintf('c3 BETWEEN %s AND %s', 55, 66)
+            ->catHavingSprintf(' UNLESS c4 BETWEEN %s AND %s', 77, 88);
 
         $expect = '
             SELECT
@@ -864,11 +864,11 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual);
     }
 
-    public function testBindFormat()
+    public function testBindSprintf()
     {
         $this->query->columns('*')
                     ->from('t1')
-                    ->where($this->query->bindFormat(
+                    ->where($this->query->bindSprintf(
                         'c2 BETWEEN %s AND %s',
                         6,
                         9

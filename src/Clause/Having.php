@@ -20,9 +20,9 @@ trait Having
         return $this;
     }
 
-    public function havingFormat(string $format, ...$bindInline)
+    public function havingSprintf(string $format, ...$bindInline)
     {
-        $this->having->andFormat($format, ...$bindInline);
+        $this->having->andSprintf($format, ...$bindInline);
         return $this;
     }
 
@@ -32,9 +32,9 @@ trait Having
         return $this;
     }
 
-    public function andHavingFormat(string $format, ...$bindInline)
+    public function andHavingSprintf(string $format, ...$bindInline)
     {
-        $this->having->andFormat($format, ...$bindInline);
+        $this->having->andSprintf($format, ...$bindInline);
         return $this;
     }
 
@@ -44,9 +44,9 @@ trait Having
         return $this;
     }
 
-    public function orHavingFormat(string $format, ...$bindInline)
+    public function orHavingSprintf(string $format, ...$bindInline)
     {
-        $this->having->orFormat($format, ...$bindInline);
+        $this->having->orSprintf($format, ...$bindInline);
         return $this;
     }
 
@@ -56,9 +56,9 @@ trait Having
         return $this;
     }
 
-    public function catHavingFormat(string $format, ...$bindInline)
+    public function catHavingSprintf(string $format, ...$bindInline)
     {
-        $this->having->catFormat($format, ...$bindInline);
+        $this->having->catSprintf($format, ...$bindInline);
         return $this;
     }
 

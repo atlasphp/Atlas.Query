@@ -31,9 +31,9 @@ class Conditions extends Component
         $this->append('AND ', $expr, $bindInline);
     }
 
-    public function andFormat(string $format, ...$bindInline) : void
+    public function andSprintf(string $format, ...$bindInline) : void
     {
-        $this->and($this->bind->format($format, ...$bindInline));
+        $this->and($this->bind->sprintf($format, ...$bindInline));
     }
 
     public function or(string $expr, ...$bindInline) : void
@@ -41,9 +41,9 @@ class Conditions extends Component
         $this->append('OR ', $expr, $bindInline);
     }
 
-    public function orFormat(string $format, ...$bindInline) : void
+    public function orSprintf(string $format, ...$bindInline) : void
     {
-        $this->or($this->bind->format($format, ...$bindInline));
+        $this->or($this->bind->sprintf($format, ...$bindInline));
     }
 
     public function cat(string $expr, ...$bindInline) : void
@@ -62,9 +62,9 @@ class Conditions extends Component
         $this->list[$key] .= $expr;
     }
 
-    public function catFormat(string $format, ...$bindInline) : void
+    public function catSprintf(string $format, ...$bindInline) : void
     {
-        $this->cat($this->bind->format($format, ...$bindInline));
+        $this->cat($this->bind->sprintf($format, ...$bindInline));
     }
 
     protected function append(string $andor, string $expr, array $bindInline) : void

@@ -20,9 +20,9 @@ trait Where
         return $this;
     }
 
-    public function whereFormat(string $format, ...$bindInline)
+    public function whereSprintf(string $format, ...$bindInline)
     {
-        $this->where->andFormat($format, ...$bindInline);
+        $this->where->andSprintf($format, ...$bindInline);
         return $this;
     }
 
@@ -32,9 +32,9 @@ trait Where
         return $this;
     }
 
-    public function andWhereFormat(string $format, ...$bindInline)
+    public function andWhereSprintf(string $format, ...$bindInline)
     {
-        $this->where->andFormat($format, ...$bindInline);
+        $this->where->andSprintf($format, ...$bindInline);
         return $this;
     }
 
@@ -44,9 +44,9 @@ trait Where
         return $this;
     }
 
-    public function orWhereFormat(string $format, ...$bindInline)
+    public function orWhereSprintf(string $format, ...$bindInline)
     {
-        $this->where->orFormat($format, ...$bindInline);
+        $this->where->orSprintf($format, ...$bindInline);
         return $this;
     }
 
@@ -56,9 +56,9 @@ trait Where
         return $this;
     }
 
-    public function catWhereFormat(string $format, ...$bindInline)
+    public function catWhereSprintf(string $format, ...$bindInline)
     {
-        $this->where->catFormat($format, ...$bindInline);
+        $this->where->catSprintf($format, ...$bindInline);
         return $this;
     }
 
