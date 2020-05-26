@@ -231,7 +231,7 @@ $select
 $select
     ->columns('id', 'name')
     ->from('foo')
-    ->union()
+    ->unionAll()
     ->columns('id', 'name')
     ->from('bar');
 ```
