@@ -164,6 +164,15 @@ $select
     ->orderBy('bar', 'baz');
 ```
 
+By default, results are ordered in ascending order (ASC).
+To sort in descending order, use the DESC keyword:
+
+```php
+// ORDER BY foo DESC
+$select
+    ->orderBy('foo DESC')
+```
+
 ### LIMIT, OFFSET, and Paging
 
 To set a `LIMIT` and `OFFSET`, use the `limit()` and `offset()` methods.
