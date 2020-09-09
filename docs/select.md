@@ -164,8 +164,8 @@ $select
     ->orderBy('bar', 'baz');
 ```
 
-By default, results are ordered in ascending order (ASC).
-To sort in descending order, use the DESC keyword:
+To sort in a particular order, add the relevant keyword. For example, to sort
+in descending order:
 
 ```php
 // ORDER BY foo DESC
