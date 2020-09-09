@@ -164,8 +164,8 @@ $select
     ->orderBy('bar', 'baz');
 ```
 
-To sort in a particular order, add the relevant keyword. For example, to sort
-in descending order:
+By default, results are ordered in ascending order (ASC). To sort in a different
+order, add the revelant keyword. For example, to sort in descending order:
 
 ```php
 // ORDER BY foo DESC
