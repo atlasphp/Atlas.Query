@@ -2,6 +2,7 @@
 namespace Atlas\Query;
 
 use PDO;
+use ReflectionClass;
 
 abstract class QueryTest extends \PHPUnit\Framework\TestCase
 {
@@ -12,6 +13,12 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        $rc = new ReflectionClass(Bind::CLASS);
+        $rp = $rc->getProperty('inlineCount');
+        $rp->setAccessible(true);
+        $rp->setValue(0);
+
         $this->connection = new FakeConnection('fake');
         $this->queryFactory = new QueryFactory();
         $this->query = $this->newQuery();

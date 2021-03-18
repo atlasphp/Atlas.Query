@@ -25,7 +25,8 @@ class Insert extends Query
 
     public function getStatement() : string
     {
-        return 'INSERT'
+        return $this->with->build()
+            . 'INSERT'
             . $this->flags->build()
             . " INTO {$this->table} "
             . $this->columns->build()

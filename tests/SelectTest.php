@@ -892,4 +892,55 @@ class SelectTest extends QueryTest
         $actual = $this->query->getBindValues();
         $this->assertSame($expect, $actual);
     }
+
+    public function testWithCte()
+    {
+        $this->query
+            ->withCte('cte1', ['foo', 'bar'], 'SELECT * FROM baz')
+            ->withCte('cte2', [], 'SELECT dib, zim FROM gir')
+            ->columns('*')
+            ->from('cte1')
+            ->union()
+            ->columns('*')
+            ->from('cte2');
+
+        $actual = $this->query->getStatement();
+
+        $expect = '
+            WITH
+                <<cte1>> (<<foo>>, <<bar>>) AS (SELECT * FROM baz),
+                <<cte2>> AS (SELECT dib, zim FROM gir)
+            SELECT
+                *
+            FROM
+                cte1
+            UNION
+            SELECT
+                *
+            FROM
+                cte2
+        ';
+
+        $this->assertSameSql($expect, $actual);
+
+        $this->query->withRecursiveCte();
+
+        $actual = $this->query->getStatement();
+        $expect = '
+            WITH
+                <<cte1>> (<<foo>>, <<bar>>) AS (SELECT * FROM baz),
+                <<cte2>> AS (SELECT dib, zim FROM gir)
+            SELECT
+                *
+            FROM
+                cte1
+            UNION
+            SELECT
+                *
+            FROM
+                cte2
+        ';
+
+        $this->assertSameSql($expect, $actual);
+    }
 }

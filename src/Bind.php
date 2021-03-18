@@ -14,9 +14,14 @@ use PDO;
 
 class Bind
 {
+    static protected $inlineCount = 0;
+
     protected $values = [];
 
-    protected $inlineCount = 0;
+    public function merge(array $values) : void
+    {
+        $this->values += $values;
+    }
 
     public function value(string $key, $value, int $type = -1) : void
     {
@@ -63,6 +68,7 @@ class Bind
     public function inline($value, int $type = -1) : string
     {
         if ($value instanceof Select) {
+            $this->values += $value->getBindValues();
             return '(' . $value->getStatement() . ')';
         }
 
@@ -70,9 +76,7 @@ class Bind
             return $this->inlineArray($value, $type);
         }
 
-        $this->inlineCount ++;
-        $key = "__{$this->inlineCount}__";
-        $this->value($key, $value, $type);
+        $key = $this->inlineValue($value, $type);
         return ":{$key}";
     }
 
@@ -81,13 +85,20 @@ class Bind
         $keys = [];
 
         foreach ($array as $value) {
-            $this->inlineCount ++;
-            $key = "__{$this->inlineCount}__";
-            $this->value($key, $value, $type);
+            $key = $this->inlineValue($value, $type);
             $keys[] = ":{$key}";
         }
 
         return '(' . implode(', ', $keys) . ')';
+    }
+
+    protected function inlineValue($value, $type) : string
+    {
+        static::$inlineCount ++;
+        $key = '__' . static::$inlineCount . '__';
+        $this->value($key, $value, $type);
+
+        return $key;
     }
 
     public function sprintf(string $format, ...$values) : string

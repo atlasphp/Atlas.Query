@@ -28,7 +28,8 @@ class Update extends Query
 
     public function getStatement() : string
     {
-        return 'UPDATE'
+        return $this->with->build()
+            . 'UPDATE'
             . $this->flags->build()
             . ' ' . $this->table
             . $this->columns->build()

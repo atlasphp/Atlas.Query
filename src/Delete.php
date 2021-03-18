@@ -27,7 +27,8 @@ class Delete extends Query
 
     public function getStatement() : string
     {
-        return 'DELETE'
+        return $this->with->build()
+            . 'DELETE'
             . $this->flags->build()
             . ' FROM ' . $this->table
             . $this->where->build()

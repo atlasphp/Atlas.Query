@@ -22,6 +22,8 @@ abstract class Query
 
     protected $quoter;
 
+    protected $with;
+
     static public function new($arg, ...$args)
     {
         if ($arg instanceof Connection) {
@@ -99,6 +101,24 @@ abstract class Query
     public function resetFlags()
     {
         $this->flags = new Clause\Component\Flags();
+        return $this;
+    }
+
+    public function resetWith()
+    {
+        $this->with = new Clause\Component\With($this->bind, $this->quoter);
+        return $this;
+    }
+
+    public function withCte(string $cteName, array $cteColumns, $cteQuery)
+    {
+        $this->with->setCte($cteName, $cteColumns, $cteQuery);
+        return $this;
+    }
+
+    public function withRecursiveCte(bool $recursive = true)
+    {
+        $this->with->setRecursive($recursive);
         return $this;
     }
 

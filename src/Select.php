@@ -151,7 +151,8 @@ class Select extends Query
 
     protected function getCurrentStatement(string $suffix = '') : string
     {
-        $stm = 'SELECT'
+        $stm = $this->with->build()
+            . 'SELECT'
             . $this->flags->build()
             . $this->limit->buildEarly()
             . $this->columns->build()
