@@ -15,7 +15,7 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $rc = new ReflectionClass(Bind::CLASS);
-        $rp = $rc->getProperty('inlineCount');
+        $rp = $rc->getProperty('instanceCount');
         $rp->setAccessible(true);
         $rp->setValue(0);
 

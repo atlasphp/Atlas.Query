@@ -14,9 +14,19 @@ use PDO;
 
 class Bind
 {
-    static protected $inlineCount = 0;
+    static protected int $instanceCount = 0;
+
+    protected int $inlineCount = 0;
+
+    protected int $inlinePrefix = 0;
 
     protected array $values = [];
+
+    public function __construct()
+    {
+        static::$instanceCount ++;
+        $this->inlinePrefix = static::$instanceCount;
+    }
 
     public function merge(array $values) : void
     {
@@ -94,8 +104,8 @@ class Bind
 
     protected function inlineValue(mixed $value, int $type) : string
     {
-        static::$inlineCount ++;
-        $key = '__' . static::$inlineCount . '__';
+        $this->inlineCount ++;
+        $key = "_{$this->inlinePrefix}_{$this->inlineCount}_";
         $this->value($key, $value, $type);
 
         return $key;

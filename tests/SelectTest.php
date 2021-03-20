@@ -167,18 +167,18 @@ class SelectTest extends QueryTest
                     FROM
                         t2
                     WHERE
-                        foo = :__2__
+                        foo = :_1_2_
                 ) AS a2
             WHERE
-                a2.baz = :__1__
+                a2.baz = :_1_1_
         ';
 
         $actual = $this->query->getStatement();
         $this->assertSameSql($expect, $actual);
 
         $expect = [
-            '__1__' => ['dib', PDO::PARAM_STR],
-            '__2__' => ['bar', PDO::PARAM_STR]
+            '_1_1_' => ['dib', PDO::PARAM_STR],
+            '_1_2_' => ['bar', PDO::PARAM_STR]
         ];
 
         $actual = $this->query->getBindValues();
@@ -224,14 +224,14 @@ class SelectTest extends QueryTest
                 *
             FROM
                 t1
-            LEFT JOIN t2 ON t1.id = t2.id AND t1.foo = :__1__ AND t1.baz = :__2__
+            LEFT JOIN t2 ON t1.id = t2.id AND t1.foo = :_1_1_ AND t1.baz = :_1_2_
         ';
         $actual = $this->query->getStatement();
         $this->assertSameSql($expect, $actual);
 
         $expect = [
-            '__1__' => ['bar', PDO::PARAM_STR],
-            '__2__' => ['dib', PDO::PARAM_STR]
+            '_1_1_' => ['bar', PDO::PARAM_STR],
+            '_1_2_' => ['dib', PDO::PARAM_STR]
         ];
         $actual = $this->query->getBindValues();
         $this->assertSame($expect, $actual);
@@ -278,10 +278,10 @@ class SelectTest extends QueryTest
                         FROM
                             t2
                         WHERE
-                            foo = :__1__
+                            foo = :_1_1_
                     ) AS a3 ON t2.c1 = a3.c1
             WHERE
-                baz = :__2__
+                baz = :_1_2_
         ';
         $actual = $this->query->getStatement();
         $this->assertSameSql($expect, $actual);
@@ -348,7 +348,7 @@ class SelectTest extends QueryTest
             WHERE
                 c1 = c2
                 AND c3 = :c3
-                AND c4 IN(:__1__, :__2__, :__3__) AND c5 = :__4__
+                AND c4 IN(:_1_1_, :_1_2_, :_1_3_) AND c5 = :_1_4_
         ';
 
         $actual = $this->query->getStatement();
@@ -356,10 +356,10 @@ class SelectTest extends QueryTest
 
         $actual = $this->query->getBindValues();
         $expect = [
-            '__1__' => [null, PDO::PARAM_NULL],
-            '__2__' => [true, PDO::PARAM_BOOL],
-            '__3__' => [1, PDO::PARAM_INT],
-            '__4__' => [2, PDO::PARAM_INT],
+            '_1_1_' => [null, PDO::PARAM_NULL],
+            '_1_2_' => [true, PDO::PARAM_BOOL],
+            '_1_3_' => [1, PDO::PARAM_INT],
+            '_1_4_' => [2, PDO::PARAM_INT],
             'c3' => ['foo', PDO::PARAM_STR],
         ];
         $this->assertSame($expect, $actual);
@@ -377,7 +377,7 @@ class SelectTest extends QueryTest
             SELECT
                 *
             WHERE
-                c1 = :__1__
+                c1 = :_1_1_
                 OR c3 = :c3
         ';
 
@@ -386,7 +386,7 @@ class SelectTest extends QueryTest
 
         $actual = $this->query->getBindValues();
         $expect = [
-            '__1__' => ['bar', PDO::PARAM_STR],
+            '_1_1_' => ['bar', PDO::PARAM_STR],
             'c3' => ['foo', PDO::PARAM_STR]
         ];
         $this->assertSame($expect, $actual);
@@ -407,9 +407,9 @@ class SelectTest extends QueryTest
             SELECT
                 *
             WHERE
-                foo IN (:__1__, :__2__, :__3__)
+                foo IN (:_1_1_, :_1_2_, :_1_3_)
                 AND bar IS NULL
-                AND baz = :__4__
+                AND baz = :_1_4_
                 AND dib = NOW()
         ';
 
@@ -429,9 +429,9 @@ class SelectTest extends QueryTest
             SELECT
                 *
             WHERE
-                c1 BETWEEN :__1__ AND :__2__
-                AND c2 BETWEEN :__3__ AND :__4__
-                OR c3 BETWEEN :__5__ AND :__6__ UNLESS c4 BETWEEN :__7__ AND :__8__
+                c1 BETWEEN :_1_1_ AND :_1_2_
+                AND c2 BETWEEN :_1_3_ AND :_1_4_
+                OR c3 BETWEEN :_1_5_ AND :_1_6_ UNLESS c4 BETWEEN :_1_7_ AND :_1_8_
         ';
 
         $this->assertSameSql($expect, $actual->getStatement());
@@ -524,9 +524,9 @@ class SelectTest extends QueryTest
             SELECT
                 *
             HAVING
-                c1 BETWEEN :__1__ AND :__2__
-                AND c2 BETWEEN :__3__ AND :__4__
-                OR c3 BETWEEN :__5__ AND :__6__ UNLESS c4 BETWEEN :__7__ AND :__8__
+                c1 BETWEEN :_1_1_ AND :_1_2_
+                AND c2 BETWEEN :_1_3_ AND :_1_4_
+                OR c3 BETWEEN :_1_5_ AND :_1_6_ UNLESS c4 BETWEEN :_1_7_ AND :_1_8_
         ';
 
         $this->assertSameSql($expect, $actual->getStatement());
@@ -880,14 +880,14 @@ class SelectTest extends QueryTest
             FROM
                 t1
             WHERE
-                c2 BETWEEN :__1__ AND :__2__
+                c2 BETWEEN :_1_1_ AND :_1_2_
         ';
         $actual = $this->query->getStatement();
         $this->assertSameSql($expect, $actual);
 
         $expect = [
-            '__1__' => [6, PDO::PARAM_INT],
-            '__2__' => [9, PDO::PARAM_INT],
+            '_1_1_' => [6, PDO::PARAM_INT],
+            '_1_2_' => [9, PDO::PARAM_INT],
         ];
         $actual = $this->query->getBindValues();
         $this->assertSame($expect, $actual);
