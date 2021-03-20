@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Atlas\Query\Clause\Component;
 
 use Atlas\Query\Bind;
+use Atlas\Query\Select;
 
 class From extends Component
 {
@@ -23,18 +24,28 @@ class From extends Component
         $this->bind = $bind;
     }
 
-    public function table(string $ref) : void
+    public function table(string|Select $ref) : void
     {
+        if ($ref instanceof Select) {
+            $this->bind->merge($ref->getBindValues());
+            $ref = $ref->getStatement();
+        }
+
         $this->list[] = [$ref];
     }
 
     public function join(
         string $join,
         string $ref,
-        string $condition = '',
+        string|Select $condition = '',
         mixed ...$bindInline
     ) : void
     {
+        if ($condition instanceof Select) {
+            $this->bind->merge($condition->getBindValues());
+            $condition = $condition->getStatement();
+        }
+
         $condition = ltrim($condition);
 
         if (
@@ -74,9 +85,11 @@ class From extends Component
         }
 
         $from = [];
+
         foreach ($this->list as $list) {
             $from[] = array_shift($list) . $this->indent($list);
         }
+
         return PHP_EOL . 'FROM' . $this->indentCsv($from);
     }
 }

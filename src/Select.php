@@ -82,7 +82,7 @@ class Select extends Query
         return $this;
     }
 
-    public function from(string $ref) : static
+    public function from(string|Select $ref) : static
     {
         $this->from->table($ref);
         return $this;
@@ -91,7 +91,7 @@ class Select extends Query
     public function join(
         string $join,
         string $ref,
-        string $condition = '',
+        string|Select $condition = '',
         mixed ...$bindInline
     ) : static
     {
@@ -147,7 +147,7 @@ class Select extends Query
 
     public function subSelect() : Select
     {
-        return new Select($this->connection, $this->bind);
+        return new Select($this->connection, new Bind());
     }
 
     public function getStatement() : string

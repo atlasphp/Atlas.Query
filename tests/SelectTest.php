@@ -154,7 +154,6 @@ class SelectTest extends QueryTest
                 ->from('t2')
                 ->where('foo = ', 'bar')
                 ->as('a2')
-                ->getStatement()
             );
 
         $expect = '
@@ -167,7 +166,7 @@ class SelectTest extends QueryTest
                     FROM
                         t2
                     WHERE
-                        foo = :_1_2_
+                        foo = :_2_1_
                 ) AS a2
             WHERE
                 a2.baz = :_1_1_
@@ -178,7 +177,7 @@ class SelectTest extends QueryTest
 
         $expect = [
             '_1_1_' => ['dib', PDO::PARAM_STR],
-            '_1_2_' => ['bar', PDO::PARAM_STR]
+            '_2_1_' => ['bar', PDO::PARAM_STR]
         ];
 
         $actual = $this->query->getBindValues();
@@ -278,10 +277,10 @@ class SelectTest extends QueryTest
                         FROM
                             t2
                         WHERE
-                            foo = :_1_1_
+                            foo = :_2_1_
                     ) AS a3 ON t2.c1 = a3.c1
             WHERE
-                baz = :_1_2_
+                baz = :_1_1_
         ';
         $actual = $this->query->getStatement();
         $this->assertSameSql($expect, $actual);

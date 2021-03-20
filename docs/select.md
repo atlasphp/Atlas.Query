@@ -277,8 +277,7 @@ The returned object will be a new _Select_ that shares bound values with the
 parent _Select_.
 
 When you are done building the subselect, give it an alias using the `as()`
-method, and call `getStatement()` to render it into the desired condition or
-expression.
+method, and it can be used in the desired condition or expression.
 
 The following is a contrived example:
 
@@ -297,15 +296,10 @@ $select
             ->from('foo')
             ->where('id > ', $id)
             ->as('sub_alias')
-            ->getStatement()
         )
     )
     ->where('LENGTH(sub_alias.name) > ', $length);
 ```
-
-The above shows how the bound values are shared between the parent and the sub
-_Select_ objects. If you create a new _Select_ and try to use it as a subselect,
-the bound values will not be shared, and you may get unexpected results.
 
 Other examples include:
 
@@ -313,12 +307,11 @@ Other examples include:
 // joining on a subselect
 $select->join(
     'LEFT',
-    $select->subSelect()->...->as('sub_alias')->getStatement(),
+    $select->subSelect()->...->as('sub_alias'),
     'foo.id = sub_alias.id',
 );
 
-// binding a subselect inline; note that it does not need to be
-// converted to a string via getStatement()
+// binding a subselect inline
 $select->where(
     'foo IN ',
     $select->subSelect()->...
