@@ -15,11 +15,11 @@ use Atlas\Query\Quoter\Quoter;
 
 abstract class ModifyColumns extends Component
 {
-    protected $bind;
+    protected Bind $bind;
 
-    protected $list = [];
+    protected array $list = [];
 
-    protected $quoter;
+    protected Quoter $quoter;
 
     public function __construct(Bind $bind, Quoter $quoter)
     {
@@ -32,7 +32,7 @@ abstract class ModifyColumns extends Component
         return ! empty($this->list);
     }
 
-    public function hold(string $column, ...$value) : void
+    public function hold(string $column, mixed ...$value) : void
     {
         $this->list[$column] = ":{$column}";
         if (! empty($value)) {
@@ -40,7 +40,7 @@ abstract class ModifyColumns extends Component
         }
     }
 
-    public function raw(string $column, $value) : void
+    public function raw(string $column, mixed $value) : void
     {
         if ($value === null) {
             $value = 'NULL';

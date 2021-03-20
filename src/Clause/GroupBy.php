@@ -12,15 +12,15 @@ namespace Atlas\Query\Clause;
 
 trait GroupBy
 {
-    protected $groupBy;
+    protected Component\By $groupBy;
 
-    public function resetGroupBy()
+    public function resetGroupBy() : static
     {
         $this->groupBy = new Component\By('GROUP');
         return $this;
     }
 
-    public function groupBy(string $expr, string ...$exprs)
+    public function groupBy(string $expr, string ...$exprs) : static
     {
         $this->groupBy->expr($expr, ...$exprs);
         return $this;

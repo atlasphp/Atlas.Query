@@ -16,14 +16,14 @@ class Bind
 {
     static protected $inlineCount = 0;
 
-    protected $values = [];
+    protected array $values = [];
 
     public function merge(array $values) : void
     {
         $this->values += $values;
     }
 
-    public function value(string $key, $value, int $type = -1) : void
+    public function value(string $key, mixed $value, int $type = -1) : void
     {
         if ($type === -1) {
             $type = $this->getType($value);
@@ -31,7 +31,7 @@ class Bind
         $this->values[$key] = [$value, $type];
     }
 
-    protected function getType($value)
+    protected function getType(mixed $value) : int
     {
         if (is_null($value)) {
             return PDO::PARAM_NULL;
@@ -60,12 +60,12 @@ class Bind
         return $this->values;
     }
 
-    public function remove(string $key)
+    public function remove(string $key) : void
     {
         unset($this->values[$key]);
     }
 
-    public function inline($value, int $type = -1) : string
+    public function inline(mixed $value, int $type = -1) : string
     {
         if ($value instanceof Select) {
             $this->values += $value->getBindValues();
@@ -92,7 +92,7 @@ class Bind
         return '(' . implode(', ', $keys) . ')';
     }
 
-    protected function inlineValue($value, $type) : string
+    protected function inlineValue(mixed $value, int $type) : string
     {
         static::$inlineCount ++;
         $key = '__' . static::$inlineCount . '__';
@@ -101,7 +101,7 @@ class Bind
         return $key;
     }
 
-    public function sprintf(string $format, ...$values) : string
+    public function sprintf(string $format, mixed ...$values) : string
     {
         $tokens = [];
 

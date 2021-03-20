@@ -12,15 +12,15 @@ namespace Atlas\Query\Clause;
 
 trait OrderBy
 {
-    protected $orderBy;
+    protected Component\By $orderBy;
 
-    public function orderBy(string $expr, string ...$exprs)
+    public function orderBy(string $expr, string ...$exprs) : static
     {
         $this->orderBy->expr($expr, ...$exprs);
         return $this;
     }
 
-    public function resetOrderBy()
+    public function resetOrderBy() : static
     {
         $this->orderBy = new Component\By('ORDER');
         return $this;

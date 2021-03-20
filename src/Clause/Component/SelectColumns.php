@@ -12,7 +12,7 @@ namespace Atlas\Query\Clause\Component;
 
 class SelectColumns extends Component
 {
-    protected $list = [];
+    protected array $list = [];
 
     public function add(string $expr, string ...$exprs) : void
     {

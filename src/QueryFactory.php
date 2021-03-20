@@ -14,7 +14,7 @@ use Atlas\Pdo\Connection;
 
 class QueryFactory
 {
-    protected $selectClass;
+    protected string $selectClass;
 
     public function __construct($selectClass = Select::CLASS)
     {

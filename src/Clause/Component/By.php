@@ -12,9 +12,9 @@ namespace Atlas\Query\Clause\Component;
 
 class By extends Component
 {
-    protected $type;
+    protected string $type;
 
-    protected $list = [];
+    protected array $list = [];
 
     public function __construct(string $type)
     {

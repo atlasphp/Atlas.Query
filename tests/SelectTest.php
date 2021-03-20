@@ -893,11 +893,11 @@ class SelectTest extends QueryTest
         $this->assertSame($expect, $actual);
     }
 
-    public function testWithCte()
+    public function testwith()
     {
         $this->query
-            ->withCte('cte1', ['foo', 'bar'], 'SELECT * FROM baz')
-            ->withCte('cte2', [], 'SELECT dib, zim FROM gir')
+            ->with('cte1', ['foo', 'bar'], 'SELECT * FROM baz')
+            ->with('cte2', [], 'SELECT dib, zim FROM gir')
             ->columns('*')
             ->from('cte1')
             ->union()
@@ -923,7 +923,7 @@ class SelectTest extends QueryTest
 
         $this->assertSameSql($expect, $actual);
 
-        $this->query->withRecursiveCte();
+        $this->query->withRecursive();
 
         $actual = $this->query->getStatement();
         $expect = '

@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
+use Atlas\Query\Clause\Component\From;
 use BadMethodCallException;
 use Generator;
 
@@ -39,10 +40,10 @@ class Select extends Query
     use Clause\OrderBy;
     use Clause\Limit;
 
-    protected $as;
-    protected $from;
-    protected $unions = [];
-    protected $forUpdate = false;
+    protected ?string $as;
+    protected From $from;
+    protected array $unions = [];
+    protected bool $forUpdate = false;
 
     public function __clone()
     {
@@ -55,7 +56,7 @@ class Select extends Query
         }
     }
 
-    public function __call(string $method, array $params)
+    public function __call(string $method, array $params) : mixed
     {
         $prefix = substr($method, 0, 5);
         if ($prefix == 'fetch' || $prefix == 'yield') {
@@ -69,25 +70,30 @@ class Select extends Query
         throw new BadMethodCallException($method);
     }
 
-    public function forUpdate(bool $enable = true)
+    public function forUpdate(bool $enable = true) : static
     {
         $this->forUpdate = $enable;
         return $this;
     }
 
-    public function distinct(bool $enable = true)
+    public function distinct(bool $enable = true) : static
     {
         $this->flags->set('DISTINCT', $enable);
         return $this;
     }
 
-    public function from(string $ref)
+    public function from(string $ref) : static
     {
         $this->from->table($ref);
         return $this;
     }
 
-    public function join(string $join, string $ref, string $condition = '', ...$bindInline)
+    public function join(
+        string $join,
+        string $ref,
+        string $condition = '',
+        mixed ...$bindInline
+    ) : static
     {
         $join = strtoupper(trim($join));
         if (substr($join, -4) != 'JOIN') {
@@ -97,13 +103,13 @@ class Select extends Query
         return $this;
     }
 
-    public function catJoin(string $expr, ...$bindInline)
+    public function catJoin(string $expr, ...$bindInline) : static
     {
         $this->from->catJoin($expr, ...$bindInline);
         return $this;
     }
 
-    public function union()
+    public function union() : static
     {
         $this->unions[] = $this->getCurrentStatement(
             PHP_EOL . 'UNION' . PHP_EOL
@@ -112,7 +118,7 @@ class Select extends Query
         return $this;
     }
 
-    public function unionAll()
+    public function unionAll() : static
     {
         $this->unions[] = $this->getCurrentStatement(
             PHP_EOL . 'UNION ALL' . PHP_EOL
@@ -121,19 +127,19 @@ class Select extends Query
         return $this;
     }
 
-    public function as(string $as)
+    public function as(string $as) : static
     {
         $this->as = $as;
         return $this;
     }
 
-    public function resetFrom()
+    public function resetFrom() : static
     {
         $this->from = new Clause\Component\From($this->bind);
         return $this;
     }
 
-    public function resetAs()
+    public function resetAs() : static
     {
         $this->as = null;
         return $this;

@@ -15,9 +15,9 @@ class Insert extends Query
     use Clause\ModifyColumns;
     use Clause\Returning;
 
-    protected $table = '';
+    protected string $table = '';
 
-    public function into(string $table)
+    public function into(string $table) : static
     {
         $this->table = $table;
         return $this;
@@ -33,7 +33,7 @@ class Insert extends Query
             . $this->returning->build();
     }
 
-    public function getLastInsertId(string $name = null)
+    public function getLastInsertId(string $name = null) : string
     {
         return $this->connection->lastInsertId($name);
     }

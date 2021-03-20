@@ -17,9 +17,9 @@ class Delete extends Query
     use Clause\Limit;
     use Clause\Returning;
 
-    protected $table = '';
+    protected string $table = '';
 
-    public function from(string $table)
+    public function from(string $table) : static
     {
         $this->table = $table;
         return $this;

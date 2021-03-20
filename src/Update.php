@@ -18,9 +18,9 @@ class Update extends Query
     use Clause\Limit;
     use Clause\Returning;
 
-    protected $table;
+    protected string $table;
 
-    public function table(string $table)
+    public function table(string $table) : static
     {
         $this->table = $table;
         return $this;

@@ -12,13 +12,13 @@ namespace Atlas\Query\Clause\Component;
 
 class Limit
 {
-    protected $limit = 0;
+    protected int $limit = 0;
 
-    protected $offset = 0;
+    protected int $offset = 0;
 
-    protected $page = 0;
+    protected int $page = 0;
 
-    protected $perPage = 10;
+    protected int $perPage = 10;
 
     public function setLimit(int $limit) : void
     {

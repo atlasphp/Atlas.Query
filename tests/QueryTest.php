@@ -10,7 +10,7 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
     protected $queryFactory;
     protected $query;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 

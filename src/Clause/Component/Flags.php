@@ -12,7 +12,7 @@ namespace Atlas\Query\Clause\Component;
 
 class Flags extends Component
 {
-    protected $list = [];
+    protected array $list = [];
 
     public function set(string $flag, bool $enable = true) : void
     {

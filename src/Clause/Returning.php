@@ -12,15 +12,15 @@ namespace Atlas\Query\Clause;
 
 trait Returning
 {
-    protected $returning;
+    protected Component\ReturnColumns $returning;
 
-    public function returning(string $expr, string ...$exprs)
+    public function returning(string $expr, string ...$exprs) : static
     {
         $this->returning->add($expr, ...$exprs);
         return $this;
     }
 
-    public function resetReturning()
+    public function resetReturning() : static
     {
         $this->returning = new Component\ReturnColumns();
         return $this;

@@ -12,21 +12,21 @@ namespace Atlas\Query\Clause;
 
 trait SelectColumns
 {
-    protected $columns;
+    protected Component\SelectColumns $columns;
 
-    public function columns(string $expr, string ...$exprs)
+    public function columns(string $expr, string ...$exprs) : static
     {
         $this->columns->add($expr, ...$exprs);
         return $this;
     }
 
-    public function resetColumns()
+    public function resetColumns() : static
     {
         $this->columns = new Component\SelectColumns();
         return $this;
     }
 
-    public function hasColumns()
+    public function hasColumns() : bool
     {
         return $this->columns->hasAny();
     }

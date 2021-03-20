@@ -12,15 +12,15 @@ namespace Atlas\Query\Clause;
 
 trait ModifyColumns
 {
-    protected $columns;
+    protected Component\ModifyColumns $columns;
 
-    public function column(string $column, ...$value)
+    public function column(string $column, mixed ...$value) : static
     {
         $this->columns->hold($column, ...$value);
         return $this;
     }
 
-    public function columns(array $columns)
+    public function columns(array $columns) : static
     {
         foreach ($columns as $key => $val) {
             if (is_int($key)) {
@@ -32,7 +32,7 @@ trait ModifyColumns
         return $this;
     }
 
-    public function set(string $column, $value)
+    public function set(string $column, mixed $value) : static
     {
         $this->columns->raw($column, $value);
         return $this;
@@ -43,7 +43,7 @@ trait ModifyColumns
         return $this->columns->hasAny();
     }
 
-    public function resetColumns()
+    public function resetColumns() : static
     {
         $type = strrchr(static::CLASS, '\\') . 'Columns';
         $class = __NAMESPACE__ . '\\Component' . $type;

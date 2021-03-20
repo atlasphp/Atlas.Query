@@ -12,57 +12,57 @@ namespace Atlas\Query\Clause;
 
 trait Having
 {
-    protected $having;
+    protected Component\Conditions $having;
 
-    public function having(string $condition, ...$bindInline)
+    public function having(string $condition, mixed ...$bindInline) : static
     {
         $this->having->and($condition, ...$bindInline);
         return $this;
     }
 
-    public function havingSprintf(string $format, ...$bindInline)
+    public function havingSprintf(string $format, mixed ...$bindInline) : static
     {
         $this->having->andSprintf($format, ...$bindInline);
         return $this;
     }
 
-    public function andHaving(string $condition, ...$bindInline)
+    public function andHaving(string $condition, mixed ...$bindInline) : static
     {
         $this->having->and($condition, ...$bindInline);
         return $this;
     }
 
-    public function andHavingSprintf(string $format, ...$bindInline)
+    public function andHavingSprintf(string $format, mixed ...$bindInline) : static
     {
         $this->having->andSprintf($format, ...$bindInline);
         return $this;
     }
 
-    public function orHaving(string $condition, ...$bindInline)
+    public function orHaving(string $condition, mixed ...$bindInline) : static
     {
         $this->having->or($condition, ...$bindInline);
         return $this;
     }
 
-    public function orHavingSprintf(string $format, ...$bindInline)
+    public function orHavingSprintf(string $format, mixed ...$bindInline) : static
     {
         $this->having->orSprintf($format, ...$bindInline);
         return $this;
     }
 
-    public function catHaving(string $condition, ...$bindInline)
+    public function catHaving(string $condition, mixed ...$bindInline) : static
     {
         $this->having->cat($condition, ...$bindInline);
         return $this;
     }
 
-    public function catHavingSprintf(string $format, ...$bindInline)
+    public function catHavingSprintf(string $format, mixed ...$bindInline) : static
     {
         $this->having->catSprintf($format, ...$bindInline);
         return $this;
     }
 
-    public function resetHaving()
+    public function resetHaving() : static
     {
         $this->having = new Component\Conditions($this->bind, 'HAVING');
         return $this;

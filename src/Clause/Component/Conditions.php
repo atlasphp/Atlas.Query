@@ -14,11 +14,11 @@ use Atlas\Query\Bind;
 
 class Conditions extends Component
 {
-    protected $bind;
+    protected Bind $bind;
 
-    protected $type;
+    protected string $type;
 
-    protected $list = [];
+    protected array $list = [];
 
     public function __construct(Bind $bind, string $type)
     {
@@ -26,27 +26,27 @@ class Conditions extends Component
         $this->type = $type;
     }
 
-    public function and(string $expr, ...$bindInline) : void
+    public function and(string $expr, mixed ...$bindInline) : void
     {
         $this->append('AND ', $expr, $bindInline);
     }
 
-    public function andSprintf(string $format, ...$bindInline) : void
+    public function andSprintf(string $format, mixed ...$bindInline) : void
     {
         $this->and($this->bind->sprintf($format, ...$bindInline));
     }
 
-    public function or(string $expr, ...$bindInline) : void
+    public function or(string $expr, mixed ...$bindInline) : void
     {
         $this->append('OR ', $expr, $bindInline);
     }
 
-    public function orSprintf(string $format, ...$bindInline) : void
+    public function orSprintf(string $format, mixed ...$bindInline) : void
     {
         $this->or($this->bind->sprintf($format, ...$bindInline));
     }
 
-    public function cat(string $expr, ...$bindInline) : void
+    public function cat(string $expr, mixed ...$bindInline) : void
     {
         if (! empty($bindInline)) {
             $expr .= $this->bind->inline(...$bindInline);
@@ -62,12 +62,16 @@ class Conditions extends Component
         $this->list[$key] .= $expr;
     }
 
-    public function catSprintf(string $format, ...$bindInline) : void
+    public function catSprintf(string $format, mixed ...$bindInline) : void
     {
         $this->cat($this->bind->sprintf($format, ...$bindInline));
     }
 
-    protected function append(string $andor, string $expr, array $bindInline) : void
+    protected function append(
+        string $andor,
+        string $expr,
+        array $bindInline
+    ) : void
     {
         if (! empty($bindInline)) {
             $expr .= $this->bind->inline(...$bindInline);

@@ -14,9 +14,9 @@ use Atlas\Query\Bind;
 
 class From extends Component
 {
-    protected $bind;
+    protected Bind $bind;
 
-    protected $list = [];
+    protected array $list = [];
 
     public function __construct(Bind $bind)
     {
@@ -28,7 +28,12 @@ class From extends Component
         $this->list[] = [$ref];
     }
 
-    public function join(string $join, string $ref, string $condition = '', ...$bindInline) : void
+    public function join(
+        string $join,
+        string $ref,
+        string $condition = '',
+        mixed ...$bindInline
+    ) : void
     {
         $condition = ltrim($condition);
 
@@ -49,7 +54,7 @@ class From extends Component
         $this->list[$end][] = "    {$join} {$ref} {$condition}";
     }
 
-    public function catJoin(string $expr, ...$bindInline)
+    public function catJoin(string $expr, mixed ...$bindInline) : void
     {
         if (! empty($bindInline)) {
             $expr .= $this->bind->inline(...$bindInline);

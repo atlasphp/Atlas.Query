@@ -15,11 +15,11 @@ use Atlas\Query\Quoter\Quoter;
 
 class With extends Component
 {
-    protected $recursive = false;
+    protected bool $recursive = false;
 
-    protected $ctes = [];
+    protected array $ctes = [];
 
-    protected $quoter;
+    protected Quoter $quoter;
 
     public function __construct(Bind $bind, Quoter $quoter)
     {
@@ -27,7 +27,7 @@ class With extends Component
         $this->quoter = $quoter;
     }
 
-    public function setCte(string $name, array $columns, $query) : void
+    public function setCte(string $name, array $columns, mixed $query) : void
     {
         $this->ctes[$name] = [$columns, $query];
     }
