@@ -921,12 +921,24 @@ class SelectTest extends QueryTest
         ';
 
         $this->assertSameSql($expect, $actual);
+    }
 
-        $this->query->withRecursive();
+    public function testWithRecursive()
+    {
+        $this->query
+            ->withRecursive()
+            ->with('cte1', ['foo', 'bar'], 'SELECT * FROM baz')
+            ->with('cte2', [], 'SELECT dib, zim FROM gir')
+            ->columns('*')
+            ->from('cte1')
+            ->union()
+            ->columns('*')
+            ->from('cte2');
 
         $actual = $this->query->getStatement();
+
         $expect = '
-            WITH
+            WITH RECURSIVE
                 <<cte1>> (<<foo>>, <<bar>>) AS (SELECT * FROM baz),
                 <<cte2>> AS (SELECT dib, zim FROM gir)
             SELECT
