@@ -103,7 +103,7 @@ class Select extends Query
         return $this;
     }
 
-    public function catJoin(string $expr, ...$bindInline) : static
+    public function catJoin(string $expr, mixed ...$bindInline) : static
     {
         $this->from->catJoin($expr, ...$bindInline);
         return $this;

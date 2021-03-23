@@ -28,7 +28,7 @@ abstract class Query
 
     protected With $with;
 
-    static public function new($arg, ...$args) : static
+    static public function new(mixed $arg, mixed ...$args) : static
     {
         if ($arg instanceof Connection) {
             $connection = $arg;
@@ -60,7 +60,7 @@ abstract class Query
         );
     }
 
-    public function bindInline($value, int $type = -1) : string
+    public function bindInline(mixed $value, int $type = -1) : string
     {
         return $this->bind->inline($value, $type);
     }
@@ -70,7 +70,7 @@ abstract class Query
         return $this->bind->sprintf($format, ...$values);
     }
 
-    public function bindValue(string $key, $value, int $type = -1) : static
+    public function bindValue(string $key, mixed $value, int $type = -1) : static
     {
         $this->bind->value($key, $value, $type);
         return $this;

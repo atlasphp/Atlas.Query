@@ -35,7 +35,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~9.0",
-        "pds/skeleton": "~1.0"
+        "pds/skeleton": "~1.0",
+        "phpstan/phpstan": "^0.12.82"
     },
     "autoload": {
         "psr-4": {
@@ -46,5 +47,9 @@
         "psr-4": {
             "Atlas\\Query\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "stan": "./vendor/bin/phpstan analyze -c phpstan.neon src"
     }
 }

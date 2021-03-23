@@ -16,9 +16,11 @@ use Atlas\Query\Quoter\Quoter;
 
 class With extends Component
 {
-    protected bool $recursive = false;
+    protected Bind $bind;
 
     protected array $ctes = [];
+
+    protected bool $recursive = false;
 
     protected Quoter $quoter;
 

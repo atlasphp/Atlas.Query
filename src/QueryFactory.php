@@ -16,7 +16,7 @@ class QueryFactory
 {
     protected string $selectClass;
 
-    public function __construct($selectClass = Select::CLASS)
+    public function __construct(string $selectClass = Select::CLASS)
     {
         $this->selectClass = $selectClass;
     }
