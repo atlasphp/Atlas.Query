@@ -90,8 +90,8 @@ class Select extends Query
 
     public function join(
         string $join,
-        string $ref,
-        string|Select $condition = '',
+        string|Select $ref,
+        string $condition = '',
         mixed ...$bindInline
     ) : static
     {

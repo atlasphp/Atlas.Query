@@ -263,7 +263,7 @@ class SelectTest extends QueryTest
 
         $this->query->columns('*');
         $this->query->from('t1');
-        $this->query->join('left', $sub->getStatement(), 't2.c1 = a3.c1');
+        $this->query->join('left', $sub, 't2.c1 = a3.c1');
         $this->query->where('baz = ', 'dib');
 
         $expect = '
@@ -892,7 +892,7 @@ class SelectTest extends QueryTest
         $this->assertSame($expect, $actual);
     }
 
-    public function testwith()
+    public function testWith()
     {
         $this->query
             ->with('cte1', ['foo', 'bar'], 'SELECT * FROM baz')
@@ -907,8 +907,12 @@ class SelectTest extends QueryTest
 
         $expect = '
             WITH
-                <<cte1>> (<<foo>>, <<bar>>) AS (SELECT * FROM baz),
-                <<cte2>> AS (SELECT dib, zim FROM gir)
+                <<cte1>> (<<foo>>, <<bar>>) AS (
+                    SELECT * FROM baz
+                ),
+                <<cte2>> AS (
+                    SELECT dib, zim FROM gir
+                )
             SELECT
                 *
             FROM
@@ -921,6 +925,78 @@ class SelectTest extends QueryTest
         ';
 
         $this->assertSameSql($expect, $actual);
+    }
+
+    public function testWithQueryObject()
+    {
+        $cte1 = $this->newQuery()
+            ->columns('*')
+            ->from('baz')
+            ->where('c1 = ', 'v1');
+
+        $cte2 = $this->newQuery()
+            ->columns('dib', 'zim')
+            ->from('gir')
+            ->where('c2 = ', 'v2');
+
+
+        $this->query
+            ->with('cte1', ['foo', 'bar'], $cte1)
+            ->with('cte2', [], $cte2)
+            ->columns('*')
+            ->from('cte1')
+            ->union()
+            ->columns('*')
+            ->from('cte2');
+
+        $actual = $this->query->getStatement();
+
+        $expect = '
+        WITH
+            <<cte1>> (<<foo>>, <<bar>>) AS (
+                SELECT
+                *
+                FROM
+                    baz
+                WHERE
+                    c1 = :_2_1_
+            ),
+            <<cte2>> AS (
+                SELECT
+                    dib,
+                    zim
+                FROM
+                    gir
+                WHERE
+                    c2 = :_3_1_
+            )
+        SELECT
+            *
+        FROM
+            cte1
+        UNION
+        SELECT
+            *
+        FROM
+            cte2
+        ';
+
+        $this->assertSameSql($expect, $actual);
+
+        $expect = [
+            '_2_1_' => [
+                0 => 'v1',
+                1 => 2,
+            ],
+            '_3_1_' =>
+            [
+                0 => 'v2',
+                1 => 2,
+            ],
+        ];
+
+        $actual = $this->query->getBindValues();
+        $this->assertSame($expect, $actual);
     }
 
     public function testWithRecursive()
@@ -939,8 +1015,12 @@ class SelectTest extends QueryTest
 
         $expect = '
             WITH RECURSIVE
-                <<cte1>> (<<foo>>, <<bar>>) AS (SELECT * FROM baz),
-                <<cte2>> AS (SELECT dib, zim FROM gir)
+                <<cte1>> (<<foo>>, <<bar>>) AS (
+                    SELECT * FROM baz
+                    ),
+                <<cte2>> AS (
+                    SELECT dib, zim FROM gir
+                )
             SELECT
                 *
             FROM

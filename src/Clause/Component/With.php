@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Atlas\Query\Clause\Component;
 
 use Atlas\Query\Bind;
+use Atlas\Query\Query;
 use Atlas\Query\Quoter\Quoter;
 
 class With extends Component
@@ -55,7 +56,7 @@ class With extends Component
             . PHP_EOL;
     }
 
-    protected function buildCte(string $name, array $columns, $query) : string
+    protected function buildCte(string $name, array $columns, string|Query $query) : string
     {
         $sql = $this->quoter->quoteIdentifier($name);
 
@@ -72,7 +73,7 @@ class With extends Component
             $query = $query->getStatement();
         }
 
-        $sql .= " AS ($query)";
+        $sql .= " AS (" . PHP_EOL . "    {$query}" . PHP_EOL . ")";
 
         return $sql;
     }

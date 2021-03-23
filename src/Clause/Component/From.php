@@ -36,14 +36,14 @@ class From extends Component
 
     public function join(
         string $join,
-        string $ref,
-        string|Select $condition = '',
+        string|Select $ref,
+        string $condition = '',
         mixed ...$bindInline
     ) : void
     {
-        if ($condition instanceof Select) {
-            $this->bind->merge($condition->getBindValues());
-            $condition = $condition->getStatement();
+        if ($ref instanceof Select) {
+            $this->bind->merge($ref->getBindValues());
+            $ref = $ref->getStatement();
         }
 
         $condition = ltrim($condition);
