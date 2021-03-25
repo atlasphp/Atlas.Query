@@ -147,7 +147,7 @@ class Select extends Query
 
     public function subSelect() : Select
     {
-        return new Select($this->connection, new Bind());
+        return new Select($this->connection, $this->quoter);
     }
 
     public function getStatement() : string

@@ -34,8 +34,8 @@
         "atlas/pdo": "2.x-dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "~9.0",
         "pds/skeleton": "~1.0",
+        "phpunit/phpunit": "~9.0",
         "phpstan/phpstan": "^0.12.82"
     },
     "autoload": {

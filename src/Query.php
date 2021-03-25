@@ -20,11 +20,7 @@ abstract class Query
 {
     protected Bind $bind;
 
-    protected Connection $connection;
-
     protected Flags $flags;
-
-    protected Quoter $quoter;
 
     protected With $with;
 
@@ -36,19 +32,18 @@ abstract class Query
             $connection = Connection::new($arg, ...$args);
         }
 
-        return new static($connection, new Bind());
+        $quoter = 'Atlas\\Query\\Quoter\\'
+            . ucfirst($connection->getDriverName())
+            . 'Quoter';
+
+        return new static($connection, new $quoter());
     }
 
-    public function __construct(Connection $connection, Bind $bind)
-    {
-        $this->connection = $connection;
-        $this->bind = $bind;
-
-        $quoter = 'Atlas\\Query\\Quoter\\'
-            . ucfirst($this->connection->getDriverName())
-            . 'Quoter';
-        $this->quoter = new $quoter();
-
+    public function __construct(
+        protected Connection $connection,
+        protected Quoter $quoter
+    ) {
+        $this->bind = new Bind();
         $this->reset();
     }
 

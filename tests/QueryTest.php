@@ -7,8 +7,9 @@ use ReflectionClass;
 abstract class QueryTest extends \PHPUnit\Framework\TestCase
 {
     protected $driver = '';
-    protected $queryFactory;
     protected $query;
+    protected $connection;
+    protected $quoter;
 
     protected function setUp() : void
     {
@@ -20,7 +21,8 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
         $rp->setValue(0);
 
         $this->connection = new FakeConnection('fake');
-        $this->queryFactory = new QueryFactory();
+        $this->quoter = new Quoter\FakeQuoter();
+
         $this->query = $this->newQuery();
     }
 
@@ -37,12 +39,11 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
 
     protected function newQuery()
     {
-        $method = 'new' . substr(
-            get_class($this),
-            strrpos(get_class($this), '\\') + 1,
-            -4
+        $class = substr(get_class($this), 0, -4);
+        return new $class(
+            $this->connection,
+            $this->quoter
         );
-        return $this->queryFactory->$method($this->connection);
     }
 
     protected function assertSameSql($expect, $actual)

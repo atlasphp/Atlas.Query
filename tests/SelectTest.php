@@ -763,7 +763,7 @@ class SelectTest extends QueryTest
 
     public function test__clone()
     {
-        $query = new FakeSelect($this->connection, $this->queryFactory->newBind());
+        $query = new FakeSelect($this->connection, $this->quoter);
         $clone = clone $query;
 
         $this->assertSame($query->bind, $clone->bind);
