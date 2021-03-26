@@ -18,12 +18,6 @@ use PDOStatement;
 
 abstract class Query
 {
-    protected Bind $bind;
-
-    protected Flags $flags;
-
-    protected With $with;
-
     static public function new(mixed $arg, mixed ...$args) : static
     {
         if ($arg instanceof Connection) {
@@ -38,6 +32,12 @@ abstract class Query
 
         return new static($connection, new $quoter());
     }
+
+    protected Bind $bind;
+
+    protected Flags $flags;
+
+    protected With $with;
 
     public function __construct(
         protected Connection $connection,
