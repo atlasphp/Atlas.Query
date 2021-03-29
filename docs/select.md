@@ -239,7 +239,7 @@ $select
     ->forUpdate();
 ```
 
-Each of those methods take an option boolean parameter to enable (`true`) or
+Each of those methods take an optional boolean parameter to enable (`true`) or
 disable (`false`) the flag.
 
 You can set flags recognized by your database server using the `setFlag()`
@@ -296,6 +296,7 @@ find the total number of rows to be paginated over).
 - `resetOrderBy()` removes all ORDER BY expressions.
 - `resetLimit()` removes all LIMIT, OFFSET, and paging values.
 - `resetFlags()` removes all flags.
+- `resetWith()` removes the WITH clause.
 
 Resetting only works on the current SELECT being built; it has no effect on
 queries that are already part of UNION.

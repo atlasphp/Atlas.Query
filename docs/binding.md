@@ -118,7 +118,7 @@ $select
 
 These too will automatically recognize strings, nulls, integers, and floats,
 and set the approporate PDO parameter type. If you want to explicitly bind the
-value as some other type, pass an option third parameter to `bindValue()`:
+value as some other type, pass an optional third parameter to `bindValue()`:
 
 ```php
 $select
