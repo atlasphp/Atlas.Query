@@ -1,3 +1,4 @@
+
 # SELECT
 
 ## Building The Query
@@ -146,7 +147,7 @@ There is an additional `whereEquals()` convenience method that adds a series of
 
 Given an array value, the condition will be `IN ()`. Given a null value, the
 condition will be `IS NULL`. For all other values, the condition will be `=`. If
-you pass a key without a value, that key will be used as a raw unescaped
+you pass a value without a key, that value will be used as a raw unescaped
 condition.
 
 For example:
@@ -307,11 +308,8 @@ If you want create a subselect, call the `subSelect()` method:
 $subSelect = $select->subSelect();
 ```
 
-The returned object will be a new _Select_ that shares bound values with the
-parent _Select_.
-
 When you are done building the subselect, give it an alias using the `as()`
-method, and it can be used in the desired condition or expression.
+method; the object itself can be used in the desired condition or expression.
 
 The following is a contrived example:
 
@@ -320,8 +318,8 @@ The following is a contrived example:
 //     SELECT id, name
 //     FROM foo
 //     WHERE id > :_1_1_
-// ) AS subfoo
-// WHERE LENGTH(subfoo.name) > :_1_2_
+// ) AS sub_alias
+// WHERE LENGTH(sub_alias.name) > :_1_2_
 $select
     ->columns('*')
     ->from(
