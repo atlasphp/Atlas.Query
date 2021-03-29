@@ -3,15 +3,10 @@
 ## Installation
 
 This package is installable and autoloadable via [Composer](https://getcomposer.org/)
-as [atlas/query](https://packagist.org/packages/atlas/query). Add the following lines
-to your `composer.json` file, then call `composer update`.
+as [atlas/query](https://packagist.org/packages/atlas/query).
 
-```json
-{
-    "require": {
-        "atlas/query": "~1.0"
-    }
-}
+```sh
+$ composer require atlas/query ^2.0
 ```
 
 ## Instantiation
@@ -20,7 +15,6 @@ Given an existing Connection instance from [Atlas.Pdo][], you can create a query
 using the static `new()` method of the query type:
 
 ```php
-<?php
 use Atlas\Pdo\Connection;
 use Atlas\Query\Select;
 use Atlas\Query\Insert;

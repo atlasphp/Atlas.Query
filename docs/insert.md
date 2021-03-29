@@ -2,6 +2,40 @@
 
 ## Building The Query
 
+### WITH
+
+To add one or more Common Table Expressions (CTEs), use the `with()` method:
+
+```php
+// WITH cte_1 (foo, bar, baz) AS (SELECT ...)
+$insert->with('cte_2', ['foo', 'bar', 'baz'], "SELECT ...");
+
+// WITH cte_2 AS (SELECT ...)
+$insert->with('cte_2', [], "SELECT ...")
+```
+
+To enable or disable recursive CTEs, call `withRecursive()` method:
+
+```php
+// enable
+$insert
+    ->withRecursive()
+    ->with(...);
+
+// disable
+$insert->withRecursive(false);
+```
+
+You can use any kind of query as a CTE; further, you can pass a query object
+instead of a query string as the final `with()` argument:
+
+```php
+$cteQuery = Select::new($connection);
+$cteQuery->...;
+
+$insert->with('cte_2', [], $cteQuery);
+```
+
 ### Into
 
 Use the `into()` method to specify the table to insert into.

@@ -2,6 +2,40 @@
 
 ## Building The Query
 
+### WITH
+
+To add one or more Common Table Expressions (CTEs), use the `with()` method:
+
+```php
+// WITH cte_1 (foo, bar, baz) AS (SELECT ...)
+$select->with('cte_2', ['foo', 'bar', 'baz'], "SELECT ...");
+
+// WITH cte_2 AS (SELECT ...)
+$select->with('cte_2', [], "SELECT ...")
+```
+
+To enable or disable recursive CTEs, call `withRecursive()` method:
+
+```php
+// enable
+$select
+    ->withRecursive()
+    ->with(...);
+
+// disable
+$select->withRecursive(false);
+```
+
+You can use any kind of query as a CTE; further, you can pass a query object
+instead of a query string as the final `with()` argument:
+
+```php
+$cteQuery = Select::new($connection);
+$cteQuery->...;
+
+$select->with('cte_2', [], $cteQuery);
+```
+
 ### Columns
 
 To add columns to the _Select_, use the `columns()` method and pass each column as
@@ -44,7 +78,7 @@ You can concatenate onto the end of the most-recent `JOIN` using the `catJoin()`
 method:
 
 ```php
-// LEFT JOIN doom AS d ON foo.id = d.foo_if AND d.bar = :__1__ AND d.baz = :__2__
+// LEFT JOIN doom AS d ON foo.id = d.foo_if AND d.bar = :_1_1_ AND d.baz = :_1_2_
 $select
     ->join(
         'LEFT',
@@ -62,7 +96,7 @@ To add `WHERE` conditions, use the `where()` method. Additional calls to
 `where()` will implicitly AND the subsequent condition.
 
 ```php
-// WHERE bar > :__1__ AND zim >= :__2__ AND baz :__3__
+// WHERE bar > :_1_1_ AND zim >= :_1_2_ AND baz :_1_3_
 $select
     ->where('bar > ', $bar_value)
     ->where('zim >= ', $zim_value)
@@ -72,7 +106,7 @@ $select
 Use `orWhere()` to OR the subsequent condition.
 
 ```php
-// WHERE bar > :__1__ OR zim >= :__2__
+// WHERE bar > :_1_1_ OR zim >= :_1_2_
 $select
     ->where('bar > ', $bar_value)
     ->orWhere('zim >= ', $zim_value)
@@ -82,7 +116,7 @@ You can concatenate onto the end of the most-recent `WHERE` condition using the
 `catWhere()` method:
 
 ```php
-// WHERE bar > :__1__ OR (foo = 88 AND bar < :__2__)
+// WHERE bar > :_1_1_ OR (foo = 88 AND bar < :_1_2_)
 $select
     ->where('bar > ', $bar_value)
     ->orWhere('(')
@@ -94,9 +128,9 @@ $select
 Each of the WHERE-related methods has an `sprintf` variation as well:
 
 ```php
-// WHERE bar BETWEEN :__1__ AND :__2__
-// AND baz BETWEEN :__3__ AND :__4__
-// OR dib BETWEEN :__5__ AND :__6___
+// WHERE bar BETWEEN :_1_1_ AND :_1_2_
+// AND baz BETWEEN :_1_3_ AND :_1_4_
+// OR dib BETWEEN :_1_5_ AND :_1_6_
 // ...
 $select
     ->whereSprintf('bar BETWEEN %s AND %s', $bar_low, $bar_high)
@@ -118,7 +152,7 @@ condition.
 For example:
 
 ```php
-// WHERE foo IN (:__1__, :__2__, :__3__) AND bar IS NULL AND baz = :__4__ AND zim = NOW()
+// WHERE foo IN (:_1_1_, :_1_2_, :_1_3_) AND bar IS NULL AND baz = :_1_4_ AND zim = NOW()
 $select->whereEquals([
     'foo' => ['a', 'b', 'c'],
     'bar' => null,
@@ -285,9 +319,9 @@ The following is a contrived example:
 // SELECT * FROM (
 //     SELECT id, name
 //     FROM foo
-//     WHERE id > :__1__
+//     WHERE id > :_1_1_
 // ) AS subfoo
-// WHERE LENGTH(subfoo.name) > :__2__
+// WHERE LENGTH(subfoo.name) > :_1_2_
 $select
     ->columns('*')
     ->from(
@@ -353,7 +387,7 @@ are as follows:
 For example, to build a query and get back an array of all results:
 
 ```php
-// SELECT * FROM foo WHERE bar > :__1__
+// SELECT * FROM foo WHERE bar > :_1_1_
 $result = $select
     ->columns('*')
     ->from('foo')

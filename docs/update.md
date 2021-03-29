@@ -2,6 +2,40 @@
 
 ## Building The Query
 
+### WITH
+
+To add one or more Common Table Expressions (CTEs), use the `with()` method:
+
+```php
+// WITH cte_1 (foo, bar, baz) AS (SELECT ...)
+$udpate->with('cte_2', ['foo', 'bar', 'baz'], "SELECT ...");
+
+// WITH cte_2 AS (SELECT ...)
+$udpate->with('cte_2', [], "SELECT ...")
+```
+
+To enable or disable recursive CTEs, call `withRecursive()` method:
+
+```php
+// enable
+$udpate
+    ->withRecursive()
+    ->with(...);
+
+// disable
+$udpate->withRecursive(false);
+```
+
+You can use any kind of query as a CTE; further, you can pass a query object
+instead of a query string as the final `with()` argument:
+
+```php
+$cteQuery = Select::new($connection);
+$cteQuery->...;
+
+$udpate->with('cte_2', [], $cteQuery);
+```
+
 ### Table
 
 Use the `table()` method to specify the table to update.
@@ -109,7 +143,7 @@ You can set flags recognized by your database server using the `setFlag()`
 method. For example, you can set a MySQL `LOW_PRIORITY` flag like so:
 
 ```php
-// UPDATE LOW_PRIORITY foo SET bar = :bar WHERE baz = :__1__
+// UPDATE LOW_PRIORITY foo SET bar = :bar WHERE baz = :_1_1_
 $update
     ->table('foo')
     ->column('bar', $bar_value)

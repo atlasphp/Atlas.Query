@@ -2,6 +2,40 @@
 
 ## Building The Query
 
+### WITH
+
+To add one or more Common Table Expressions (CTEs), use the `with()` method:
+
+```php
+// WITH cte_1 (foo, bar, baz) AS (SELECT ...)
+$delete->with('cte_2', ['foo', 'bar', 'baz'], "SELECT ...");
+
+// WITH cte_2 AS (SELECT ...)
+$delete->with('cte_2', [], "SELECT ...")
+```
+
+To enable or disable recursive CTEs, call `withRecursive()` method:
+
+```php
+// enable
+$delete
+    ->withRecursive()
+    ->with(...);
+
+// disable
+$delete->withRecursive(false);
+```
+
+You can use any kind of query as a CTE; further, you can pass a query object
+instead of a query string as the final `with()` argument:
+
+```php
+$cteQuery = Select::new($connection);
+$cteQuery->...;
+
+$delete->with('cte_2', [], $cteQuery);
+```
+
 ### FROM
 
 Use the `from()` method to specify FROM expression.
@@ -68,7 +102,7 @@ You can set flags recognized by your database server using the `setFlag()`
 method. For example, you can set a MySQL `LOW_PRIORITY` flag like so:
 
 ```php
-// DELETE LOW_PRIORITY foo WHERE baz = :__1__
+// DELETE LOW_PRIORITY foo WHERE baz = :_1_1_
 $delete
     ->from('foo')
     ->where('baz = ', $baz_value)

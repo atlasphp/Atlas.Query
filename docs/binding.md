@@ -23,17 +23,18 @@ $select
 ```sql
 SELECT *
 FROM foo
-WHERE bar = :__1__
+WHERE bar = :_1_1_
 ```
 
-(The auto-generated placeholder name will increment each time an inline value
-gets bound.)
+(The first part of the auto-generated placeholder name will increment each time
+a new query is created; the second part will increment for each inline value
+bound to that query.)
 
 If `$bar_value` is `foo-bar`, calling `getBindValues()` will return:
 
 ```php
 [
-    ':__1__' => ['foo-bar', \PDO::PARAM_STR],
+    ':_1_1_' => ['foo-bar', \PDO::PARAM_STR],
 ]
 ```
 
@@ -57,7 +58,7 @@ parentheses. This makes using an IN() condition very convenient.
 ```php
 $bar_value = ['foo', 'bar', 'baz'];
 
-// SELECT * FROM foo WHERE bar IN (:__1__, :__2__, :__3__)
+// SELECT * FROM foo WHERE bar IN (:_1_1_, :_1_2_, :_1_3_)
 $select
     ->columns('*')
     ->from('foo')
@@ -85,7 +86,7 @@ If you need to bind more than one value into a condition, you can use an
 [`sprintf`](https://www.php.net/sprintf) along with the values to bind:
 
 ```php
-// SELECT * FROM foo WHERE bar BETWEEN :__1__ AND :__2__
+// SELECT * FROM foo WHERE bar BETWEEN :_1_1_ AND :_1_2_
 $select
     ->columns('*')
     ->from('foo')
