@@ -895,8 +895,8 @@ class SelectTest extends QueryTest
     public function testWith()
     {
         $this->query
-            ->with('cte1', ['foo', 'bar'], 'SELECT * FROM baz')
-            ->with('cte2', [], 'SELECT dib, zim FROM gir')
+            ->with('cte1', 'SELECT dib, zim FROM gir')
+            ->withColumns('cte2', ['foo', 'bar'], 'SELECT * FROM baz')
             ->columns('*')
             ->from('cte1')
             ->union()
@@ -907,11 +907,11 @@ class SelectTest extends QueryTest
 
         $expect = '
             WITH
-                <<cte1>> (<<foo>>, <<bar>>) AS (
-                    SELECT * FROM baz
-                ),
-                <<cte2>> AS (
+                <<cte1>> AS (
                     SELECT dib, zim FROM gir
+                ),
+                <<cte2>> (<<foo>>, <<bar>>) AS (
+                    SELECT * FROM baz
                 )
             SELECT
                 *
@@ -941,8 +941,8 @@ class SelectTest extends QueryTest
 
 
         $this->query
-            ->with('cte1', ['foo', 'bar'], $cte1)
-            ->with('cte2', [], $cte2)
+            ->with('cte1', $cte2)
+            ->withColumns('cte2', ['foo', 'bar'], $cte1)
             ->columns('*')
             ->from('cte1')
             ->union()
@@ -953,15 +953,7 @@ class SelectTest extends QueryTest
 
         $expect = '
         WITH
-            <<cte1>> (<<foo>>, <<bar>>) AS (
-                SELECT
-                *
-                FROM
-                    baz
-                WHERE
-                    c1 = :_2_1_
-            ),
-            <<cte2>> AS (
+            <<cte1>> AS (
                 SELECT
                     dib,
                     zim
@@ -969,6 +961,14 @@ class SelectTest extends QueryTest
                     gir
                 WHERE
                     c2 = :_3_1_
+            ),
+            <<cte2>> (<<foo>>, <<bar>>) AS (
+                SELECT
+                *
+                FROM
+                    baz
+                WHERE
+                    c1 = :_2_1_
             )
         SELECT
             *
@@ -984,13 +984,12 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual);
 
         $expect = [
-            '_2_1_' => [
-                0 => 'v1',
+            '_3_1_' => [
+                0 => 'v2',
                 1 => 2,
             ],
-            '_3_1_' =>
-            [
-                0 => 'v2',
+            '_2_1_' => [
+                0 => 'v1',
                 1 => 2,
             ],
         ];
@@ -1003,8 +1002,8 @@ class SelectTest extends QueryTest
     {
         $this->query
             ->withRecursive()
-            ->with('cte1', ['foo', 'bar'], 'SELECT * FROM baz')
-            ->with('cte2', [], 'SELECT dib, zim FROM gir')
+            ->with('cte1', 'SELECT dib, zim FROM gir')
+            ->withColumns('cte2', ['foo', 'bar'], 'SELECT * FROM baz')
             ->columns('*')
             ->from('cte1')
             ->union()
@@ -1015,11 +1014,11 @@ class SelectTest extends QueryTest
 
         $expect = '
             WITH RECURSIVE
-                <<cte1>> (<<foo>>, <<bar>>) AS (
-                    SELECT * FROM baz
-                    ),
-                <<cte2>> AS (
+                <<cte1>> AS (
                     SELECT dib, zim FROM gir
+                ),
+                <<cte2>> (<<foo>>, <<bar>>) AS (
+                    SELECT * FROM baz
                 )
             SELECT
                 *

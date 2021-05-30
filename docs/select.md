@@ -5,17 +5,17 @@
 
 ### WITH
 
-To add one or more Common Table Expressions (CTEs), use the `with()` method:
+To add one or more Common Table Expressions (CTEs), use the `with()` methods:
 
 ```php
-// WITH cte_1 (foo, bar, baz) AS (SELECT ...)
-$select->with('cte_1', ['foo', 'bar', 'baz'], "SELECT ...");
+// WITH cte_1 AS (SELECT ...)
+$insert->with('cte_1', "SELECT ...")
 
-// WITH cte_2 AS (SELECT ...)
-$select->with('cte_2', [], "SELECT ...")
+// WITH cte_2 (foo, bar, baz) AS (SELECT ...)
+$insert->withColumns('cte_2', ['foo', 'bar', 'baz'], "SELECT ...");
 ```
 
-To enable or disable recursive CTEs, call `withRecursive()` method:
+To enable or disable recursive CTEs, call `withRecursive()`:
 
 ```php
 // enable
@@ -34,7 +34,7 @@ instead of a query string as the final `with()` argument:
 $cteQuery = Select::new($connection);
 $cteQuery->...;
 
-$select->with('cte_2', [], $cteQuery);
+$select->with('cte_3', $cteQuery);
 ```
 
 ### Columns

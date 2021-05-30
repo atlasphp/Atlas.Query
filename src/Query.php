@@ -109,7 +109,13 @@ abstract class Query
         return $this;
     }
 
-    public function with(string $cteName, array $cteColumns, string|Query $cteQuery) : static
+    public function with(string $cteName, string|Query $cteQuery) : static
+    {
+        $this->with->setCte($cteName, [], $cteQuery);
+        return $this;
+    }
+
+    public function withColumns(string $cteName, array $cteColumns, string|Query $cteQuery) : static
     {
         $this->with->setCte($cteName, $cteColumns, $cteQuery);
         return $this;
