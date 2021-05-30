@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.1
+
+Hygiene release to update docs.
+
 ## 1.3.0
 
 - Fixed `SELECT ... UNION` bug revealed in testing (refs #6).
