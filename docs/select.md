@@ -9,7 +9,7 @@ To add one or more Common Table Expressions (CTEs), use the `with()` method:
 
 ```php
 // WITH cte_1 (foo, bar, baz) AS (SELECT ...)
-$select->with('cte_2', ['foo', 'bar', 'baz'], "SELECT ...");
+$select->with('cte_1', ['foo', 'bar', 'baz'], "SELECT ...");
 
 // WITH cte_2 AS (SELECT ...)
 $select->with('cte_2', [], "SELECT ...")
