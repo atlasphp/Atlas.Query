@@ -15,15 +15,15 @@ use BadMethodCallException;
 use Generator;
 
 /**
- * @method array fetchAll()
+ * @method array|false fetchAll()
  * @method int fetchAffected()
- * @method array fetchColumn(int $column = 0)
- * @method array fetchGroup(int $style = PDO::FETCH_COLUMN)
- * @method array fetchKeyPair()
- * @method mixed fetchObject(string $class = 'stdClass', array $args = [])
- * @method array fetchObjects(string $class = 'stdClass', array $args = [])
- * @method array|null fetchOne()
- * @method array fetchUnique()
+ * @method array|false fetchColumn(int $column = 0)
+ * @method array|false fetchGroup(int $style = PDO::FETCH_COLUMN)
+ * @method array|false fetchKeyPair()
+ * @method object|false fetchObject(string $class = 'stdClass', array $args = [])
+ * @method array|false fetchObjects(string $class = 'stdClass', array $args = [])
+ * @method array|false fetchOne()
+ * @method array|false fetchUnique()
  * @method mixed fetchValue(int $column = 0)
  * @method Generator yieldAll()
  * @method Generator yieldColumn(int $column = 0)
