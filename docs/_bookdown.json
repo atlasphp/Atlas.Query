@@ -3,6 +3,7 @@
     "content": [
         "getting-started.md",
         "binding.md",
+        "ctes.md",
         "select.md",
         "insert.md",
         "update.md",

@@ -26,9 +26,11 @@ FROM foo
 WHERE bar = :_1_1_
 ```
 
-(The first part of the auto-generated placeholder name will increment each time
-a new query is created; the second part will increment for each inline value
-bound to that query.)
+> **Note:**
+>
+> The first part of the auto-generated placeholder name will increment each time
+> a new query is created; the second part will increment for each inline value
+> bound to that query.
 
 If `$bar_value` is `foo-bar`, calling `getBindValues()` will return:
 
@@ -51,8 +53,8 @@ $select
     ->where('bar = ', $bar_value, \PDO::PARAM_LOB);
 ```
 
-If you bind an array inline, Atlas.Query will set a bind each element separately
-with its own placeholder, comma-separate the placeholders, and wrap them in
+If you bind an array inline, Atlas.Query will bind each element separately with
+its own placeholder, comma-separate the placeholders, and wrap them in
 parentheses. This makes using an IN() condition very convenient.
 
 ```php
@@ -78,6 +80,10 @@ $select
         ->from('dib')
     );
 ```
+
+> **Note:**
+>
+> Any values bound to the sub-query will be transferred to the main query.
 
 ## `sprintf()` Inline Binding
 
