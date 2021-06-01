@@ -332,15 +332,15 @@ build the query and perform it using the same _Select_ object.
 The _Connection_ `fetch*()` and `yield*()` methods proxied through the _Select_
 are as follows:
 
-- `fetchAll() : array`
+- `fetchAll() : array|false`
 - `fetchAffected() : int`
-- `fetchColumn(int $column = 0) : array`
-- `fetchGroup(int $style = PDO::FETCH_COLUMN) : array`
-- `fetchKeyPair() : array`
-- `fetchObject(string $class = 'stdClass', array $args = []) : object`
-- `fetchObjects(string $class = 'stdClass', array $args = []) : array`
-- `fetchOne() : ?array`
-- `fetchUnique() : array`
+- `fetchColumn(int $column = 0) : array|false`
+- `fetchGroup(int $style = PDO::FETCH_COLUMN) : array|false`
+- `fetchKeyPair() : array|false`
+- `fetchObject(string $class = 'stdClass', array $args = []) : object|false`
+- `fetchObjects(string $class = 'stdClass', array $args = []) : array|false`
+- `fetchOne() : array|false`
+- `fetchUnique() : array|false`
 - `fetchValue() : mixed`
 - `yieldAll() : Generator`
 - `yieldColumn(int $column = 0) : Generator`
