@@ -38,6 +38,7 @@ class Bind
         if ($type === -1) {
             $type = $this->getType($value);
         }
+
         $this->values[$key] = [$value, $type];
     }
 
@@ -107,7 +108,6 @@ class Bind
         $this->inlineCount ++;
         $key = "_{$this->inlinePrefix}_{$this->inlineCount}_";
         $this->value($key, $value, $type);
-
         return $key;
     }
 

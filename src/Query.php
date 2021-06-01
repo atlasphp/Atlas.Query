@@ -94,6 +94,7 @@ abstract class Query
                 $this->$method();
             }
         }
+
         return $this;
     }
 

@@ -29,6 +29,7 @@ trait ModifyColumns
                 $this->column($key, $val);
             }
         }
+
         return $this;
     }
 

@@ -14,16 +14,10 @@ use Atlas\Query\Bind;
 
 class Conditions extends Component
 {
-    protected Bind $bind;
-
-    protected string $type;
-
     protected array $list = [];
 
-    public function __construct(Bind $bind, string $type)
+    public function __construct(protected Bind $bind, protected string $type)
     {
-        $this->bind = $bind;
-        $this->type = $type;
     }
 
     public function and(string $expr, mixed ...$bindInline) : void
@@ -58,7 +52,6 @@ class Conditions extends Component
 
         end($this->list);
         $key = key($this->list);
-
         $this->list[$key] .= $expr;
     }
 

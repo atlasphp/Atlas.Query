@@ -15,9 +15,11 @@ class InsertColumns extends ModifyColumns
     public function build() : string
     {
         $quotedColumns = [];
+
         foreach ($this->list as $col => $val) {
             $quotedColumns[] = $this->quoter->quoteIdentifier($col);
         }
+
         return '('
             . $this->indentCsv($quotedColumns)
             . PHP_EOL . ') VALUES ('

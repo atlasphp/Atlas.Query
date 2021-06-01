@@ -15,13 +15,10 @@ use Atlas\Query\Select;
 
 class From extends Component
 {
-    protected Bind $bind;
-
     protected array $list = [];
 
-    public function __construct(Bind $bind)
+    public function __construct(protected Bind $bind)
     {
-        $this->bind = $bind;
     }
 
     public function table(string|Select $ref) : void

@@ -16,18 +16,12 @@ use Atlas\Query\Quoter\Quoter;
 
 class With extends Component
 {
-    protected Bind $bind;
-
     protected array $ctes = [];
 
     protected bool $recursive = false;
 
-    protected Quoter $quoter;
-
-    public function __construct(Bind $bind, Quoter $quoter)
+    public function __construct(protected Bind $bind, protected Quoter $quoter)
     {
-        $this->bind = $bind;
-        $this->quoter = $quoter;
     }
 
     public function setCte(string $name, array $columns, mixed $query) : void

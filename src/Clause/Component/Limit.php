@@ -23,6 +23,7 @@ class Limit
     public function setLimit(int $limit) : void
     {
         $this->limit = $limit;
+
         if ($this->page) {
             $this->page = 0;
             $this->offset = 0;
@@ -37,6 +38,7 @@ class Limit
     public function setOffset(int $offset) : void
     {
         $this->offset = $offset;
+
         if ($this->page) {
             $this->page = 0;
             $this->limit = 0;
@@ -62,6 +64,7 @@ class Limit
     public function setPerPage(int $perPage) : void
     {
         $this->perPage = $perPage;
+
         if ($this->page) {
             $this->setPagingLimitOffset();
         }
@@ -76,6 +79,7 @@ class Limit
     {
         $this->limit = 0;
         $this->offset = 0;
+
         if ($this->page) {
             $this->limit = $this->perPage;
             $this->offset = $this->perPage * ($this->page - 1);

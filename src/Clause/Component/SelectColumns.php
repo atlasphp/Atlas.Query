@@ -17,6 +17,7 @@ class SelectColumns extends Component
     public function add(string $expr, string ...$exprs) : void
     {
         $this->list[] = $expr;
+
         foreach ($exprs as $expr) {
             $this->list[] = $expr;
         }

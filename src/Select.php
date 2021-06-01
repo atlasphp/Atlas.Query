@@ -49,6 +49,7 @@ class Select extends Query
     {
         $vars = get_object_vars($this);
         unset($vars['bind']);
+
         foreach ($vars as $name => $prop) {
             if (is_object($prop)) {
                 $this->$name = clone $prop;
@@ -59,6 +60,7 @@ class Select extends Query
     public function __call(string $method, array $params) : mixed
     {
         $prefix = substr($method, 0, 5);
+
         if ($prefix == 'fetch' || $prefix == 'yield') {
             return $this->connection->$method(
                 $this->getStatement(),
@@ -96,9 +98,11 @@ class Select extends Query
     ) : static
     {
         $join = strtoupper(trim($join));
+
         if (substr($join, -4) != 'JOIN') {
             $join .= ' JOIN';
         }
+
         $this->from->join($join, $ref, $condition, ...$bindInline);
         return $this;
     }
@@ -147,7 +151,7 @@ class Select extends Query
 
     public function subSelect() : Select
     {
-        return new Select($this->connection, $this->quoter);
+        return new static($this->connection, $this->quoter);
     }
 
     public function getStatement() : string
