@@ -41,21 +41,12 @@ class Select extends Query
     use Clause\Limit;
 
     protected ?string $as;
+
     protected From $from;
+
     protected array $unions = [];
+
     protected bool $forUpdate = false;
-
-    public function __clone()
-    {
-        $vars = get_object_vars($this);
-        unset($vars['bind']);
-
-        foreach ($vars as $name => $prop) {
-            if (is_object($prop)) {
-                $this->$name = clone $prop;
-            }
-        }
-    }
 
     public function __call(string $method, array $params) : mixed
     {
@@ -149,14 +140,31 @@ class Select extends Query
         return $this;
     }
 
-    public function subSelect() : Select
+    public function subSelect() : static
     {
-        return new static($this->connection, $this->quoter);
+        $clone = clone $this;
+        $clone->reset();
+        $clone->bind->reset();
+        return $clone;
     }
 
     public function getStatement() : string
     {
         return implode('', $this->unions) . $this->getCurrentStatement();
+    }
+
+    public function fetchUnlimitedCount(string $column = '*') : int
+    {
+        $select = clone $this;
+        $select
+            ->resetColumns()
+            ->resetLimit()
+            ->columns("COUNT({$column})");
+
+        return (int) $this->connection->fetchValue(
+            $select->getStatement(),
+            $select->getBindValues()
+        );
     }
 
     protected function getCurrentStatement(string $suffix = '') : string

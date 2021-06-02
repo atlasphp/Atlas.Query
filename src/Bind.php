@@ -24,8 +24,24 @@ class Bind
 
     public function __construct()
     {
+        $this->incrementInstanceCount();
+    }
+
+    public function __clone()
+    {
+        $this->incrementInstanceCount();
+    }
+
+    protected function incrementInstanceCount() : void
+    {
         static::$instanceCount ++;
         $this->inlinePrefix = static::$instanceCount;
+    }
+
+    public function reset() : void
+    {
+        $this->inlineCount = 0;
+        $this->values = [];
     }
 
     public function merge(array $values) : void

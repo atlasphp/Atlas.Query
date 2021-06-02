@@ -766,8 +766,7 @@ class SelectTest extends QueryTest
         $query = new FakeSelect($this->connection, $this->quoter);
         $clone = clone $query;
 
-        $this->assertSame($query->bind, $clone->bind);
-        $vars = ['flags', 'columns', 'from', 'where', 'groupBy', 'having', 'orderBy', 'limit'];
+        $vars = ['bind', 'flags', 'columns', 'from', 'where', 'groupBy', 'having', 'orderBy', 'limit'];
         foreach ($vars as $var) {
             $this->assertNotSame($query->$var, $clone->$var);
         }
@@ -938,7 +937,6 @@ class SelectTest extends QueryTest
             ->columns('dib', 'zim')
             ->from('gir')
             ->where('c2 = ', 'v2');
-
 
         $this->query
             ->with('cte1', $cte2)

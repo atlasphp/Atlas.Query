@@ -47,6 +47,17 @@ abstract class Query
         $this->reset();
     }
 
+    public function __clone()
+    {
+        $vars = get_object_vars($this);
+
+        foreach ($vars as $name => $prop) {
+            if (is_object($prop)) {
+                $this->$name = clone $prop;
+            }
+        }
+    }
+
     public function perform() : PDOStatement
     {
         return $this->connection->perform(
