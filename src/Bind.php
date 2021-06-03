@@ -94,7 +94,7 @@ class Bind
 
     public function inline(mixed $value, int $type = -1) : string
     {
-        if ($value instanceof Select) {
+        if ($value instanceof Query) {
             $this->values += $value->getBindValues();
             return '(' . $value->getStatement() . ')';
         }

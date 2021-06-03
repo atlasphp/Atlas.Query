@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Atlas\Query\Clause\Component;
 
 use Atlas\Query\Bind;
-use Atlas\Query\Select;
+use Atlas\Query\Query;
 
 class From extends Component
 {
@@ -21,9 +21,9 @@ class From extends Component
     {
     }
 
-    public function table(string|Select $ref) : void
+    public function table(string|Query $ref) : void
     {
-        if ($ref instanceof Select) {
+        if ($ref instanceof Query) {
             $this->bind->merge($ref->getBindValues());
             $ref = $ref->getStatement();
         }
@@ -33,12 +33,12 @@ class From extends Component
 
     public function join(
         string $join,
-        string|Select $ref,
+        string|Query $ref,
         string $condition = '',
         mixed ...$bindInline
     ) : void
     {
-        if ($ref instanceof Select) {
+        if ($ref instanceof Query) {
             $this->bind->merge($ref->getBindValues());
             $ref = $ref->getStatement();
         }
