@@ -31,11 +31,11 @@ result of the hard trials of experience. For those of you who want modifiable
 table prefixes, we suggest using constants with your table names prefixed as
 desired; as the prefixes change, you can then change your constants.
 
-## Query Formatting
+## Statement Formatting
 
-Atlas.Query attempts to format SQL query strings nicely, but it still may not
+Atlas.Query attempts to format SQL statements nicely, but it still may not
 look "nice enough" in some cases. If you want nicely-formatted SQL, say for
-logs or for debugging, consider using [jdorn/sql-formatter][] on the SQL
+logs or for debugging, consider using [jdorn/sql-formatter][] on the string
 returned by `Query::getStatement()`.
 
 [jdorn/sql-formatter]: https://packagist.org/packages/jdorn/sql-formatter
