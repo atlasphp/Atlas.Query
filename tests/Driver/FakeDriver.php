@@ -8,12 +8,12 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Quoter;
+namespace Atlas\Query\Driver;
 
-class PgsqlQuoter extends Quoter
+class FakeDriver extends Driver
 {
     public function quoteIdentifier(string $name) : string
     {
-        return '"' . $name . '"';
+        return "<<{$name}>>";
     }
 }

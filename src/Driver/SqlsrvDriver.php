@@ -8,10 +8,17 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Quoter;
+namespace Atlas\Query\Driver;
 
-class SqlsrvQuoter extends Quoter
+use Atlas\Query\Clause\Component\LimitSqlsrv;
+
+class SqlsrvDriver extends Driver
 {
+    public function getLimitClass() : string
+    {
+        return LimitSqlsrv::CLASS;
+    }
+
     public function quoteIdentifier(string $name) : string
     {
         return "[{$name}]";

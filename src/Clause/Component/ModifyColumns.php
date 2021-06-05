@@ -11,13 +11,13 @@ declare(strict_types=1);
 namespace Atlas\Query\Clause\Component;
 
 use Atlas\Query\Bind;
-use Atlas\Query\Quoter\Quoter;
+use Atlas\Query\Driver\Driver;
 
 abstract class ModifyColumns extends Component
 {
     protected array $list = [];
 
-    public function __construct(protected Bind $bind, protected Quoter $quoter)
+    public function __construct(protected Bind $bind, protected Driver $driver)
     {
     }
 

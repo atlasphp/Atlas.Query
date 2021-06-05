@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Atlas\Query;
 
 use Atlas\Pdo\Connection;
-use Atlas\Query\Quoter\Quoter;
+use Atlas\Query\Driver\Driver;
 use Atlas\Query\Clause\Component\Flags;
 use Atlas\Query\Clause\Component\With;
 use PDOStatement;
@@ -26,11 +26,20 @@ abstract class Query
             $connection = Connection::new($arg, ...$args);
         }
 
-        $quoter = 'Atlas\\Query\\Quoter\\'
+        $driver = 'Atlas\\Query\\Driver\\'
             . ucfirst($connection->getDriverName())
-            . 'Quoter';
+            . 'Driver';
 
-        return new static($connection, new $quoter());
+        return new static($connection, new $driver());
+    }
+
+    static public function query(string $driverName) : static
+    {
+        $driver = 'Atlas\\Query\\Driver\\'
+            . $driverName
+            . 'Driver';
+
+        return new static(null, new $driver());
     }
 
     protected Bind $bind;
@@ -40,8 +49,8 @@ abstract class Query
     protected With $with;
 
     public function __construct(
-        protected Connection $connection,
-        protected Quoter $quoter
+        protected ?Connection $connection,
+        protected Driver $driver
     ) {
         $this->bind = new Bind();
         $this->reset();
@@ -117,7 +126,7 @@ abstract class Query
 
     public function resetWith() : static
     {
-        $this->with = new Clause\Component\With($this->bind, $this->quoter);
+        $this->with = new Clause\Component\With($this->bind, $this->driver);
         return $this;
     }
 
@@ -141,7 +150,7 @@ abstract class Query
 
     public function quoteIdentifier(string $name) : string
     {
-        return $this->quoter->quoteIdentifier($name);
+        return $this->driver->quoteIdentifier($name);
     }
 
     /**

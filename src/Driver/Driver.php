@@ -8,9 +8,16 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Quoter;
+namespace Atlas\Query\Driver;
 
-abstract class Quoter
+use Atlas\Query\Clause\Component\Limit;
+
+abstract class Driver
 {
+    public function getLimitClass() : string
+    {
+        return Limit::CLASS;
+    }
+
     abstract public function quoteIdentifier(string $name) : string;
 }

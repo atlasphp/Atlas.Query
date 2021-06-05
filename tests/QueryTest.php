@@ -6,10 +6,9 @@ use ReflectionClass;
 
 abstract class QueryTest extends \PHPUnit\Framework\TestCase
 {
-    protected $driver = '';
     protected $query;
     protected $connection;
-    protected $quoter;
+    protected $driver;
 
     protected function setUp() : void
     {
@@ -21,7 +20,7 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
         $rp->setValue(0);
 
         $this->connection = new FakeConnection('fake');
-        $this->quoter = new Quoter\FakeQuoter();
+        $this->driver = new Driver\FakeDriver();
 
         $this->query = $this->newQuery();
     }
@@ -42,7 +41,7 @@ abstract class QueryTest extends \PHPUnit\Framework\TestCase
         $class = substr(get_class($this), 0, -4);
         return new $class(
             $this->connection,
-            $this->quoter
+            $this->driver
         );
     }
 

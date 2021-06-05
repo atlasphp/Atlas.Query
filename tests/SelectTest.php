@@ -763,7 +763,7 @@ class SelectTest extends QueryTest
 
     public function test__clone()
     {
-        $query = new FakeSelect($this->connection, $this->quoter);
+        $query = new FakeSelect($this->connection, $this->driver);
         $clone = clone $query;
 
         $vars = ['bind', 'flags', 'columns', 'from', 'where', 'groupBy', 'having', 'orderBy', 'limit'];
@@ -824,8 +824,7 @@ class SelectTest extends QueryTest
 
     public function testSqlsrvLimitOffset()
     {
-        $this->connection = new FakeConnection('sqlsrv');
-        $this->query = $this->newQuery();
+        $this->query = Select::query('sqlsrv');
 
         $this->query->columns('*');
         $this->query->limit(10);
@@ -848,8 +847,7 @@ class SelectTest extends QueryTest
 
     public function testSqlsrvPage()
     {
-        $this->connection = new FakeConnection('sqlsrv');
-        $this->query = $this->newQuery();
+        $this->query = Select::query('sqlsrv');
 
         $this->query->columns('*');
         $this->query->page(5);

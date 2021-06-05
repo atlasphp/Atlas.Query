@@ -12,7 +12,7 @@ namespace Atlas\Query\Clause\Component;
 
 use Atlas\Query\Bind;
 use Atlas\Query\Query;
-use Atlas\Query\Quoter\Quoter;
+use Atlas\Query\Driver\Driver;
 
 class With extends Component
 {
@@ -20,7 +20,7 @@ class With extends Component
 
     protected bool $recursive = false;
 
-    public function __construct(protected Bind $bind, protected Quoter $quoter)
+    public function __construct(protected Bind $bind, protected Driver $driver)
     {
     }
 
@@ -54,10 +54,10 @@ class With extends Component
 
     protected function buildCte(string $name, array $columns, string|Query $query) : string
     {
-        $sql = $this->quoter->quoteIdentifier($name);
+        $sql = $this->driver->quoteIdentifier($name);
 
         foreach ($columns as $key => $column) {
-            $columns[$key] = $this->quoter->quoteIdentifier($column);
+            $columns[$key] = $this->driver->quoteIdentifier($column);
         }
 
         if (! empty($columns)) {

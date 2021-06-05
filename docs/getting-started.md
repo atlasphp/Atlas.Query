@@ -43,3 +43,18 @@ $insert = Insert::new('sqlite::memory');
 ```
 
 [Atlas.Pdo]: https://github.com/atlasphp/Atlas.Pdo
+
+## Connectionless Instantiation
+
+If you want to build a query statement without any database connection at all,
+use the static `query()` method instead of `new()` and pass the name of the
+database driver to use for identifier quoting, limit clauses, etc:
+
+```php
+$select = Select::query('sqlite');
+```
+
+Note that if you have a query-only instance, you will not be able to fetch
+results through the query object; you will need to use `getStatement()` and
+`getBindValues()` to retrieve the query text and bound values, then pass them
+to the database connection object of your choice.

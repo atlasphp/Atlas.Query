@@ -17,7 +17,7 @@ class UpdateColumns extends ModifyColumns
         $values = array();
 
         foreach ($this->list as $column => $value) {
-            $quotedColumn = $this->quoter->quoteIdentifier($column);
+            $quotedColumn = $this->driver->quoteIdentifier($column);
             $values[] = "{$quotedColumn} = {$value}";
         }
 

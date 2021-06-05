@@ -40,12 +40,8 @@ trait Limit
 
     public function resetLimit() : static
     {
-        if ($this->connection->getDriverName() == 'sqlsrv') {
-            $this->limit = new Component\LimitSqlsrv();
-        } else {
-            $this->limit = new Component\Limit();
-        }
-
+        $limit = $this->driver->getLimitClass();
+        $this->limit = new $limit();
         return $this;
     }
 }

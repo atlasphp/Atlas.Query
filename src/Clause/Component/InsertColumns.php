@@ -17,7 +17,7 @@ class InsertColumns extends ModifyColumns
         $quotedColumns = [];
 
         foreach ($this->list as $col => $val) {
-            $quotedColumns[] = $this->quoter->quoteIdentifier($col);
+            $quotedColumns[] = $this->driver->quoteIdentifier($col);
         }
 
         return '('

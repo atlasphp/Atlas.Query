@@ -40,7 +40,7 @@ class Select extends Query
     use Clause\OrderBy;
     use Clause\Limit;
 
-    protected ?string $as;
+    protected ?string $as = null;
 
     protected From $from;
 
@@ -151,20 +151,6 @@ class Select extends Query
     public function getStatement() : string
     {
         return implode('', $this->unions) . $this->getCurrentStatement();
-    }
-
-    public function fetchUnlimitedCount(string $column = '*') : int
-    {
-        $select = clone $this;
-        $select
-            ->resetColumns()
-            ->resetLimit()
-            ->columns("COUNT({$column})");
-
-        return (int) $this->connection->fetchValue(
-            $select->getStatement(),
-            $select->getBindValues()
-        );
     }
 
     protected function getCurrentStatement(string $suffix = '') : string

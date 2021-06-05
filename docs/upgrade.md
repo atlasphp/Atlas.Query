@@ -1,8 +1,6 @@
 # Upgrade Notes
 
-Upgrading from Atlas.Query 1.x should be painless.
-
-The primary difference is that it requires PHP 8.0, given the addition of
+The primary difference from 1.x requires PHP 8.0, given the addition of
 expanded and stricter typehinting in 2.x.
 
 Generated placeholder tokens now have a different format; whereas in 1.x they
@@ -17,3 +15,5 @@ The 2.x series supports Common Table Expressions, whereas 1.x does not.
 When using a subselect as an inline value, you no longer need to call
 getStatement(); indeed, you *must* not, if you want the bound values to
 transferred to the receiving query properly.
+
+The `Quoter` classes have been renamed to `Driver`.
