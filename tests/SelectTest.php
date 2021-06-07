@@ -822,6 +822,14 @@ class SelectTest extends QueryTest
         $this->assertSameSql($expect, $actual);
     }
 
+    public function testGetConnection()
+    {
+        $this->query = Select::query('sqlite');
+
+        $this->expectException(Exception::CLASS);
+        $this->query->perform();
+    }
+
     public function testSqlsrvLimitOffset()
     {
         $this->query = Select::query('sqlsrv');

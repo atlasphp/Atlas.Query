@@ -14,6 +14,7 @@ use Atlas\Pdo\Connection;
 use Atlas\Query\Driver\Driver;
 use Atlas\Query\Clause\Component\Flags;
 use Atlas\Query\Clause\Component\With;
+use BadMethodCallException;
 use PDOStatement;
 
 abstract class Query
@@ -69,7 +70,7 @@ abstract class Query
 
     public function perform() : PDOStatement
     {
-        return $this->connection->perform(
+        return $this->getConnection()->perform(
             $this->getStatement(),
             $this->getBindValues()
         );
@@ -153,8 +154,13 @@ abstract class Query
         return $this->driver->quoteIdentifier($name);
     }
 
-    /**
-     * @todo allow for an indent level
-     */
     abstract public function getStatement() : string;
+
+    protected function getConnection() : Connection
+    {
+        return $this->connection
+            ?? throw new Exception(
+                static::class . " does not have a connection."
+            );
+    }
 }
