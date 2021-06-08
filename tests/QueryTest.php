@@ -1,90 +1,49 @@
 <?php
+/**
+ *
+ * This file is part of Atlas for PHP.
+ *
+ * @license http://opensource.org/licenses/mit-license.php MIT
+ *
+ */
 namespace Atlas\Query;
 
-use PDO;
-use ReflectionClass;
+use PDOStatement;
+use Atlas\Query\Driver\FakeDriver;
 
 abstract class QueryTest extends \PHPUnit\Framework\TestCase
 {
-    protected $query;
-    protected $connection;
-    protected $driver;
-
-    protected function setUp() : void
+    protected function getQueryClass()
     {
-        parent::setUp();
-
-        $rc = new ReflectionClass(Bind::CLASS);
-        $rp = $rc->getProperty('instanceCount');
-        $rp->setAccessible(true);
-        $rp->setValue(0);
-
-        $this->connection = new FakeConnection('fake');
-        $this->driver = new Driver\FakeDriver();
-
-        $this->query = $this->newQuery();
+        return substr(get_class($this), 0, -4);
     }
 
-    public function testStaticNew()
+    protected function newQuery(string $arg = null)
     {
-        $class = substr(static::CLASS, 0, -4);
+        if ($arg === null) {
+            $arg = new FakeConnection('fake');
+        }
 
-        $actual = $class::new('sqlite::memory:');
-        $this->assertInstanceOf($class, $actual);
-
-        $actual = $class::new(new FakeConnection('fake'));
-        $this->assertInstanceOf($class, $actual);
+        $class = $this->getQueryClass();
+        return $class::new($arg);
     }
 
-    protected function newQuery()
+    public function testNew()
     {
-        $class = substr(get_class($this), 0, -4);
-        return new $class(
-            $this->connection,
-            $this->driver
+        $this->assertInstanceOf(
+            $this->getQueryClass(),
+            $this->newQuery()
+        );
+
+        $this->assertInstanceOf(
+            $this->getQueryClass(),
+            $this->newQuery('sqlite::memory:')
         );
     }
 
-    protected function assertSameSql($expect, $actual)
+    public function testPerform()
     {
-        // remove leading and trailing whitespace per block and line
-        $expect = trim($expect);
-        $expect = preg_replace('/^[ \t]*/m', '', $expect);
-        $expect = preg_replace('/[ \t]*$/m', '', $expect);
-
-        // remove leading and trailing whitespace per block and line
-        $actual = trim($actual);
-        $actual = preg_replace('/^[ \t]*/m', '', $actual);
-        $actual = preg_replace('/[ \t]*$/m', '', $actual);
-
-        // normalize line endings to be sure tests will pass on windows and mac
-        $expect = preg_replace('/\r\n|\n|\r/', PHP_EOL, $expect);
-        $actual = preg_replace('/\r\n|\n|\r/', PHP_EOL, $actual);
-
-        // are they the same now?
-        $this->assertSame($expect, $actual);
-    }
-
-    public function testBindValues()
-    {
-        $actual = $this->query->getBindValues();
-        $this->assertSame([], $actual);
-
-        $this->query->bindValues(['foo' => 'bar', 'baz' => 'dib']);
-        $expect = [
-            'foo' => ['bar', PDO::PARAM_STR],
-            'baz' => ['dib', PDO::PARAM_STR],
-        ];
-        $actual = $this->query->getBindValues();
-        $this->assertSame($expect, $actual);
-
-        $this->query->bindValues(['zim' => 'gir']);
-        $expect = [
-            'foo' => ['bar', PDO::PARAM_STR],
-            'baz' => ['dib', PDO::PARAM_STR],
-            'zim' => ['gir', PDO::PARAM_STR],
-        ];
-        $actual = $this->query->getBindValues();
-        $this->assertSame($expect, $actual);
+        $query = $this->newQuery();
+        $this->assertInstanceOf(PDOStatement::CLASS, $query->perform());
     }
 }

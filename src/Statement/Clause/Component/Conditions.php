@@ -8,9 +8,9 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Clause\Component;
+namespace Atlas\Query\Statement\Clause\Component;
 
-use Atlas\Query\Bind;
+use Atlas\Query\Statement\Bind;
 
 class Conditions extends Component
 {

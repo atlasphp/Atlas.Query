@@ -8,9 +8,9 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Clause\Component;
+namespace Atlas\Query\Statement\Clause\Component;
 
-class ReturnColumns extends Component
+class SelectColumns extends Component
 {
     protected array $list = [];
 
@@ -23,12 +23,13 @@ class ReturnColumns extends Component
         }
     }
 
+    public function hasAny() : bool
+    {
+        return ! empty($this->list);
+    }
+
     public function build() : string
     {
-        if (empty($this->list)) {
-            return '';
-        }
-
-        return PHP_EOL . 'RETURNING' . $this->indentCsv($this->list);
+        return $this->indentCsv($this->list);
     }
 }

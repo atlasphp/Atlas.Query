@@ -29,7 +29,8 @@ $udpate = Update::new($connection);
 $delete = Delete::new($connection);
 ```
 
-Alternatively, you can pass an existing PDO instance, or PDO construction arguments:
+Alternatively, you can pass an existing PDO instance, or PDO construction
+arguments:
 
 ```php
 use PDO;
@@ -44,18 +45,26 @@ $insert = Insert::new('sqlite::memory');
 
 [Atlas.Pdo]: https://github.com/atlasphp/Atlas.Pdo
 
-## Disconnected Instantiation
+## Statement-Only Instantiation
 
 If you want to build a query statement without any database connection at all,
-instantiate the query object using the static `query()` method (instead of
-`new()`) and pass the name of the database driver to use for identifier quoting,
+instantiate the relevant _Statement_ object using its static `new()` method,
+and pass the name of the database driver to use for identifier quoting,
 limit clauses, etc:
 
 ```php
-$select = Select::query('sqlite');
+use Atlas\Query\Statement\SelectStatement;
+use Atlas\Query\Statement\InsertStatement;
+use Atlas\Query\Statement\UpdateStatement;
+use Atlas\Query\Statement\DeleteStatement;
+
+$select = SelectStatement::new('sqlite');
+$insert = InsertStatement::new('sqlite');
+$udpate = UpdateStatement::new('sqlite');
+$delete = DeleteStatement::new('sqlite');
 ```
 
-Note that if you have a disconnected query object, you will not be able to fetch
-results through the query object; you will need to use `getStatement()` and
-`getBindValues()` to retrieve the query text and bound values, then pass them
-to the database connection object of your choice.
+Note that if you have only a _Statement_ instance, you will not be able to
+perform queries through it. You will need to use `getStatement()` and
+`getBindValues()` to retrieve the query text and bound values, then pass them to
+the database connection object of your choice.

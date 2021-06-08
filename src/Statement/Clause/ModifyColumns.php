@@ -8,7 +8,7 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Clause;
+namespace Atlas\Query\Statement\Clause;
 
 trait ModifyColumns
 {
@@ -46,8 +46,12 @@ trait ModifyColumns
 
     public function resetColumns() : static
     {
-        $type = strrchr(static::CLASS, '\\') . 'Columns';
-        $class = __NAMESPACE__ . '\\Component' . $type;
+        $type = substr(
+            (string) strrchr(static::CLASS, '\\'),
+            1,
+            6
+        );
+        $class = __NAMESPACE__ . "\\Component\\{$type}Columns";
         $this->columns = new $class($this->bind, $this->driver);
         return $this;
     }

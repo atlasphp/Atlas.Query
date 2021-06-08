@@ -12,12 +12,9 @@ namespace Atlas\Query;
 
 use Atlas\Pdo\Connection;
 use Atlas\Query\Driver\Driver;
-use Atlas\Query\Clause\Component\Flags;
-use Atlas\Query\Clause\Component\With;
-use BadMethodCallException;
 use PDOStatement;
 
-abstract class Query
+trait Query
 {
     static public function new(mixed $arg, mixed ...$args) : static
     {
@@ -31,136 +28,24 @@ abstract class Query
             . ucfirst($connection->getDriverName())
             . 'Driver';
 
-        return new static($connection, new $driver());
+        return new static(new $driver(), $connection);
     }
 
-    static public function query(string $driverName) : static
-    {
-        $driver = 'Atlas\\Query\\Driver\\'
-            . $driverName
-            . 'Driver';
-
-        return new static(null, new $driver());
-    }
-
-    protected Bind $bind;
-
-    protected Flags $flags;
-
-    protected With $with;
+    protected Connection $connection;
 
     public function __construct(
-        protected ?Connection $connection,
-        protected Driver $driver
+        Driver $driver,
+        Connection $connection,
     ) {
-        $this->bind = new Bind();
-        $this->reset();
-    }
-
-    public function __clone()
-    {
-        $vars = get_object_vars($this);
-
-        foreach ($vars as $name => $prop) {
-            if (is_object($prop)) {
-                $this->$name = clone $prop;
-            }
-        }
+        parent::__construct($driver);
+        $this->connection = $connection;
     }
 
     public function perform() : PDOStatement
     {
-        return $this->getConnection()->perform(
+        return $this->connection->perform(
             $this->getStatement(),
             $this->getBindValues()
         );
-    }
-
-    public function bindInline(mixed $value, int $type = -1) : string
-    {
-        return $this->bind->inline($value, $type);
-    }
-
-    public function bindSprintf(string $format, mixed ...$values) : string
-    {
-        return $this->bind->sprintf($format, ...$values);
-    }
-
-    public function bindValue(string $key, mixed $value, int $type = -1) : static
-    {
-        $this->bind->value($key, $value, $type);
-        return $this;
-    }
-
-    public function bindValues(array $values) : static
-    {
-        $this->bind->values($values);
-        return $this;
-    }
-
-    public function getBindValues() : array
-    {
-        return $this->bind->getArrayCopy();
-    }
-
-    public function setFlag(string $flag, bool $enable = true) : void
-    {
-        $this->flags->set($flag, $enable);
-    }
-
-    public function reset() : static
-    {
-        foreach (get_class_methods($this) as $method) {
-            if (substr($method, 0, 5) == 'reset' && $method != 'reset') {
-                $this->$method();
-            }
-        }
-
-        return $this;
-    }
-
-    public function resetFlags() : static
-    {
-        $this->flags = new Clause\Component\Flags();
-        return $this;
-    }
-
-    public function resetWith() : static
-    {
-        $this->with = new Clause\Component\With($this->bind, $this->driver);
-        return $this;
-    }
-
-    public function with(string $cteName, string|Query $cteQuery) : static
-    {
-        $this->with->setCte($cteName, [], $cteQuery);
-        return $this;
-    }
-
-    public function withColumns(string $cteName, array $cteColumns, string|Query $cteQuery) : static
-    {
-        $this->with->setCte($cteName, $cteColumns, $cteQuery);
-        return $this;
-    }
-
-    public function withRecursive(bool $recursive = true) : static
-    {
-        $this->with->setRecursive($recursive);
-        return $this;
-    }
-
-    public function quoteIdentifier(string $name) : string
-    {
-        return $this->driver->quoteIdentifier($name);
-    }
-
-    abstract public function getStatement() : string;
-
-    protected function getConnection() : Connection
-    {
-        return $this->connection
-            ?? throw new Exception(
-                static::class . " does not have a connection."
-            );
     }
 }

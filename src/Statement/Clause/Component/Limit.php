@@ -8,7 +8,7 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Clause\Component;
+namespace Atlas\Query\Statement\Clause\Component;
 
 class Limit
 {

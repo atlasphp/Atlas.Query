@@ -1,4 +1,11 @@
 <?php
+/**
+ *
+ * This file is part of Atlas for PHP.
+ *
+ * @license http://opensource.org/licenses/mit-license.php MIT
+ *
+ */
 namespace Atlas\Query;
 
 use Atlas\Pdo\Connection;
@@ -7,14 +14,16 @@ use PDOStatement;
 
 class FakeConnection extends Connection
 {
-    public function __construct(string $driver)
+    private $driverName;
+
+    public function __construct(string $driverName)
     {
-        $this->driver = $driver;
+        $this->driverName = $driverName;
     }
 
     public function getDriverName() : string
     {
-        return $this->driver;
+        return $this->driverName;
     }
 
     public function fetchAll(string $statement, array $values = []) : array

@@ -8,7 +8,7 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Clause;
+namespace Atlas\Query\Statement\Clause;
 
 trait SelectColumns
 {

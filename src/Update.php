@@ -10,30 +10,9 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
-class Update extends Query
+use Atlas\Query\Statement\UpdateStatement;
+
+class Update extends UpdateStatement
 {
-    use Clause\ModifyColumns;
-    use Clause\Where;
-    use Clause\OrderBy;
-    use Clause\Limit;
-    use Clause\Returning;
-
-    protected string $table;
-
-    public function table(string $table) : static
-    {
-        $this->table = $table;
-        return $this;
-    }
-
-    public function getStatement() : string
-    {
-        return $this->with->build()
-            . 'UPDATE'
-            . $this->flags->build()
-            . ' ' . $this->table
-            . $this->columns->build()
-            . $this->where->build()
-            . $this->returning->build();
-    }
+    use Query;
 }

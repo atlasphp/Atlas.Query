@@ -8,8 +8,12 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query;
+namespace Atlas\Query\Statement;
 
-class Exception extends \Exception
+class FakeSelectStatement extends SelectStatement
 {
+    public function __get($key)
+    {
+        return $this->$key;
+    }
 }

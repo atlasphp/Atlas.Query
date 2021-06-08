@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Atlas\Query\Driver;
 
-use Atlas\Query\Clause\Component\LimitSqlsrv;
+use Atlas\Query\Statement\Clause\Component\LimitSqlsrv;
 
 class SqlsrvDriver extends Driver
 {

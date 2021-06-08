@@ -10,31 +10,14 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
-class Insert extends Query
+use Atlas\Query\Statement\InsertStatement;
+
+class Insert extends InsertStatement
 {
-    use Clause\ModifyColumns;
-    use Clause\Returning;
-
-    protected string $table = '';
-
-    public function into(string $table) : static
-    {
-        $this->table = $table;
-        return $this;
-    }
-
-    public function getStatement() : string
-    {
-        return $this->with->build()
-            . 'INSERT'
-            . $this->flags->build()
-            . " INTO {$this->table} "
-            . $this->columns->build()
-            . $this->returning->build();
-    }
+    use Query;
 
     public function getLastInsertId(string $name = null) : string
     {
-        return $this->getConnection()->lastInsertId($name);
+        return $this->connection->lastInsertId($name);
     }
 }

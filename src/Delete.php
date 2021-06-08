@@ -10,28 +10,9 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
-class Delete extends Query
+use Atlas\Query\Statement\DeleteStatement;
+
+class Delete extends DeleteStatement
 {
-    use Clause\Where;
-    use Clause\OrderBy;
-    use Clause\Limit;
-    use Clause\Returning;
-
-    protected string $table = '';
-
-    public function from(string $table) : static
-    {
-        $this->table = $table;
-        return $this;
-    }
-
-    public function getStatement() : string
-    {
-        return $this->with->build()
-            . 'DELETE'
-            . $this->flags->build()
-            . ' FROM ' . $this->table
-            . $this->where->build()
-            . $this->returning->build();
-    }
+    use Query;
 }

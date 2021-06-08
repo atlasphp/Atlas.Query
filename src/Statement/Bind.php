@@ -8,7 +8,7 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query;
+namespace Atlas\Query\Statement;
 
 use PDO;
 
@@ -94,7 +94,7 @@ class Bind
 
     public function inline(mixed $value, int $type = -1) : string
     {
-        if ($value instanceof Query) {
+        if ($value instanceof Statement) {
             $this->values += $value->getBindValues();
             return '(' . $value->getStatement() . ')';
         }

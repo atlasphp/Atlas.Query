@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Atlas\Query\Driver;
 
-use Atlas\Query\Clause\Component\Limit;
+use Atlas\Query\Statement\Clause\Component\Limit;
 
 abstract class Driver
 {

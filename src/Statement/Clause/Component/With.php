@@ -8,11 +8,11 @@
  */
 declare(strict_types=1);
 
-namespace Atlas\Query\Clause\Component;
+namespace Atlas\Query\Statement\Clause\Component;
 
-use Atlas\Query\Bind;
-use Atlas\Query\Query;
 use Atlas\Query\Driver\Driver;
+use Atlas\Query\Statement\Bind;
+use Atlas\Query\Statement\Statement;
 
 class With extends Component
 {
@@ -52,7 +52,7 @@ class With extends Component
             . PHP_EOL;
     }
 
-    protected function buildCte(string $name, array $columns, string|Query $query) : string
+    protected function buildCte(string $name, array $columns, string|Statement $query) : string
     {
         $sql = $this->driver->quoteIdentifier($name);
 
@@ -64,7 +64,7 @@ class With extends Component
             $sql .= ' (' . implode(', ', $columns) . ')';
         }
 
-        if ($query instanceof Query) {
+        if ($query instanceof Statement) {
             $this->bind->merge($query->getBindValues());
             $query = $query->getStatement();
         }
