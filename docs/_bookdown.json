@@ -1,11 +1,8 @@
 {
-    "title": "Query System",
+    "title": "Query Statement Performers",
     "content": [
         "getting-started.md",
-        "select.md",
-        "insert.md",
-        "update.md",
-        "delete.md",
+        "execution.md",
         "upgrade.md"
     ]
 }
