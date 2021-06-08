@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
-use Atlas\Query\Statement\SelectStatement;
+use Atlas\Statement\Select as SelectStatement;
 use BadMethodCallException;
 use Generator;
 
@@ -42,7 +42,7 @@ class Select extends SelectStatement
         if ($prefix == 'fetch' || $prefix == 'yield') {
             return $this->connection->$method(
                 $this->getQueryString(),
-                $this->getBindValues(),
+                $this->getBindValueArrays(),
                 ...$params
             );
         }

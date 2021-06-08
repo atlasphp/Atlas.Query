@@ -11,8 +11,8 @@ $ composer require atlas/query ^2.0
 
 ## Instantiation
 
-Given an existing Connection instance from [Atlas.Pdo][], you can create a query
-using the static `new()` method of the query type:
+Given an existing _Connection_ instance from [Atlas.Pdo][], you can create a
+query using the static `new()` method of the query type:
 
 ```php
 use Atlas\Pdo\Connection;
@@ -36,35 +36,14 @@ arguments:
 use PDO;
 
 // existing PDO instance
-$pdo = new PDO('sqlite::memory');
+$pdo = new PDO('sqlite::memory:');
 $select = Select::new($pdo);
 
 // PDO construction arguments
 $insert = Insert::new('sqlite::memory');
 ```
 
+You will then be able to build the query statement and perform it through that
+connection.
+
 [Atlas.Pdo]: https://github.com/atlasphp/Atlas.Pdo
-
-## Statement-Only Instantiation
-
-If you want to build a query statement without any database connection at all,
-instantiate the relevant _Statement_ object using its static `new()` method,
-and pass the name of the database driver to use for identifier quoting,
-limit clauses, etc:
-
-```php
-use Atlas\Query\Statement\SelectStatement;
-use Atlas\Query\Statement\InsertStatement;
-use Atlas\Query\Statement\UpdateStatement;
-use Atlas\Query\Statement\DeleteStatement;
-
-$select = SelectStatement::new('sqlite');
-$insert = InsertStatement::new('sqlite');
-$udpate = UpdateStatement::new('sqlite');
-$delete = DeleteStatement::new('sqlite');
-```
-
-Note that if you have only a _Statement_ instance, you will not be able to
-perform queries through it. You will need to use `getQueryString()` and
-`getBindValues()` to retrieve the query text and bound values, then pass them to
-the database connection object of your choice.

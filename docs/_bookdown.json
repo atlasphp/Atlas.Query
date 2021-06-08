@@ -2,13 +2,10 @@
     "title": "Query System",
     "content": [
         "getting-started.md",
-        "binding.md",
-        "ctes.md",
         "select.md",
         "insert.md",
         "update.md",
         "delete.md",
-        "other.md",
         "upgrade.md"
     ]
 }

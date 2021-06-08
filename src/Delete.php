@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
-use Atlas\Query\Statement\DeleteStatement;
+use Atlas\Statement\Delete as DeleteStatement;
 
 class Delete extends DeleteStatement
 {

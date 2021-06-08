@@ -3,10 +3,13 @@
 PHP 8.0 is now required, given the addition of expanded and stricter
 typehinting.
 
-Connectionless statement-only objects are now provided. Because of this, the
-internal class hierarchy and naming has changed substantially.
+Statement-building proper has been extracted to the [Atlas.Statement][]
+package.
 
-The method `getStatement()` has been renamed to `getQueryString()` throughout.
+The 1.x method `Query::getStatement()` has been renamed to `Statement::getQueryString()`.
+
+The 1.x method `Query::getBindValues()` has been renamed to
+`Statement::getBindValueArrays()`.
 
 When using a subselect as an inline value, you no longer need to call
 `getStatement()` or `getQueryString()`. Indeed, you *must* not, if you want the

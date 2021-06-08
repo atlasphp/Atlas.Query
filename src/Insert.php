@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
-use Atlas\Query\Statement\InsertStatement;
+use Atlas\Statement\Insert as InsertStatement;
 
 class Insert extends InsertStatement
 {

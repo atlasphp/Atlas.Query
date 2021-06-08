@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Atlas\Query;
 
-use Atlas\Query\Statement\UpdateStatement;
+use Atlas\Statement\Update as UpdateStatement;
 
 class Update extends UpdateStatement
 {

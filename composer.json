@@ -31,7 +31,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "atlas/pdo": "^2.0"
+        "atlas/pdo": "^2.0",
+        "atlas/statement": "1.x-dev"
     },
     "require-dev": {
         "pds/skeleton": "~1.0",
@@ -45,7 +46,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Atlas\\Query\\": "tests/"
+            "Atlas\\Query\\": "tests/",
+            "Atlas\\Statement\\": "vendor/atlas/statement/tests/"
         }
     },
     "scripts": {

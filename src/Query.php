@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Atlas\Query;
 
 use Atlas\Pdo\Connection;
-use Atlas\Query\Driver\Driver;
+use Atlas\Statement\Driver\Driver;
 use PDOStatement;
 
 trait Query
@@ -24,7 +24,7 @@ trait Query
             $connection = Connection::new($arg, ...$args);
         }
 
-        $driver = 'Atlas\\Query\\Driver\\'
+        $driver = 'Atlas\\Statement\\Driver\\'
             . ucfirst($connection->getDriverName())
             . 'Driver';
 
@@ -45,7 +45,7 @@ trait Query
     {
         return $this->connection->perform(
             $this->getQueryString(),
-            $this->getBindValues()
+            $this->getBindValueArrays()
         );
     }
 }
