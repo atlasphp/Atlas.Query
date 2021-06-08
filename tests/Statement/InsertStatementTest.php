@@ -22,7 +22,7 @@ class InsertStatementTest extends StatementTest
                     ->returning('c1', 'c2')
                     ->returning('c3');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $expect = '
             INSERT INTO t1 (
                 <<c1>>,

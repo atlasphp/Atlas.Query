@@ -65,6 +65,6 @@ $delete = DeleteStatement::new('sqlite');
 ```
 
 Note that if you have only a _Statement_ instance, you will not be able to
-perform queries through it. You will need to use `getStatement()` and
+perform queries through it. You will need to use `getQueryString()` and
 `getBindValues()` to retrieve the query text and bound values, then pass them to
 the database connection object of your choice.

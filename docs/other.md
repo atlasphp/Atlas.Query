@@ -36,6 +36,6 @@ desired; as the prefixes change, you can then change your constants.
 Atlas.Query attempts to format SQL statements nicely, but it still may not
 look "nice enough" in some cases. If you want nicely-formatted SQL, say for
 logs or for debugging, consider using [jdorn/sql-formatter][] on the string
-returned by `Query::getStatement()`.
+returned by `Query::getQueryString()`.
 
 [jdorn/sql-formatter]: https://packagist.org/packages/jdorn/sql-formatter

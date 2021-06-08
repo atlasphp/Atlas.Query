@@ -66,7 +66,7 @@ class With extends Component
 
         if ($query instanceof Statement) {
             $this->bind->merge($query->getBindValues());
-            $query = $query->getStatement();
+            $query = $query->getQueryString();
         }
 
         $sql .= " AS (" . PHP_EOL . "    {$query}" . PHP_EOL . ")";

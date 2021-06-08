@@ -18,7 +18,7 @@ $select
     ->where('bar = ', $bar_value); // binds $bar_value inline
 ```
 
-... a subsequent call to `getStatement()` will return:
+... a subsequent call to `getQueryString()` will return:
 
 ```sql
 SELECT *
@@ -68,7 +68,7 @@ $select
 ```
 
 Finally, if the inline value is itself a Select object, it will be converted to
-a string via `getStatement()` and returned surrounded in parentheses:
+a string via `getQueryString()` and returned surrounded in parentheses:
 
 ```php
 // SELECT * FROM foo WHERE bar IN (SELECT baz FROM dib)

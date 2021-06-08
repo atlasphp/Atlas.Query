@@ -96,7 +96,7 @@ class Bind
     {
         if ($value instanceof Statement) {
             $this->values += $value->getBindValues();
-            return '(' . $value->getStatement() . ')';
+            return '(' . $value->getQueryString() . ')';
         }
 
         if (is_array($value)) {

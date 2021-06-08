@@ -129,5 +129,5 @@ abstract class Statement
         return $this->driver->quoteIdentifier($name);
     }
 
-    abstract public function getStatement() : string;
+    abstract public function getQueryString() : string;
 }

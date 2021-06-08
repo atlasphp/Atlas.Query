@@ -26,7 +26,7 @@ class UpdateStatementTest extends StatementTest
                         'baz' => 'dib',
                     ]);
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $expect = "
             UPDATE t1
             SET
@@ -54,7 +54,7 @@ class UpdateStatementTest extends StatementTest
         // add RETURNING
         $this->statement->returning('c1', 'c2')
                     ->returning('c3');
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $expect = "
             UPDATE t1
             SET

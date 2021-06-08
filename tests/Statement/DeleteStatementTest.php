@@ -24,7 +24,7 @@ class DeleteStatementTest extends StatementTest
                         'baz' => 'dib',
                     ]);
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $expect = "
             DELETE FROM t1
             WHERE

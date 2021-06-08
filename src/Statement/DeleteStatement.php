@@ -25,7 +25,7 @@ class DeleteStatement extends Statement
         return $this;
     }
 
-    public function getStatement() : string
+    public function getQueryString() : string
     {
         return $this->with->build()
             . 'DELETE'

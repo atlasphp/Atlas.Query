@@ -19,7 +19,7 @@ class SelectStatementTest extends StatementTest
                      ->from('t1')
                      ->columns('t1.c1', 't1.c2', 't1.c3');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
 
         $expect = '
             SELECT DISTINCT
@@ -39,7 +39,7 @@ class SelectStatementTest extends StatementTest
                     ->from('t1')
                     ->columns('t1.c1', 't1.c2', 't1.c3');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
 
         $expect = '
             SELECT DISTINCT
@@ -59,7 +59,7 @@ class SelectStatementTest extends StatementTest
                     ->from('t1')
                     ->columns('t1.c1', 't1.c2', 't1.c3');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
 
         $expect = '
             SELECT
@@ -84,7 +84,7 @@ class SelectStatementTest extends StatementTest
 
         $this->assertTrue($this->statement->hasColumns());
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $expect = '
             SELECT
                 t1.c1,
@@ -100,7 +100,7 @@ class SelectStatementTest extends StatementTest
         $this->statement->from('t1')
                     ->from('t2');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $expect = '
             SELECT
                 *
@@ -119,7 +119,7 @@ class SelectStatementTest extends StatementTest
                 ->columns('*')
                 ->from('t2')
                 ->as('a2')
-                ->getStatement()
+                ->getQueryString()
             );
 
         $expect = '
@@ -134,7 +134,7 @@ class SelectStatementTest extends StatementTest
                 ) AS a2
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -167,7 +167,7 @@ class SelectStatementTest extends StatementTest
                 a2.baz = :_1_1_
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $expect = [
@@ -197,7 +197,7 @@ class SelectStatementTest extends StatementTest
                 t4
                     NATURAL JOIN t5
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -220,7 +220,7 @@ class SelectStatementTest extends StatementTest
                 t1
             LEFT JOIN t2 ON t1.id = t2.id AND t1.foo = :_1_1_ AND t1.baz = :_1_2_
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $expect = [
@@ -247,7 +247,7 @@ class SelectStatementTest extends StatementTest
                     LEFT JOIN (SELECT * FROM t2) AS a2 ON t2.c1 = a3.c1
                     NATURAL JOIN (SELECT * FROM t3) AS a3
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -277,7 +277,7 @@ class SelectStatementTest extends StatementTest
             WHERE
                 baz = :_1_1_
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -302,7 +302,7 @@ class SelectStatementTest extends StatementTest
                     INNER JOIN t5 ON t5.id = t4.id
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -322,7 +322,7 @@ class SelectStatementTest extends StatementTest
                     INNER JOIN t2 ON t2.id = t1.id
                     LEFT JOIN t3 USING (id)
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -345,7 +345,7 @@ class SelectStatementTest extends StatementTest
                 AND c4 IN(:_1_1_, :_1_2_, :_1_3_) AND c5 = :_1_4_
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $actual = $this->statement->getBindValues();
@@ -375,7 +375,7 @@ class SelectStatementTest extends StatementTest
                 OR c3 = :c3
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $actual = $this->statement->getBindValues();
@@ -407,7 +407,7 @@ class SelectStatementTest extends StatementTest
                 AND dib = NOW()
         ';
 
-        $this->assertSameSql($expect, $actual->getStatement());
+        $this->assertSameSql($expect, $actual->getQueryString());
     }
 
     public function testWhereSprintf()
@@ -428,7 +428,7 @@ class SelectStatementTest extends StatementTest
                 OR c3 BETWEEN :_1_5_ AND :_1_6_ UNLESS c4 BETWEEN :_1_7_ AND :_1_8_
         ';
 
-        $this->assertSameSql($expect, $actual->getStatement());
+        $this->assertSameSql($expect, $actual->getQueryString());
     }
 
     public function testGroupBy()
@@ -446,7 +446,7 @@ class SelectStatementTest extends StatementTest
                 t2.c2
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -469,7 +469,7 @@ class SelectStatementTest extends StatementTest
                 OR (c4 = 1 AND c5 = 2)
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $actual = $this->statement->getBindValues();
@@ -495,7 +495,7 @@ class SelectStatementTest extends StatementTest
                 OR c3 = :c3
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $actual = $this->statement->getBindValues();
@@ -523,7 +523,7 @@ class SelectStatementTest extends StatementTest
                 OR c3 BETWEEN :_1_5_ AND :_1_6_ UNLESS c4 BETWEEN :_1_7_ AND :_1_8_
         ';
 
-        $this->assertSameSql($expect, $actual->getStatement());
+        $this->assertSameSql($expect, $actual->getQueryString());
     }
 
     public function testOrderBy()
@@ -540,7 +540,7 @@ class SelectStatementTest extends StatementTest
                 UPPER(t2.c2)
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -553,7 +553,7 @@ class SelectStatementTest extends StatementTest
                 *
             LIMIT 10
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $this->statement->offset(40);
@@ -562,7 +562,7 @@ class SelectStatementTest extends StatementTest
                 *
             LIMIT 10 OFFSET 40
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -575,7 +575,7 @@ class SelectStatementTest extends StatementTest
                 *
             LIMIT 10 OFFSET 40
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $this->statement->perPage(25);
@@ -584,7 +584,7 @@ class SelectStatementTest extends StatementTest
                 *
             LIMIT 25 OFFSET 100
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -597,7 +597,7 @@ class SelectStatementTest extends StatementTest
                 *
             FOR UPDATE
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -637,7 +637,7 @@ class SelectStatementTest extends StatementTest
                 t4
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -677,7 +677,7 @@ class SelectStatementTest extends StatementTest
                 t4
         ';
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -702,7 +702,7 @@ class SelectStatementTest extends StatementTest
             FROM
                 table1 AS t1)
         ';
-        $actual = $select->getStatement();
+        $actual = $select->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -752,7 +752,7 @@ class SelectStatementTest extends StatementTest
                     t1
             ) AS foo
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -794,7 +794,7 @@ class SelectStatementTest extends StatementTest
                     b
                     INNER JOIN c ON b_cid = c_id';
 
-        $actual = (string) $select->getStatement();
+        $actual = (string) $select->getQueryString();
         $this->assertSameSql($expected, $actual);
     }
 
@@ -813,7 +813,7 @@ class SelectStatementTest extends StatementTest
             FROM
                 t1
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -827,7 +827,7 @@ class SelectStatementTest extends StatementTest
             SELECT TOP 10
                 *
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $this->statement->offset(40);
@@ -836,7 +836,7 @@ class SelectStatementTest extends StatementTest
                 *
             OFFSET 40 ROWS FETCH NEXT 10 ROWS ONLY
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -851,7 +851,7 @@ class SelectStatementTest extends StatementTest
                 *
             OFFSET 40 ROWS FETCH NEXT 10 ROWS ONLY
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
     }
 
@@ -873,7 +873,7 @@ class SelectStatementTest extends StatementTest
             WHERE
                 c2 BETWEEN :_1_1_ AND :_1_2_
         ';
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
         $this->assertSameSql($expect, $actual);
 
         $expect = [
@@ -895,7 +895,7 @@ class SelectStatementTest extends StatementTest
             ->columns('*')
             ->from('cte2');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
 
         $expect = '
             WITH
@@ -940,7 +940,7 @@ class SelectStatementTest extends StatementTest
             ->columns('*')
             ->from('cte2');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
 
         $expect = '
         WITH
@@ -1001,7 +1001,7 @@ class SelectStatementTest extends StatementTest
             ->columns('*')
             ->from('cte2');
 
-        $actual = $this->statement->getStatement();
+        $actual = $this->statement->getQueryString();
 
         $expect = '
             WITH RECURSIVE

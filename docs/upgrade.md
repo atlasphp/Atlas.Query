@@ -6,9 +6,11 @@ typehinting.
 Connectionless statement-only objects are now provided. Because of this, the
 internal class hierarchy and naming has changed substantially.
 
+The method `getStatement()` has been renamed to `getQueryString()` throughout.
+
 When using a subselect as an inline value, you no longer need to call
-`getStatement()`. Indeed, you *must* not, if you want the bound values to
-transferred to the receiving query properly.
+`getStatement()` or `getQueryString()`. Indeed, you *must* not, if you want the
+bound values to transferred to the receiving query properly.
 
 Generated placeholder tokens now have a different format; whereas in 1.x they
 were composed of a single number (`:__1__`), they are now composed of two

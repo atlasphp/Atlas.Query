@@ -41,7 +41,7 @@ class Select extends SelectStatement
 
         if ($prefix == 'fetch' || $prefix == 'yield') {
             return $this->connection->$method(
-                $this->getStatement(),
+                $this->getQueryString(),
                 $this->getBindValues(),
                 ...$params
             );

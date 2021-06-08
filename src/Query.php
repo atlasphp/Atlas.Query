@@ -44,7 +44,7 @@ trait Query
     public function perform() : PDOStatement
     {
         return $this->connection->perform(
-            $this->getStatement(),
+            $this->getQueryString(),
             $this->getBindValues()
         );
     }

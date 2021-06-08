@@ -114,7 +114,7 @@ class SelectStatement extends Statement
         return $clone;
     }
 
-    public function getStatement() : string
+    public function getQueryString() : string
     {
         return implode('', $this->unions) . $this->getCurrentStatement();
     }

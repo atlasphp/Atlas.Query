@@ -25,7 +25,7 @@ class From extends Component
     {
         if ($ref instanceof Statement) {
             $this->bind->merge($ref->getBindValues());
-            $ref = $ref->getStatement();
+            $ref = $ref->getQueryString();
         }
 
         $this->list[] = [$ref];
@@ -40,7 +40,7 @@ class From extends Component
     {
         if ($ref instanceof Statement) {
             $this->bind->merge($ref->getBindValues());
-            $ref = $ref->getStatement();
+            $ref = $ref->getQueryString();
         }
 
         $condition = ltrim($condition);
