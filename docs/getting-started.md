@@ -43,7 +43,7 @@ $select = Select::new($pdo);
 $insert = Insert::new('sqlite::memory');
 ```
 
-You will then be able to build the query statement using the and perform it
+You will then be able to *both* build the query statement *and* and perform it
 through that connection.
 
 [Atlas.Pdo]: https://github.com/atlasphp/Atlas.Pdo
