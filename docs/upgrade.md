@@ -4,7 +4,7 @@ PHP 8.0 is now required, given the addition of expanded and stricter
 typehinting.
 
 Statement-building proper has been extracted to the
-[Atlas.Statement](http://atlasphp.io/dymaxion/statement) package.
+[Atlas.Statement](http://atlasphp.io/dymaxion/statement/) package.
 
 The 1.x method `Query::getStatement()` has been renamed to
 `Statement::getQueryString()`.

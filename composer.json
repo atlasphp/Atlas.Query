@@ -1,7 +1,7 @@
 {
     "name": "atlas/query",
     "type": "library",
-    "description": "Object-oriented query builders for MySQL, Postgres, SQLite, and SQLServer.",
+    "description": "Object-oriented query builders and performers for MySQL, Postgres, SQLite, and SQLServer.",
     "keywords": [
         "mysql",
         "pdo",
@@ -32,10 +32,10 @@
     "require": {
         "php": "^8.0",
         "atlas/pdo": "^2.0",
-        "atlas/statement": "1.x-dev"
+        "atlas/statement": "^1.0"
     },
     "require-dev": {
-        "pds/skeleton": "~1.0",
+        "pds/skeleton": "^1.0",
         "phpunit/phpunit": "~9.0",
         "phpstan/phpstan": "^0.12.82"
     },

@@ -2,14 +2,14 @@
 
 Because each _Query_ object extends its relevant
 [Atlas.Statement](http://atlasphp.io/dymaxion/statement) class,
-the _Statement_ methods are available on the _Query_.
+the _Statement_ methods are available to build the _Query_ statement.
 
-Thus, by using a _Query_, you can *both* build *and* perform the statement with
+Thus, by using a _Query_, you can *both* build *and* execute the statement with
 a single object.
 
 ## SELECT
 
-After you [build a SELECT statement](http://atlasphp.io/dymaxion/statement/select),
+After you [build a SELECT statement](http://atlasphp.io/dymaxion/statement/select.html),
 call the `perform()` method to execute it and get back a _PDOStatement_.
 
 ```php
@@ -58,7 +58,7 @@ documentation.
 
 ## INSERT
 
-After you [build an INSERT statement](http://atlasphp.io/dymaxion/statement/insert),
+After you [build an INSERT statement](http://atlasphp.io/dymaxion/statement/insert.html),
 call the `perform()` method to execute it and get back a _PDOStatement_.
 
 ```php
@@ -91,7 +91,7 @@ $values = $pdoStatement->fetch(); // : array
 
 ## UPDATE
 
-After you [build an UPDATE statement](http://atlasphp.io/dymaxion/statement/update),
+After you [build an UPDATE statement](http://atlasphp.io/dymaxion/statement/update.html),
 call the `perform()` method to execute it and get back a _PDOStatement_.
 
 ```php
@@ -118,7 +118,7 @@ $values = $pdoStatement->fetch(); // : array
 
 ## DELETE
 
-After you [build a DELETE statement](http://atlasphp.io/dymaxion/statement/delete),
+After you [build a DELETE statement](http://atlasphp.io/dymaxion/statement/delete.html),
 call the `perform()` method to execute it and get back a _PDOStatement_.
 
 ```php
