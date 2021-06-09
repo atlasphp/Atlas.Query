@@ -1,5 +1,12 @@
 # Query Execution
 
+Because each _Query_ object extends its relevant
+[Atlas.Statement](http://atlasphp.io/dymaxion/statement) class,
+the _Statement_ methods are available on the _Query_.
+
+Thus, by using a _Query_, you can *both* build *and* perform the statement with
+a single object.
+
 ## SELECT
 
 After you [build a SELECT statement](http://atlasphp.io/dymaxion/statement/select),
