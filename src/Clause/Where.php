@@ -70,7 +70,7 @@ trait Where
             } elseif ($val === null) {
                 $this->where("{$key} IS NULL");
             } elseif ($val === []) {
-                $this->where("FALSE");
+                $this->where('FALSE');
             } elseif (is_array($val)) {
                 $this->where("{$key} IN ", $val);
             } else {

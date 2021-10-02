@@ -108,22 +108,29 @@ $select
 #### Convenience Equality
 
 There is an additional `whereEquals()` convenience method that adds a series of
-`AND`ed equality conditions for you based on an array of key-value pairs.
+`AND`ed equality conditions for you based on an array of key-value pairs:
 
-Given an array value, the condition will be `IN ()`. Given a null value, the
-condition will be `IS NULL`. For all other values, the condition will be `=`. If
-you pass a key without a value, that key will be used as a raw unescaped
-condition.
+- Given an array value, the condition will be `IN ()`.
+- Given an empty array, the condition will be `FALSE` (which means the query will return no results).
+- Given a `null` value, the condition will be `IS NULL`.
+- For all other values, the condition will be `=`.
+
+If you pass a key without a value, that key will be used as a raw unescaped condition.
 
 For example:
 
 ```php
-// WHERE foo IN (:__1__, :__2__, :__3__) AND bar IS NULL AND baz = :__4__ AND zim = NOW()
+// WHERE foo IN (:__1__, :__2__, :__3__)
+// AND bar IS NULL
+// AND baz = :__4__
+// AND zim = NOW()
+// AND FALSE
 $select->whereEquals([
     'foo' => ['a', 'b', 'c'],
     'bar' => null,
     'baz' => 'dib',
-    'zim = NOW()'
+    'zim = NOW()',
+    'gir' => [],
 ]);
 ```
 
