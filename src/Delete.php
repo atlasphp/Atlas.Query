@@ -31,6 +31,7 @@ class Delete extends Query
             . $this->flags->build()
             . ' FROM ' . $this->table
             . $this->where->build()
+            . $this->limit->build()
             . $this->returning->build();
     }
 }

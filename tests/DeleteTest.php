@@ -19,6 +19,8 @@ class DeleteTest extends QueryTest
                     ->where('foo = :foo')
                     ->where('baz = :baz')
                     ->orWhere('zim = gir')
+                    ->limit(10)
+                    ->offset(20)
                     ->returning('foo', 'baz', 'zim')
                     ->bindValues([
                         'foo' => 'bar',
@@ -32,6 +34,7 @@ class DeleteTest extends QueryTest
                 foo = :foo
                 AND baz = :baz
                 OR zim = gir
+            LIMIT 10 OFFSET 20
             RETURNING
                 foo,
                 baz,
