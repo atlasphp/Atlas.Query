@@ -47,7 +47,6 @@ class Select extends Query
     public function __clone()
     {
         $vars = get_object_vars($this);
-        unset($vars['bind']);
         foreach ($vars as $name => $prop) {
             if (is_object($prop)) {
                 $this->$name = clone $prop;
