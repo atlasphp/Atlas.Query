@@ -401,6 +401,7 @@ class SelectTest extends QueryTest
                 'bar' => null,
                 'baz' => 'baz_value',
                 'dib = NOW()',
+                'dob' => [],
             ]);
 
         $expect = '
@@ -411,6 +412,7 @@ class SelectTest extends QueryTest
                 AND bar IS NULL
                 AND baz = :__4__
                 AND dib = NOW()
+                AND FALSE
         ';
 
         $this->assertSameSql($expect, $actual->getStatement());
