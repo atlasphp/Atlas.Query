@@ -45,6 +45,26 @@ class UpdateTest extends QueryTest
         );
         $this->assertSame($expect, $actual);
 
+        // add LIMIT / OFFSET
+        $this->query->limit(10)
+                    ->offset(20);
+
+        $actual = $this->query->getStatement();
+        $expect = "
+            UPDATE t1
+            SET
+                <<c1>> = :c1,
+                <<c2>> = :c2,
+                <<c3>> = :c3,
+                <<c4>> = NULL,
+                <<c5>> = NOW()
+            WHERE
+                foo = :foo
+                AND baz = :baz
+                OR zim = gir
+            LIMIT 10 OFFSET 20
+        ";
+
         // add RETURNING
         $this->query->returning('c1', 'c2')
                     ->returning('c3');
@@ -61,6 +81,7 @@ class UpdateTest extends QueryTest
                 foo = :foo
                 AND baz = :baz
                 OR zim = gir
+            LIMIT 10 OFFSET 20
             RETURNING
                 c1,
                 c2,
