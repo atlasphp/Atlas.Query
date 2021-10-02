@@ -33,6 +33,7 @@ class Update extends Query
             . ' ' . $this->table
             . $this->columns->build()
             . $this->where->build()
+            . $this->limit->build()
             . $this->returning->build();
     }
 }
