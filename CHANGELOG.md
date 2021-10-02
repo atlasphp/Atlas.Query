@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.3.2
+
+- Fixed #13, #14: handle empty array value in whereEquals()
+
+- Fixed #17: add LIMIT/OFFSET on UPDATE and DELETE
+
+- Updated docs and tests.
+
 ## 1.3.1
 
 Hygiene release to update docs.
