@@ -18,7 +18,7 @@ use Generator;
  * @method array|false fetchAll()
  * @method int fetchAffected()
  * @method array|false fetchColumn(int $column = 0)
- * @method array|false fetchGroup(int $style = PDO::FETCH_COLUMN)
+ * @method array|false fetchGroup(int $style = 7) // 7 = PDO::FETCH_COLUMN
  * @method array|false fetchKeyPair()
  * @method object|false fetchObject(string $class = 'stdClass', array $args = [])
  * @method array|false fetchObjects(string $class = 'stdClass', array $args = [])
