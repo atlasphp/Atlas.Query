@@ -31,7 +31,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "atlas/pdo": "^2.0",
         "atlas/statement": "^1.0",
         "ext-pdo": "*"
