@@ -8,7 +8,7 @@
  */
 namespace Atlas\Query;
 
-class InsertTest extends QueryTest
+class InsertTest extends QueryTestCase
 {
     public function testGetLastInsertId()
     {

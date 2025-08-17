@@ -10,6 +10,6 @@ namespace Atlas\Query;
 
 use PDOStatement;
 
-class UpdateTest extends QueryTest
+class UpdateTest extends QueryTestCase
 {
 }
