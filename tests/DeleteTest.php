@@ -10,6 +10,6 @@ namespace Atlas\Query;
 
 use PDOStatement;
 
-class DeleteTest extends QueryTest
+class DeleteTest extends QueryTestCase
 {
 }

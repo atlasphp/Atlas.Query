@@ -10,8 +10,9 @@ namespace Atlas\Query;
 
 use PDOStatement;
 use Atlas\Query\Driver\FakeDriver;
+use PHPUnit\Framework\TestCase;
 
-abstract class QueryTest extends \PHPUnit\Framework\TestCase
+abstract class QueryTestCase extends TestCase
 {
     protected function getQueryClass()
     {
