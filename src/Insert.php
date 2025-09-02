@@ -32,7 +32,7 @@ class Insert extends Query
             . $this->returning->build();
     }
 
-    public function getLastInsertId(string $name = null)
+    public function getLastInsertId(?string $name = null)
     {
         return $this->connection->lastInsertId($name);
     }
