@@ -16,7 +16,7 @@ class Insert extends InsertStatement
 {
     use Query;
 
-    public function getLastInsertId(string $name = null) : string
+    public function getLastInsertId(?string $name = null) : string
     {
         return $this->connection->lastInsertId($name);
     }

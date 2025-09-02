@@ -13,6 +13,7 @@ namespace Atlas\Query;
 use Atlas\Statement\Select as SelectStatement;
 use BadMethodCallException;
 use Generator;
+use PDO;
 
 /**
  * @method array|false fetchAll()

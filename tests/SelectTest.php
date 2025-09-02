@@ -11,7 +11,7 @@ namespace Atlas\Query;
 use BadMethodCallException;
 use Generator;
 
-class SelectTest extends QueryTest
+class SelectTest extends QueryTestCase
 {
     public function test__call()
     {
