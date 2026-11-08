@@ -19,7 +19,7 @@ abstract class QueryTestCase extends TestCase
         return substr(get_class($this), 0, -4);
     }
 
-    protected function newQuery(string $arg = null)
+    protected function newQuery(?string $arg = null)
     {
         if ($arg === null) {
             $arg = new FakeConnection('fake');

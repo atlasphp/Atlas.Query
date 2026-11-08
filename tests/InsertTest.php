@@ -16,4 +16,18 @@ class InsertTest extends QueryTestCase
         $actual = $query->getLastInsertId('foo');
         $this->assertSame('foo-1', $actual);
     }
+
+    public function testGetLastInsertId_withoutName()
+    {
+        $query = $this->newQuery();
+        $actual = $query->getLastInsertId();
+        $this->assertSame('-1', $actual);
+    }
+
+    public function testGetLastInsertId_withNullName()
+    {
+        $query = $this->newQuery();
+        $actual = $query->getLastInsertId(null);
+        $this->assertSame('-1', $actual);
+    }
 }
